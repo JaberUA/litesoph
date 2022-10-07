@@ -21,7 +21,7 @@ Installation
 .. code-block:: console
 
   $ git clone -b main https://github.com/LITESOPH/litesoph.git
-  $ pip install <path-to-litesoph>
+  $ pip install <path-to-litesoph> #Find the path to litesoph using "which litesoph"
 
 
 Configuration
@@ -56,7 +56,7 @@ Example lsconfig file
 
 
   [programs]
-  python = <path to python>
+  python = <path to python> #Find the path to python using the command "which python"
 
   [mpi]
   mpirun = <path to mpirun || e.g. /usr/local/bin/mpirun>
