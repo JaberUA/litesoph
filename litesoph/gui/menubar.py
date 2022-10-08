@@ -116,7 +116,7 @@ class GenericMainMenu(tk.Menu):
 
   def _add_quit(self, menu):
     menu.add_command(
-      label='Exit', command=self._event('<<ProjectQuit>>'),
+      label='Ext', command=self._event('<<ProjectQuit>>'),
       #image=self.icons.get('quit'), compound=tk.LEFT
     )
 
