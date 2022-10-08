@@ -116,7 +116,7 @@ class GenericMainMenu(tk.Menu):
 
   def _add_quit(self, menu):
     menu.add_command(
-      label='Ext', command=self._event('<<ProjectQuit>>'),
+      label='Exit', command=self._event('<<ProjectQuit>>'),
       #image=self.icons.get('quit'), compound=tk.LEFT
     )
 
@@ -133,9 +133,9 @@ class GenericMainMenu(tk.Menu):
       #image=self.icons.get('about'), compound=tk.LEFT
     )
 
-  def _add_webpage(self, menu):
+  def _add_webpag(self, menu):
     menu.add_command(
-      label='Webpage', command=self.show_about,
+      label='Webpag', command=self.show_about,
       #image=self.icons.get('about'), compound=tk.LEFT
     )
 
