@@ -179,12 +179,13 @@ class GenericMainMenu(tk.Menu):
   def show_about(self):
     """Show the about dialog"""
 
-    about_message = ''
+    about_message = 'litesoph'
     about_detail = ()
     
     messagebox.showinfo(
       title='About', message=about_message, detail=about_detail
     )
+    
 
   @staticmethod
   def _on_theme_change(*_):
