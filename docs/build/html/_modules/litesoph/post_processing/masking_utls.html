@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.post_processing.masking_utls &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>litesoph.post_processing.masking_utls</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for litesoph.post_processing.masking_utls</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">litesoph.utilities</span> <span class="kn">import</span> <span class="n">units</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">hilbert</span>
+<span class="kn">from</span> <span class="nn">scipy.constants</span> <span class="kn">import</span> <span class="n">e</span><span class="p">,</span><span class="n">h</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span>
+<span class="kn">import</span> <span class="nn">numpy</span><span class="o">,</span> <span class="nn">scipy.optimize</span>
+<span class="kn">from</span> <span class="nn">litesoph.post_processing.fourier</span> <span class="kn">import</span> <span class="n">Fourier</span> 
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">find_peaks</span>
+
+
+
+<div class="viewcode-block" id="timeperiod_by_maxima"><a class="viewcode-back" href="../../../litesoph/litesoph.post_processing.html#litesoph.post_processing.masking_utls.timeperiod_by_maxima">[docs]</a><span class="k">def</span> <span class="nf">timeperiod_by_maxima</span><span class="p">(</span><span class="n">input_envelope_data</span><span class="p">,</span><span class="n">directionaxis</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span><span class="n">timeaxis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; function to calculate timeperiod thorough maxima method&quot;&quot;&quot;</span>
+
+    <span class="n">time</span> <span class="o">=</span> <span class="n">input_envelope_data</span><span class="p">[:,</span><span class="n">timeaxis</span><span class="p">]</span> 
+    <span class="n">envelope</span> <span class="o">=</span> <span class="n">input_envelope_data</span><span class="p">[:,</span><span class="n">directionaxis</span><span class="p">]</span> 
+
+    <span class="n">peaks</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">find_peaks</span><span class="p">(</span><span class="n">envelope</span><span class="p">,</span> <span class="n">prominence</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+    <span class="n">time_at_peaks</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">peaks</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">timeperiod</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">time_at_peaks</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">time_at_peaks</span><span class="p">)</span> <span class="o">!=</span><span class="mi">0</span> <span class="k">else</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No timeperiod found, try some other method&quot;</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">timeperiod</span></div>
+
+<div class="viewcode-block" id="timeperiod_by_fit_sin"><a class="viewcode-back" href="../../../litesoph/litesoph.post_processing.html#litesoph.post_processing.masking_utls.timeperiod_by_fit_sin">[docs]</a><span class="k">def</span> <span class="nf">timeperiod_by_fit_sin</span><span class="p">(</span><span class="n">input_envelope_data</span><span class="p">,</span> <span class="n">directionaxis</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">timeaxis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;Fit sin to the input time sequence, and return  &quot;time period&quot; &#39;&#39;&#39;</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">input_envelope_data</span><span class="p">[:,</span><span class="n">timeaxis</span><span class="p">]</span> 
+    <span class="n">envelope</span> <span class="o">=</span> <span class="n">input_envelope_data</span><span class="p">[:,</span><span class="n">directionaxis</span><span class="p">]</span> 
+
+    <span class="n">ff</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">time</span><span class="p">),</span> <span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>   
+    <span class="n">Fyy</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">envelope</span><span class="p">))</span>
+    <span class="n">guess_freq</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ff</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">Fyy</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>  
+    <span class="n">guess_amp</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">envelope</span><span class="p">)</span> <span class="o">*</span> <span class="mf">2.</span><span class="o">**</span><span class="mf">0.5</span>
+    <span class="n">guess_offset</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">envelope</span><span class="p">)</span>
+    <span class="n">guess</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">guess_amp</span><span class="p">,</span> <span class="mf">2.</span><span class="o">*</span><span class="n">numpy</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">guess_freq</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">guess_offset</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">sinfunc</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>  <span class="k">return</span> <span class="n">A</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">w</span><span class="o">*</span><span class="n">t</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span>
+    <span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">curve_fit</span><span class="p">(</span><span class="n">sinfunc</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">envelope</span><span class="p">,</span> <span class="n">p0</span><span class="o">=</span><span class="n">guess</span><span class="p">)</span>
+    <span class="n">A</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">popt</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">w</span><span class="o">/</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">numpy</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+    <span class="n">time_period</span><span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">f</span>
+    <span class="n">time_period_for_envelope</span><span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">time_period</span>
+    <span class="n">fitfunc</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">A</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">w</span><span class="o">*</span><span class="n">t</span> <span class="o">+</span> <span class="n">p</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span>
+    
+    <span class="k">return</span> <span class="n">time_period_for_envelope</span></div>
+
+<div class="viewcode-block" id="timeperiod_by_fourier_transform"><a class="viewcode-back" href="../../../litesoph/litesoph.post_processing.html#litesoph.post_processing.masking_utls.timeperiod_by_fourier_transform">[docs]</a><span class="k">def</span> <span class="nf">timeperiod_by_fourier_transform</span><span class="p">(</span><span class="n">input_envelope_data</span><span class="p">,</span> <span class="n">time_window</span><span class="p">,</span> <span class="n">directionaxis</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">timeaxis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; function to calculate timeperiod thorough fourier transformation &quot;&quot;&quot;</span>
+
+        <span class="n">total_timestep</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">input_envelope_data</span><span class="p">)</span> 
+
+        <span class="n">time</span> <span class="o">=</span> <span class="n">input_envelope_data</span><span class="p">[:,</span><span class="n">timeaxis</span><span class="p">]</span> 
+        <span class="n">signal_func</span> <span class="o">=</span> <span class="n">input_envelope_data</span><span class="p">[:,</span><span class="n">directionaxis</span><span class="p">]</span> 
+        <span class="n">signal_func</span><span class="o">=</span><span class="n">signal_func</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">signal_func</span><span class="p">)</span>
+
+        <span class="n">delt</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">fourier_func</span><span class="o">=</span><span class="n">Fourier</span><span class="p">(</span><span class="n">total_timestep</span><span class="p">,</span><span class="n">delt</span><span class="p">,</span><span class="n">time_window</span><span class="p">)</span>
+        <span class="n">fourier_transformed</span>  <span class="o">=</span> <span class="n">fourier_func</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">signal_func</span><span class="p">[:])</span>
+        <span class="n">freq</span> <span class="o">=</span><span class="p">(</span><span class="n">fourier_transformed</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">signal_transformed</span>   <span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fourier_transformed</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">freq</span> <span class="o">=</span> <span class="n">freq</span><span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">))]</span>
+        <span class="n">signal_transformed</span> <span class="o">=</span> <span class="n">signal_transformed</span><span class="p">[</span><span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">signal_transformed</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">))]</span>
+
+        <span class="n">signal_transformed_max</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">signal_transformed</span><span class="p">)</span>
+        <span class="n">freq_max_pos</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">signal_transformed</span> <span class="o">==</span> <span class="n">signal_transformed_max</span><span class="p">)</span>
+        <span class="n">freq_max</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">freq</span><span class="p">[</span><span class="n">freq_max_pos</span><span class="p">])</span> 
+        <span class="n">fourier_timeperiod</span><span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">freq_max</span><span class="p">)</span> <span class="k">if</span> <span class="n">freq_max</span> <span class="o">!=</span><span class="mi">0</span> <span class="k">else</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No freq found, try some other method&quot;</span><span class="p">)</span>
+        <span class="n">time_period_for_envelope</span><span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">fourier_timeperiod</span>
+ 
+        <span class="k">return</span> <span class="n">time_period_for_envelope</span></div>
+
+
+<div class="viewcode-block" id="get_direction"><a class="viewcode-back" href="../../../litesoph/litesoph.post_processing.html#litesoph.post_processing.masking_utls.get_direction">[docs]</a><span class="k">def</span> <span class="nf">get_direction</span><span class="p">(</span><span class="n">direction</span><span class="p">:</span><span class="nb">list</span><span class="p">):</span>
+    <span class="n">pol_map</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;0&#39;</span> <span class="p">:</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span> <span class="p">:</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">:</span> <span class="s1">&#39;z&#39;</span><span class="p">}</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">direction</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">index</span> <span class="p">,</span> <span class="n">pol_map</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="MaskedDipoleAnaylsis"><a class="viewcode-back" href="../../../litesoph/litesoph.post_processing.html#litesoph.post_processing.masking_utls.MaskedDipoleAnaylsis">[docs]</a><span class="k">class</span> <span class="nc">MaskedDipoleAnaylsis</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sim_total_dm</span> <span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">task_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sim_total_dm</span> <span class="o">=</span> <span class="n">sim_total_dm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span> <span class="o">=</span> <span class="n">task_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_dm_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span> <span class="o">/</span> <span class="s1">&#39;total_dm.dat&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">masked_dm_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span> <span class="o">/</span> <span class="s1">&#39;masked_dm.dat&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unmasked_dm_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span> <span class="o">/</span> <span class="s1">&#39;unmasked_dm.dat&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">energy_coupling_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span> <span class="o">/</span> <span class="s1">&#39;energy_coupling.dat&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">energy_coupling_data</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;Region&#39;</span><span class="p">,</span> <span class="s1">&#39;Direction&#39;</span><span class="p">,</span> <span class="s1">&#39;Energy Coupling&#39;</span><span class="p">]]</span>
+
+<div class="viewcode-block" id="MaskedDipoleAnaylsis.extract_dipolemoment_data"><a class="viewcode-back" href="../../../litesoph/litesoph.post_processing.html#litesoph.post_processing.masking_utls.MaskedDipoleAnaylsis.extract_dipolemoment_data">[docs]</a>    <span class="k">def</span> <span class="nf">extract_dipolemoment_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sim_total_dm</span><span class="p">),</span><span class="n">comments</span><span class="o">=</span><span class="s2">&quot;#&quot;</span><span class="p">)</span>
+
+        <span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="n">units</span><span class="o">.</span><span class="n">au_to_fs</span>
+        <span class="n">dm_total</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]]</span>
+        <span class="n">dm_masked</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,[</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]]</span>
+        <span class="n">dm_unmasked</span><span class="o">=</span><span class="n">dm_total</span><span class="o">-</span><span class="n">dm_masked</span>
+        
+        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">total_dm_file</span><span class="p">),</span> <span class="n">dm_total</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">masked_dm_file</span><span class="p">),</span> <span class="n">dm_masked</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unmasked_dm_file</span><span class="p">),</span> <span class="n">dm_unmasked</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MaskedDipoleAnaylsis.get_region_dm_file"><a class="viewcode-back" href="../../../litesoph/litesoph.post_processing.html#litesoph.post_processing.masking_utls.MaskedDipoleAnaylsis.get_region_dm_file">[docs]</a>    <span class="k">def</span> <span class="nf">get_region_dm_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">region</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">region</span> <span class="o">=</span> <span class="n">region</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">region</span> <span class="o">==</span> <span class="s1">&#39;masked&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">masked_dm_file</span>
+        <span class="k">elif</span> <span class="n">region</span> <span class="o">==</span> <span class="s1">&#39;unmasked&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">unmasked_dm_file</span>
+        <span class="k">elif</span> <span class="n">region</span> <span class="o">==</span> <span class="s1">&#39;total&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_dm_file</span></div>
+
+
+<div class="viewcode-block" id="MaskedDipoleAnaylsis.cal_energy_coupling_constant"><a class="viewcode-back" href="../../../litesoph/litesoph.post_processing.html#litesoph.post_processing.masking_utls.MaskedDipoleAnaylsis.cal_energy_coupling_constant">[docs]</a>    <span class="k">def</span> <span class="nf">cal_energy_coupling_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">region</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span><span class="n">timeperiodmethod</span><span class="o">=</span><span class="s2">&quot;fourier_method&quot;</span><span class="p">,</span> <span class="n">time_window</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+        
+        <span class="n">datafile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_region_dm_file</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
+        <span class="n">index</span><span class="p">,</span> <span class="n">pol</span> <span class="o">=</span> <span class="n">get_direction</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
+        <span class="n">envelope_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;envelope_</span><span class="si">{</span><span class="n">region</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s1">_dm_</span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s1">.dat&#39;</span>
+        <span class="n">dat</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">datafile</span><span class="p">),</span> <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>  
+        <span class="n">total_time_steps</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">dat</span><span class="p">)</span> 
+        <span class="n">time</span><span class="o">=</span> <span class="n">dat</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> 
+        <span class="n">signal_func</span> <span class="o">=</span> <span class="n">dat</span><span class="p">[:,</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> 
+        <span class="n">delt</span> <span class="o">=</span> <span class="n">time</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">time</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">fourier_func</span><span class="o">=</span><span class="n">Fourier</span><span class="p">(</span><span class="n">total_time_steps</span><span class="p">,</span><span class="n">delt</span><span class="p">,</span><span class="n">time_window</span><span class="p">)</span>
+        <span class="n">envelope_amp</span>  <span class="o">=</span> <span class="n">fourier_func</span><span class="o">.</span><span class="n">envelope</span><span class="p">(</span><span class="n">signal_func</span><span class="p">[:])</span>
+        <span class="n">amplitude_envelope</span><span class="o">=</span><span class="n">envelope_amp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">envelope_data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">time</span><span class="p">,</span> <span class="n">amplitude_envelope</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> 
+        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">envelope_file</span><span class="p">),</span> <span class="n">envelope_data</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">timeperiodmethod</span><span class="o">==</span><span class="s2">&quot;fourier_method&quot;</span><span class="p">:</span>
+           <span class="n">timeperiod</span> <span class="o">=</span> <span class="n">timeperiod_by_fourier_transform</span><span class="p">(</span><span class="n">envelope_data</span><span class="p">,</span> <span class="n">time_window</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="k">elif</span> <span class="n">timeperiodmethod</span><span class="o">==</span><span class="s2">&quot;Sine_method&quot;</span><span class="p">:</span>
+             <span class="n">timeperiod</span><span class="o">=</span><span class="n">timeperiod_by_fit_sin</span><span class="p">(</span><span class="n">envelope_data</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        
+        <span class="k">elif</span> <span class="n">timeperiodmethod</span> <span class="o">==</span><span class="s2">&quot;maxima_method&quot;</span><span class="p">:</span>
+             <span class="n">timeperiod</span><span class="o">=</span><span class="n">timeperiod_by_maxima</span><span class="p">(</span><span class="n">envelope_data</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">sec_to_fs</span><span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">15</span><span class="p">)</span>
+        <span class="n">coupling_constant_in_eV</span><span class="o">=</span> <span class="n">h</span><span class="o">/</span><span class="p">(</span><span class="n">timeperiod</span><span class="o">*</span><span class="n">sec_to_fs</span><span class="o">*</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">coupling_constant_in_eV</span></div>
+        
+    
+<div class="viewcode-block" id="MaskedDipoleAnaylsis.get_energy_coupling"><a class="viewcode-back" href="../../../litesoph/litesoph.post_processing.html#litesoph.post_processing.masking_utls.MaskedDipoleAnaylsis.get_energy_coupling">[docs]</a>    <span class="k">def</span> <span class="nf">get_energy_coupling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">region</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+        <span class="n">energy_coupling</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cal_energy_coupling_constant</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+        <span class="n">_</span> <span class="p">,</span> <span class="n">pol</span> <span class="o">=</span> <span class="n">get_direction</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy_coupling_data</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">region</span> <span class="ow">in</span> <span class="n">item</span> <span class="ow">and</span> <span class="n">pol</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">energy_coupling_data</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">energy_coupling_data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">region</span><span class="p">,</span> <span class="n">pol</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">energy_coupling</span><span class="p">)])</span>
+        <span class="n">txt</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy_coupling_data</span><span class="p">:</span>
+            <span class="n">txt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="n">txt</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">energy_coupling_file</span><span class="p">,</span> <span class="s1">&#39;w+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">txt</span></div>
+
+<div class="viewcode-block" id="MaskedDipoleAnaylsis.plot"><a class="viewcode-back" href="../../../litesoph/litesoph.post_processing.html#litesoph.post_processing.masking_utls.MaskedDipoleAnaylsis.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">region</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span> <span class="n">envelope</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="n">datafile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_region_dm_file</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
+        <span class="n">index</span><span class="p">,</span> <span class="n">pol</span> <span class="o">=</span> <span class="n">get_direction</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
+        <span class="n">dm_dat</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">datafile</span><span class="p">))</span>
+        <span class="n">time</span><span class="o">=</span><span class="n">dm_dat</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>  
+        <span class="n">dm_signal</span><span class="o">=</span><span class="n">dm_dat</span><span class="p">[:,</span><span class="n">index</span> <span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Dipole Moment Plot&#39;</span>
+        <span class="n">x_label</span> <span class="o">=</span> <span class="s1">&#39;Time (fs)&#39;</span>
+        <span class="n">y_label</span> <span class="o">=</span> <span class="s1">&#39;Dipole moment&#39;</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">x_label</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">y_label</span><span class="p">)</span>
+            
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">dm_signal</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">region</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">envelope</span><span class="p">:</span>
+            <span class="n">envelope_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;envelope_</span><span class="si">{</span><span class="n">region</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s1">_dm_</span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s1">.dat&#39;</span>
+            <span class="k">if</span> <span class="n">envelope_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">env_dat</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">envelope_file</span><span class="p">))</span>
+                <span class="n">amplitude_envelope</span><span class="o">=</span><span class="n">env_dat</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">amplitude_envelope</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;envelope&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s1">&#39;Envelope not yet completed.&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">)</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">datafile</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s1">&#39;.png&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">plt</span></div></div>
+
+
+
+
+
+    
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 10:54:25.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

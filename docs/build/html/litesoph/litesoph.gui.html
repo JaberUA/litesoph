@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.gui package &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="litesoph.gui.engine_views package" href="litesoph.gui.engine_views.html" />
+    <link rel="prev" title="litesoph package" href="litesoph.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../Developer_Guideline.html">Developer Guideline</a> &raquo;</li>
+          <li><a href="litesoph.html">litesoph package</a> &raquo;</li>
+      <li>litesoph.gui package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/litesoph/litesoph.gui.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="litesoph-gui-package">
+<h1>litesoph.gui package<a class="headerlink" href="#litesoph-gui-package" title="Permalink to this headline"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="litesoph.gui.engine_views.html">litesoph.gui.engine_views package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.gui.engine_views.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="litesoph.gui.engine_views.gpaw_views.html">litesoph.gui.engine_views.gpaw_views package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.gui.engine_views.gpaw_views.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.gui.engine_views.gpaw_views.html#module-litesoph.gui.engine_views.gpaw_views.gs_views">litesoph.gui.engine_views.gpaw_views.gs_views module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.gui.engine_views.gpaw_views.html#module-litesoph.gui.engine_views.gpaw_views">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="litesoph.gui.engine_views.nwchem_views.html">litesoph.gui.engine_views.nwchem_views package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.gui.engine_views.nwchem_views.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.gui.engine_views.nwchem_views.html#module-litesoph.gui.engine_views.nwchem_views.gs_views">litesoph.gui.engine_views.nwchem_views.gs_views module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.gui.engine_views.nwchem_views.html#module-litesoph.gui.engine_views.nwchem_views">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="litesoph.gui.engine_views.octopus_views.html">litesoph.gui.engine_views.octopus_views package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.gui.engine_views.octopus_views.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.gui.engine_views.octopus_views.html#module-litesoph.gui.engine_views.octopus_views.gs_views">litesoph.gui.engine_views.octopus_views.gs_views module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.gui.engine_views.octopus_views.html#module-litesoph.gui.engine_views.octopus_views">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.gui.engine_views.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.gui.engine_views.html#module-litesoph.gui.engine_views.engine_views_abc">litesoph.gui.engine_views.engine_views_abc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.gui.engine_views.html#module-litesoph.gui.engine_views">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="litesoph.gui.images.html">litesoph.gui.images package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.gui.images.html#module-litesoph.gui.images">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-litesoph.gui.actions">
+<span id="litesoph-gui-actions-module"></span><h2>litesoph.gui.actions module<a class="headerlink" href="#module-litesoph.gui.actions" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-litesoph.gui.gui">
+<span id="litesoph-gui-gui-module"></span><h2>litesoph.gui.gui module<a class="headerlink" href="#module-litesoph.gui.gui" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.gui.GUIAPP">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.gui.</span></span><span class="sig-name descname"><span class="pre">GUIAPP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/gui.html#GUIAPP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.gui.GUIAPP" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.gui.GUIAPP.bind_task_events">
+<span class="sig-name descname"><span class="pre">bind_task_events</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/gui.html#GUIAPP.bind_task_events"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.gui.GUIAPP.bind_task_events" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.gui.GUIAPP.create_project_window">
+<span class="sig-name descname"><span class="pre">create_project_window</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">_</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/gui.html#GUIAPP.create_project_window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.gui.GUIAPP.create_project_window" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.gui.GUIAPP.on_bpanel_button_clicked">
+<span class="sig-name descname"><span class="pre">on_bpanel_button_clicked</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/gui.html#GUIAPP.on_bpanel_button_clicked"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.gui.GUIAPP.on_bpanel_button_clicked" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.gui.GUIAPP.quit">
+<span class="sig-name descname"><span class="pre">quit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/gui.html#GUIAPP.quit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.gui.GUIAPP.quit" title="Permalink to this definition"></a></dt>
+<dd><p>Exit the app if it is ready for quit.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.gui.GUIAPP.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/gui.html#GUIAPP.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.gui.GUIAPP.run" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.gui.GUIAPP.set_title">
+<span class="sig-name descname"><span class="pre">set_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newtitle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/gui.html#GUIAPP.set_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.gui.GUIAPP.set_title" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.gui.GUIAPP.setup_bottom_panel">
+<span class="sig-name descname"><span class="pre">setup_bottom_panel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/gui.html#GUIAPP.setup_bottom_panel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.gui.GUIAPP.setup_bottom_panel" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.gui.GUIAPP.show_project_summary">
+<span class="sig-name descname"><span class="pre">show_project_summary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/gui.html#GUIAPP.show_project_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.gui.GUIAPP.show_project_summary" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.gui.GUIAPP.update_project_dir_tree">
+<span class="sig-name descname"><span class="pre">update_project_dir_tree</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/gui.html#GUIAPP.update_project_dir_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.gui.GUIAPP.update_project_dir_tree" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.gui.GUIAPP.view_input_file">
+<span class="sig-name descname"><span class="pre">view_input_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/gui.html#GUIAPP.view_input_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.gui.GUIAPP.view_input_file" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-litesoph.gui.input_validation">
+<span id="litesoph-gui-input-validation-module"></span><h2>litesoph.gui.input_validation module<a class="headerlink" href="#module-litesoph.gui.input_validation" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.input_validation.Decimalentry">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.input_validation.</span></span><span class="sig-name descname"><span class="pre">Decimalentry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/input_validation.html#Decimalentry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.input_validation.Decimalentry" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.ttk.Entry</span></code></p>
+<p>Constructs a Ttk Entry widget with the parent master.</p>
+<p>STANDARD OPTIONS</p>
+<blockquote>
+<div><p>class, cursor, style, takefocus, xscrollcommand</p>
+</div></blockquote>
+<p>WIDGET-SPECIFIC OPTIONS</p>
+<blockquote>
+<div><p>exportselection, invalidcommand, justify, show, state,
+textvariable, validate, validatecommand, width</p>
+</div></blockquote>
+<p>VALIDATION MODES</p>
+<blockquote>
+<div><p>none, key, focus, focusin, focusout, all</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.input_validation.Decimalentry.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/input_validation.html#Decimalentry.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.input_validation.Decimalentry.validate" title="Permalink to this definition"></a></dt>
+<dd><p>Force revalidation, independent of the conditions specified
+by the validate option. Returns False if validation fails, True
+if it succeeds. Sets or clears the invalid state accordingly.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.input_validation.EntryPattern">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.input_validation.</span></span><span class="sig-name descname"><span class="pre">EntryPattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/input_validation.html#EntryPattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.input_validation.EntryPattern" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.ttk.Entry</span></code></p>
+<p>Constructs a Ttk Entry widget with the parent master.</p>
+<p>STANDARD OPTIONS</p>
+<blockquote>
+<div><p>class, cursor, style, takefocus, xscrollcommand</p>
+</div></blockquote>
+<p>WIDGET-SPECIFIC OPTIONS</p>
+<blockquote>
+<div><p>exportselection, invalidcommand, justify, show, state,
+textvariable, validate, validatecommand, width</p>
+</div></blockquote>
+<p>VALIDATION MODES</p>
+<blockquote>
+<div><p>none, key, focus, focusin, focusout, all</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.input_validation.EntryPattern.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/input_validation.html#EntryPattern.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.input_validation.EntryPattern.validate" title="Permalink to this definition"></a></dt>
+<dd><p>Force revalidation, independent of the conditions specified
+by the validate option. Returns False if validation fails, True
+if it succeeds. Sets or clears the invalid state accordingly.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.input_validation.Fourchar">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.input_validation.</span></span><span class="sig-name descname"><span class="pre">Fourchar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/input_validation.html#Fourchar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.input_validation.Fourchar" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.ttk.Entry</span></code></p>
+<p>Constructs a Ttk Entry widget with the parent master.</p>
+<p>STANDARD OPTIONS</p>
+<blockquote>
+<div><p>class, cursor, style, takefocus, xscrollcommand</p>
+</div></blockquote>
+<p>WIDGET-SPECIFIC OPTIONS</p>
+<blockquote>
+<div><p>exportselection, invalidcommand, justify, show, state,
+textvariable, validate, validatecommand, width</p>
+</div></blockquote>
+<p>VALIDATION MODES</p>
+<blockquote>
+<div><p>none, key, focus, focusin, focusout, all</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.input_validation.Onechar">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.input_validation.</span></span><span class="sig-name descname"><span class="pre">Onechar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/input_validation.html#Onechar"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.input_validation.Onechar" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.ttk.Entry</span></code></p>
+<p>Constructs a Ttk Entry widget with the parent master.</p>
+<p>STANDARD OPTIONS</p>
+<blockquote>
+<div><p>class, cursor, style, takefocus, xscrollcommand</p>
+</div></blockquote>
+<p>WIDGET-SPECIFIC OPTIONS</p>
+<blockquote>
+<div><p>exportselection, invalidcommand, justify, show, state,
+textvariable, validate, validatecommand, width</p>
+</div></blockquote>
+<p>VALIDATION MODES</p>
+<blockquote>
+<div><p>none, key, focus, focusin, focusout, all</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.input_validation.Onechar.validate_len">
+<span class="sig-name descname"><span class="pre">validate_len</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/input_validation.html#Onechar.validate_len"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.input_validation.Onechar.validate_len" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.input_validation.Onlydigits">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.input_validation.</span></span><span class="sig-name descname"><span class="pre">Onlydigits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/input_validation.html#Onlydigits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.input_validation.Onlydigits" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.ttk.Entry</span></code></p>
+<p>Constructs a Ttk Entry widget with the parent master.</p>
+<p>STANDARD OPTIONS</p>
+<blockquote>
+<div><p>class, cursor, style, takefocus, xscrollcommand</p>
+</div></blockquote>
+<p>WIDGET-SPECIFIC OPTIONS</p>
+<blockquote>
+<div><p>exportselection, invalidcommand, justify, show, state,
+textvariable, validate, validatecommand, width</p>
+</div></blockquote>
+<p>VALIDATION MODES</p>
+<blockquote>
+<div><p>none, key, focus, focusin, focusout, all</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.input_validation.Onlydigits.validate_digit">
+<span class="sig-name descname"><span class="pre">validate_digit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/input_validation.html#Onlydigits.validate_digit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.input_validation.Onlydigits.validate_digit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.input_validation.Validatedconv">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.input_validation.</span></span><span class="sig-name descname"><span class="pre">Validatedconv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/input_validation.html#Validatedconv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.input_validation.Validatedconv" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.ttk.Entry</span></code></p>
+<p>Constructs a Ttk Entry widget with the parent master.</p>
+<p>STANDARD OPTIONS</p>
+<blockquote>
+<div><p>class, cursor, style, takefocus, xscrollcommand</p>
+</div></blockquote>
+<p>WIDGET-SPECIFIC OPTIONS</p>
+<blockquote>
+<div><p>exportselection, invalidcommand, justify, show, state,
+textvariable, validate, validatecommand, width</p>
+</div></blockquote>
+<p>VALIDATION MODES</p>
+<blockquote>
+<div><p>none, key, focus, focusin, focusout, all</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.input_validation.Validatedconv.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/input_validation.html#Validatedconv.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.input_validation.Validatedconv.validate" title="Permalink to this definition"></a></dt>
+<dd><p>Force revalidation, independent of the conditions specified
+by the validate option. Returns False if validation fails, True
+if it succeeds. Sets or clears the invalid state accordingly.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-litesoph.gui.logpanel">
+<span id="litesoph-gui-logpanel-module"></span><h2>litesoph.gui.logpanel module<a class="headerlink" href="#module-litesoph.gui.logpanel" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.logpanel.LogPanelManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.logpanel.</span></span><span class="sig-name descname"><span class="pre">LogPanelManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/logpanel.html#LogPanelManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.logpanel.LogPanelManager" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.logpanel.LogPanelManager.log_message">
+<span class="sig-name descname"><span class="pre">log_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/logpanel.html#LogPanelManager.log_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.logpanel.LogPanelManager.log_message" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.logpanel.LogPanelManager.on_bpanel_button_clicked">
+<span class="sig-name descname"><span class="pre">on_bpanel_button_clicked</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/logpanel.html#LogPanelManager.on_bpanel_button_clicked"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.logpanel.LogPanelManager.on_bpanel_button_clicked" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.logpanel.LogPanelManager.pwindow_configure">
+<span class="sig-name descname"><span class="pre">pwindow_configure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/logpanel.html#LogPanelManager.pwindow_configure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.logpanel.LogPanelManager.pwindow_configure" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.logpanel.LogPanelManager.update_sash">
+<span class="sig-name descname"><span class="pre">update_sash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'show'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/logpanel.html#LogPanelManager.update_sash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.logpanel.LogPanelManager.update_sash" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-litesoph.gui.menubar">
+<span id="litesoph-gui-menubar-module"></span><h2>litesoph.gui.menubar module<a class="headerlink" href="#module-litesoph.gui.menubar" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.menubar.GenericMainMenu">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.menubar.</span></span><span class="sig-name descname"><span class="pre">GenericMainMenu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/menubar.html#GenericMainMenu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.menubar.GenericMainMenu" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.Menu</span></code></p>
+<p>The Application’s main menu</p>
+<p>Construct menu widget with the parent MASTER.</p>
+<p>Valid resource names: activebackground, activeborderwidth,
+activeforeground, background, bd, bg, borderwidth, cursor,
+disabledforeground, fg, font, foreground, postcommand, relief,
+selectcolor, takefocus, tearoff, tearoffcommand, title, type.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litesoph.gui.menubar.GenericMainMenu.accelerators">
+<span class="sig-name descname"><span class="pre">accelerators</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'file_open':</span> <span class="pre">'Ctrl+O',</span> <span class="pre">'quit':</span> <span class="pre">'Ctrl+Q'}</span></em><a class="headerlink" href="#litesoph.gui.menubar.GenericMainMenu.accelerators" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litesoph.gui.menubar.GenericMainMenu.keybinds">
+<span class="sig-name descname"><span class="pre">keybinds</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'&lt;Control-o&gt;':</span> <span class="pre">'&lt;&lt;FileSelect&gt;&gt;',</span> <span class="pre">'&lt;Control-q&gt;':</span> <span class="pre">'&lt;&lt;FileQuit&gt;&gt;'}</span></em><a class="headerlink" href="#litesoph.gui.menubar.GenericMainMenu.keybinds" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.menubar.GenericMainMenu.show_about">
+<span class="sig-name descname"><span class="pre">show_about</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/menubar.html#GenericMainMenu.show_about"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.menubar.GenericMainMenu.show_about" title="Permalink to this definition"></a></dt>
+<dd><p>Show the about dialog</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litesoph.gui.menubar.GenericMainMenu.styles">
+<span class="sig-name descname"><span class="pre">styles</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#litesoph.gui.menubar.GenericMainMenu.styles" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.menubar.LinuxMainMenu">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.menubar.</span></span><span class="sig-name descname"><span class="pre">LinuxMainMenu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/menubar.html#LinuxMainMenu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.menubar.LinuxMainMenu" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#litesoph.gui.menubar.GenericMainMenu" title="litesoph.gui.menubar.GenericMainMenu"><code class="xref py py-class docutils literal notranslate"><span class="pre">litesoph.gui.menubar.GenericMainMenu</span></code></a></p>
+<p>Differences for Linux:</p>
+<ul class="simple">
+<li><p>Edit menu for autofill options</p></li>
+<li><p>View menu for font &amp; theme options</p></li>
+<li><p>Use color theme for menu</p></li>
+</ul>
+<p>Construct menu widget with the parent MASTER.</p>
+<p>Valid resource names: activebackground, activeborderwidth,
+activeforeground, background, bd, bg, borderwidth, cursor,
+disabledforeground, fg, font, foreground, postcommand, relief,
+selectcolor, takefocus, tearoff, tearoffcommand, title, type.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litesoph.gui.menubar.LinuxMainMenu.styles">
+<span class="sig-name descname"><span class="pre">styles</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'activebackground':</span> <span class="pre">'#777',</span> <span class="pre">'activeforeground':</span> <span class="pre">'white',</span> <span class="pre">'foreground':</span> <span class="pre">'black',</span> <span class="pre">'relief':</span> <span class="pre">'groove'}</span></em><a class="headerlink" href="#litesoph.gui.menubar.LinuxMainMenu.styles" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.menubar.MacOsMainMenu">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.menubar.</span></span><span class="sig-name descname"><span class="pre">MacOsMainMenu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/menubar.html#MacOsMainMenu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.menubar.MacOsMainMenu" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#litesoph.gui.menubar.GenericMainMenu" title="litesoph.gui.menubar.GenericMainMenu"><code class="xref py py-class docutils literal notranslate"><span class="pre">litesoph.gui.menubar.GenericMainMenu</span></code></a></p>
+<p>Differences for MacOS:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Create App Menu</p></li>
+<li><p>Move about to app menu, remove ‘help’</p></li>
+<li><p>Remove redundant quit command</p></li>
+<li><p>Change accelerators to Command-[]</p></li>
+<li><p>Add View menu for font &amp; theme options</p></li>
+<li><p>Add Edit menu for autofill options</p></li>
+<li><p>Add Window menu for navigation commands</p></li>
+</ul>
+</div></blockquote>
+<p>Construct menu widget with the parent MASTER.</p>
+<p>Valid resource names: activebackground, activeborderwidth,
+activeforeground, background, bd, bg, borderwidth, cursor,
+disabledforeground, fg, font, foreground, postcommand, relief,
+selectcolor, takefocus, tearoff, tearoffcommand, title, type.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litesoph.gui.menubar.MacOsMainMenu.accelerators">
+<span class="sig-name descname"><span class="pre">accelerators</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'file_open':</span> <span class="pre">'Cmd-O'}</span></em><a class="headerlink" href="#litesoph.gui.menubar.MacOsMainMenu.accelerators" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litesoph.gui.menubar.MacOsMainMenu.keybinds">
+<span class="sig-name descname"><span class="pre">keybinds</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'&lt;Command-o&gt;':</span> <span class="pre">'&lt;&lt;FileSelect&gt;&gt;'}</span></em><a class="headerlink" href="#litesoph.gui.menubar.MacOsMainMenu.keybinds" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.gui.menubar.get_main_menu_for_os">
+<span class="sig-prename descclassname"><span class="pre">litesoph.gui.menubar.</span></span><span class="sig-name descname"><span class="pre">get_main_menu_for_os</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">os_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/menubar.html#get_main_menu_for_os"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.menubar.get_main_menu_for_os" title="Permalink to this definition"></a></dt>
+<dd><p>Return the menu class appropriate to the given OS</p>
+</dd></dl>
+
+</section>
+<section id="module-litesoph.gui.navigation">
+<span id="litesoph-gui-navigation-module"></span><h2>litesoph.gui.navigation module<a class="headerlink" href="#module-litesoph.gui.navigation" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.navigation.ProjectList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.navigation.</span></span><span class="sig-name descname"><span class="pre">ProjectList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/navigation.html#ProjectList"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.navigation.ProjectList" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.navigation.ProjectList.insert_node">
+<span class="sig-name descname"><span class="pre">insert_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">abspath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/navigation.html#ProjectList.insert_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.navigation.ProjectList.insert_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.navigation.ProjectList.open_node">
+<span class="sig-name descname"><span class="pre">open_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/navigation.html#ProjectList.open_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.navigation.ProjectList.open_node" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.navigation.ProjectList.populate">
+<span class="sig-name descname"><span class="pre">populate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/navigation.html#ProjectList.populate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.navigation.ProjectList.populate" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.gui.navigation.compare_list">
+<span class="sig-prename descclassname"><span class="pre">litesoph.gui.navigation.</span></span><span class="sig-name descname"><span class="pre">compare_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/navigation.html#compare_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.navigation.compare_list" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-litesoph.gui.user_data">
+<span id="litesoph-gui-user-data-module"></span><h2>litesoph.gui.user_data module<a class="headerlink" href="#module-litesoph.gui.user_data" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.gui.user_data.get_remote_profile">
+<span class="sig-prename descclassname"><span class="pre">litesoph.gui.user_data.</span></span><span class="sig-name descname"><span class="pre">get_remote_profile</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/user_data.html#get_remote_profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.user_data.get_remote_profile" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.gui.user_data.update_proj_list">
+<span class="sig-prename descclassname"><span class="pre">litesoph.gui.user_data.</span></span><span class="sig-name descname"><span class="pre">update_proj_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/user_data.html#update_proj_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.user_data.update_proj_list" title="Permalink to this definition"></a></dt>
+<dd><p>Added new projects to the list with timestamp. if the project exists it updates the timestamp.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.gui.user_data.update_remote_profile_list">
+<span class="sig-prename descclassname"><span class="pre">litesoph.gui.user_data.</span></span><span class="sig-name descname"><span class="pre">update_remote_profile_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">profile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/user_data.html#update_remote_profile_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.user_data.update_remote_profile_list" title="Permalink to this definition"></a></dt>
+<dd><p>It adds new profile to the list. If the profile is already present it’s moved to the top.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-litesoph.gui.viewpanel">
+<span id="litesoph-gui-viewpanel-module"></span><h2>litesoph.gui.viewpanel module<a class="headerlink" href="#module-litesoph.gui.viewpanel" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.viewpanel.ViewPanelManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.viewpanel.</span></span><span class="sig-name descname"><span class="pre">ViewPanelManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/viewpanel.html#ViewPanelManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.viewpanel.ViewPanelManager" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.viewpanel.ViewPanelManager.clear_text">
+<span class="sig-name descname"><span class="pre">clear_text</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/viewpanel.html#ViewPanelManager.clear_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.viewpanel.ViewPanelManager.clear_text" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.viewpanel.ViewPanelManager.get_text">
+<span class="sig-name descname"><span class="pre">get_text</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/viewpanel.html#ViewPanelManager.get_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.viewpanel.ViewPanelManager.get_text" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.viewpanel.ViewPanelManager.insert_text">
+<span class="sig-name descname"><span class="pre">insert_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'normal'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/viewpanel.html#ViewPanelManager.insert_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.viewpanel.ViewPanelManager.insert_text" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-litesoph.gui.views">
+<span id="litesoph-gui-views-module"></span><h2>litesoph.gui.views module<a class="headerlink" href="#module-litesoph.gui.views" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.views.CreateProjectPage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.views.</span></span><span class="sig-name descname"><span class="pre">CreateProjectPage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#CreateProjectPage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.CreateProjectPage" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.Toplevel</span></code></p>
+<p>Construct a toplevel widget with the parent MASTER.</p>
+<p>Valid resource names: background, bd, bg, borderwidth, class,
+colormap, container, cursor, height, highlightbackground,
+highlightcolor, highlightthickness, menu, relief, screen, takefocus,
+use, visual, width.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.CreateProjectPage.get_value">
+<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#CreateProjectPage.get_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.CreateProjectPage.get_value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.views.GroundStatePage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.views.</span></span><span class="sig-name descname"><span class="pre">GroundStatePage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#GroundStatePage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.GroundStatePage" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#litesoph.gui.views.View" title="litesoph.gui.views.View"><code class="xref py py-class docutils literal notranslate"><span class="pre">litesoph.gui.views.View</span></code></a></p>
+<p>Construct a Ttk Frame with parent master.</p>
+<p>STANDARD OPTIONS</p>
+<blockquote>
+<div><p>class, cursor, style, takefocus</p>
+</div></blockquote>
+<p>WIDGET-SPECIFIC OPTIONS</p>
+<blockquote>
+<div><p>borderwidth, relief, padding, width, height</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.GroundStatePage.add_save_button_frame">
+<span class="sig-name descname"><span class="pre">add_save_button_frame</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#GroundStatePage.add_save_button_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.GroundStatePage.add_save_button_frame" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.GroundStatePage.back_button">
+<span class="sig-name descname"><span class="pre">back_button</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#GroundStatePage.back_button"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.GroundStatePage.back_button" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.GroundStatePage.generate_input_button">
+<span class="sig-name descname"><span class="pre">generate_input_button</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#GroundStatePage.generate_input_button"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.GroundStatePage.generate_input_button" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.GroundStatePage.get_parameters">
+<span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#GroundStatePage.get_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.GroundStatePage.get_parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.GroundStatePage.on_engine_change">
+<span class="sig-name descname"><span class="pre">on_engine_change</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">_</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#GroundStatePage.on_engine_change"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.GroundStatePage.on_engine_change" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.GroundStatePage.refresh_var">
+<span class="sig-name descname"><span class="pre">refresh_var</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#GroundStatePage.refresh_var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.GroundStatePage.refresh_var" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.GroundStatePage.save_button">
+<span class="sig-name descname"><span class="pre">save_button</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#GroundStatePage.save_button"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.GroundStatePage.save_button" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.GroundStatePage.set_label_msg">
+<span class="sig-name descname"><span class="pre">set_label_msg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#GroundStatePage.set_label_msg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.GroundStatePage.set_label_msg" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.GroundStatePage.show_auto_mode_calc_tab">
+<span class="sig-name descname"><span class="pre">show_auto_mode_calc_tab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#GroundStatePage.show_auto_mode_calc_tab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.GroundStatePage.show_auto_mode_calc_tab" title="Permalink to this definition"></a></dt>
+<dd><p>Creates widgets for fd mode in second tab</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.GroundStatePage.show_system_tab">
+<span class="sig-name descname"><span class="pre">show_system_tab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#GroundStatePage.show_system_tab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.GroundStatePage.show_system_tab" title="Permalink to this definition"></a></dt>
+<dd><p>Creates widgets for system tab inputs</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.views.JobSubPage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.views.</span></span><span class="sig-name descname"><span class="pre">JobSubPage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_type</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#JobSubPage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.JobSubPage" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.ttk.Frame</span></code></p>
+<p>Creates widgets for JobSub Page</p>
+<p>Construct a Ttk Frame with parent master.</p>
+<p>STANDARD OPTIONS</p>
+<blockquote>
+<div><p>class, cursor, style, takefocus</p>
+</div></blockquote>
+<p>WIDGET-SPECIFIC OPTIONS</p>
+<blockquote>
+<div><p>borderwidth, relief, padding, width, height</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.JobSubPage.create_job_script">
+<span class="sig-name descname"><span class="pre">create_job_script</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#JobSubPage.create_job_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.JobSubPage.create_job_script" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.JobSubPage.get_network_dict">
+<span class="sig-name descname"><span class="pre">get_network_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#JobSubPage.get_network_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.JobSubPage.get_network_dict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.JobSubPage.get_processors">
+<span class="sig-name descname"><span class="pre">get_processors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#JobSubPage.get_processors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.JobSubPage.get_processors" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.JobSubPage.save_job_script">
+<span class="sig-name descname"><span class="pre">save_job_script</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#JobSubPage.save_job_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.JobSubPage.save_job_script" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.JobSubPage.set_network_profile">
+<span class="sig-name descname"><span class="pre">set_network_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remote_profile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#JobSubPage.set_network_profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.JobSubPage.set_network_profile" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.JobSubPage.set_run_button_state">
+<span class="sig-name descname"><span class="pre">set_run_button_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#JobSubPage.set_run_button_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.JobSubPage.set_run_button_state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.JobSubPage.show_job_frame">
+<span class="sig-name descname"><span class="pre">show_job_frame</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#JobSubPage.show_job_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.JobSubPage.show_job_frame" title="Permalink to this definition"></a></dt>
+<dd><p>Creates Job Sub input widgets</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.JobSubPage.show_run_local">
+<span class="sig-name descname"><span class="pre">show_run_local</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#JobSubPage.show_run_local"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.JobSubPage.show_run_local" title="Permalink to this definition"></a></dt>
+<dd><p>Creates Local JobSub input widgets</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.JobSubPage.show_run_network">
+<span class="sig-name descname"><span class="pre">show_run_network</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#JobSubPage.show_run_network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.JobSubPage.show_run_network" title="Permalink to this definition"></a></dt>
+<dd><p>Creates Network JobSub input widgets</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.JobSubPage.submitjob_local">
+<span class="sig-name descname"><span class="pre">submitjob_local</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#JobSubPage.submitjob_local"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.JobSubPage.submitjob_local" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.JobSubPage.submitjob_network">
+<span class="sig-name descname"><span class="pre">submitjob_network</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#JobSubPage.submitjob_network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.JobSubPage.submitjob_network" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.JobSubPage.view_outfile">
+<span class="sig-name descname"><span class="pre">view_outfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#JobSubPage.view_outfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.JobSubPage.view_outfile" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.views.LaserDesignPage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.views.</span></span><span class="sig-name descname"><span class="pre">LaserDesignPage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#LaserDesignPage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.LaserDesignPage" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#litesoph.gui.views.View" title="litesoph.gui.views.View"><code class="xref py py-class docutils literal notranslate"><span class="pre">litesoph.gui.views.View</span></code></a></p>
+<p>Construct a Ttk Frame with parent master.</p>
+<p>STANDARD OPTIONS</p>
+<blockquote>
+<div><p>class, cursor, style, takefocus</p>
+</div></blockquote>
+<p>WIDGET-SPECIFIC OPTIONS</p>
+<blockquote>
+<div><p>borderwidth, relief, padding, width, height</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.LaserDesignPage.back_button">
+<span class="sig-name descname"><span class="pre">back_button</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#LaserDesignPage.back_button"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.LaserDesignPage.back_button" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.LaserDesignPage.generate_input">
+<span class="sig-name descname"><span class="pre">generate_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#LaserDesignPage.generate_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.LaserDesignPage.generate_input" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.LaserDesignPage.get_laser_pulse">
+<span class="sig-name descname"><span class="pre">get_laser_pulse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#LaserDesignPage.get_laser_pulse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.LaserDesignPage.get_laser_pulse" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.LaserDesignPage.get_mask">
+<span class="sig-name descname"><span class="pre">get_mask</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#LaserDesignPage.get_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.LaserDesignPage.get_mask" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.LaserDesignPage.get_parameters">
+<span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#LaserDesignPage.get_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.LaserDesignPage.get_parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.LaserDesignPage.get_pol_list">
+<span class="sig-name descname"><span class="pre">get_pol_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#LaserDesignPage.get_pol_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.LaserDesignPage.get_pol_list" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.LaserDesignPage.get_property_list">
+<span class="sig-name descname"><span class="pre">get_property_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#LaserDesignPage.get_property_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.LaserDesignPage.get_property_list" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.LaserDesignPage.laser_button">
+<span class="sig-name descname"><span class="pre">laser_button</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#LaserDesignPage.laser_button"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.LaserDesignPage.laser_button" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.LaserDesignPage.save_input">
+<span class="sig-name descname"><span class="pre">save_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#LaserDesignPage.save_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.LaserDesignPage.save_input" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.LaserDesignPage.set_label_msg">
+<span class="sig-name descname"><span class="pre">set_label_msg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#LaserDesignPage.set_label_msg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.LaserDesignPage.set_label_msg" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.LaserDesignPage.set_laser_design_dict">
+<span class="sig-name descname"><span class="pre">set_laser_design_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">l_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#LaserDesignPage.set_laser_design_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.LaserDesignPage.set_laser_design_dict" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.LaserDesignPage.set_rsig_state">
+<span class="sig-name descname"><span class="pre">set_rsig_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#LaserDesignPage.set_rsig_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.LaserDesignPage.set_rsig_state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.LaserDesignPage.show_masking_plane_input">
+<span class="sig-name descname"><span class="pre">show_masking_plane_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columnspan</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#LaserDesignPage.show_masking_plane_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.LaserDesignPage.show_masking_plane_input" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.LaserDesignPage.show_masking_specific_input">
+<span class="sig-name descname"><span class="pre">show_masking_specific_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#LaserDesignPage.show_masking_specific_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.LaserDesignPage.show_masking_specific_input" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.LaserDesignPage.show_masking_sphere_input">
+<span class="sig-name descname"><span class="pre">show_masking_sphere_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columnspan</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#LaserDesignPage.show_masking_sphere_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.LaserDesignPage.show_masking_sphere_input" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.views.MaskingPage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.views.</span></span><span class="sig-name descname"><span class="pre">MaskingPage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#MaskingPage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.MaskingPage" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#litesoph.gui.views.View" title="litesoph.gui.views.View"><code class="xref py py-class docutils literal notranslate"><span class="pre">litesoph.gui.views.View</span></code></a></p>
+<p>Construct a Ttk Frame with parent master.</p>
+<p>STANDARD OPTIONS</p>
+<blockquote>
+<div><p>class, cursor, style, takefocus</p>
+</div></blockquote>
+<p>WIDGET-SPECIFIC OPTIONS</p>
+<blockquote>
+<div><p>borderwidth, relief, padding, width, height</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.MaskingPage.get_parameters">
+<span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#MaskingPage.get_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.MaskingPage.get_parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.MaskingPage.select_region">
+<span class="sig-name descname"><span class="pre">select_region</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#MaskingPage.select_region"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.MaskingPage.select_region" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.views.PlotSpectraPage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.views.</span></span><span class="sig-name descname"><span class="pre">PlotSpectraPage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#PlotSpectraPage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.PlotSpectraPage" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.ttk.Frame</span></code></p>
+<p>Construct a Ttk Frame with parent master.</p>
+<p>STANDARD OPTIONS</p>
+<blockquote>
+<div><p>class, cursor, style, takefocus</p>
+</div></blockquote>
+<p>WIDGET-SPECIFIC OPTIONS</p>
+<blockquote>
+<div><p>borderwidth, relief, padding, width, height</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.PlotSpectraPage.add_job_frame">
+<span class="sig-name descname"><span class="pre">add_job_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#PlotSpectraPage.add_job_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.PlotSpectraPage.add_job_frame" title="Permalink to this definition"></a></dt>
+<dd><p>Adds submit job buttons to View1</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.PlotSpectraPage.get_parameters">
+<span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#PlotSpectraPage.get_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.PlotSpectraPage.get_parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.PlotSpectraPage.gpaw_specific_spectra">
+<span class="sig-name descname"><span class="pre">gpaw_specific_spectra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#PlotSpectraPage.gpaw_specific_spectra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.PlotSpectraPage.gpaw_specific_spectra" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.PlotSpectraPage.oct_specific_spectra">
+<span class="sig-name descname"><span class="pre">oct_specific_spectra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#PlotSpectraPage.oct_specific_spectra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.PlotSpectraPage.oct_specific_spectra" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.PlotSpectraPage.show_engine_specific_frame">
+<span class="sig-name descname"><span class="pre">show_engine_specific_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">engine</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#PlotSpectraPage.show_engine_specific_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.PlotSpectraPage.show_engine_specific_frame" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.PlotSpectraPage.show_plot">
+<span class="sig-name descname"><span class="pre">show_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#PlotSpectraPage.show_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.PlotSpectraPage.show_plot" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.views.PopulationPage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.views.</span></span><span class="sig-name descname"><span class="pre">PopulationPage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#PopulationPage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.PopulationPage" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#litesoph.gui.views.View" title="litesoph.gui.views.View"><code class="xref py py-class docutils literal notranslate"><span class="pre">litesoph.gui.views.View</span></code></a></p>
+<p>Construct a Ttk Frame with parent master.</p>
+<p>STANDARD OPTIONS</p>
+<blockquote>
+<div><p>class, cursor, style, takefocus</p>
+</div></blockquote>
+<p>WIDGET-SPECIFIC OPTIONS</p>
+<blockquote>
+<div><p>borderwidth, relief, padding, width, height</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.PopulationPage.get_parameters">
+<span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#PopulationPage.get_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.PopulationPage.get_parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.PopulationPage.get_plot_parameters">
+<span class="sig-name descname"><span class="pre">get_plot_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#PopulationPage.get_plot_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.PopulationPage.get_plot_parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.views.StartPage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.views.</span></span><span class="sig-name descname"><span class="pre">StartPage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#StartPage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.StartPage" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.ttk.Frame</span></code></p>
+<p>Construct a Ttk Frame with parent master.</p>
+<p>STANDARD OPTIONS</p>
+<blockquote>
+<div><p>class, cursor, style, takefocus</p>
+</div></blockquote>
+<p>WIDGET-SPECIFIC OPTIONS</p>
+<blockquote>
+<div><p>borderwidth, relief, padding, width, height</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.views.TcmPage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.views.</span></span><span class="sig-name descname"><span class="pre">TcmPage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TcmPage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TcmPage" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.ttk.Frame</span></code></p>
+<p>Construct a Ttk Frame with parent master.</p>
+<p>STANDARD OPTIONS</p>
+<blockquote>
+<div><p>class, cursor, style, takefocus</p>
+</div></blockquote>
+<p>WIDGET-SPECIFIC OPTIONS</p>
+<blockquote>
+<div><p>borderwidth, relief, padding, width, height</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TcmPage.add_gpaw_ksd_frame">
+<span class="sig-name descname"><span class="pre">add_gpaw_ksd_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TcmPage.add_gpaw_ksd_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TcmPage.add_gpaw_ksd_frame" title="Permalink to this definition"></a></dt>
+<dd><p>Creates widgets for gpaw ksd calculation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TcmPage.add_job_frame">
+<span class="sig-name descname"><span class="pre">add_job_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TcmPage.add_job_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TcmPage.add_job_frame" title="Permalink to this definition"></a></dt>
+<dd><p>Adds submit job buttons</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TcmPage.add_oct_ksd_frame">
+<span class="sig-name descname"><span class="pre">add_oct_ksd_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TcmPage.add_oct_ksd_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TcmPage.add_oct_ksd_frame" title="Permalink to this definition"></a></dt>
+<dd><p>Creates widgets for Octopus ksd calculation</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TcmPage.get_parameters">
+<span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TcmPage.get_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TcmPage.get_parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TcmPage.get_plot_parameters">
+<span class="sig-name descname"><span class="pre">get_plot_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TcmPage.get_plot_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TcmPage.get_plot_parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TcmPage.retrieve_input">
+<span class="sig-name descname"><span class="pre">retrieve_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TcmPage.retrieve_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TcmPage.retrieve_input" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TcmPage.select_ksd_frame">
+<span class="sig-name descname"><span class="pre">select_ksd_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TcmPage.select_ksd_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TcmPage.select_ksd_frame" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TcmPage.set_sub_button_state">
+<span class="sig-name descname"><span class="pre">set_sub_button_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TcmPage.set_sub_button_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TcmPage.set_sub_button_state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.views.TimeDependentPage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.views.</span></span><span class="sig-name descname"><span class="pre">TimeDependentPage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TimeDependentPage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TimeDependentPage" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#litesoph.gui.views.View" title="litesoph.gui.views.View"><code class="xref py py-class docutils literal notranslate"><span class="pre">litesoph.gui.views.View</span></code></a></p>
+<p>Construct a Ttk Frame with parent master.</p>
+<p>STANDARD OPTIONS</p>
+<blockquote>
+<div><p>class, cursor, style, takefocus</p>
+</div></blockquote>
+<p>WIDGET-SPECIFIC OPTIONS</p>
+<blockquote>
+<div><p>borderwidth, relief, padding, width, height</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TimeDependentPage.back_button">
+<span class="sig-name descname"><span class="pre">back_button</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TimeDependentPage.back_button"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TimeDependentPage.back_button" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TimeDependentPage.generate_input_button">
+<span class="sig-name descname"><span class="pre">generate_input_button</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TimeDependentPage.generate_input_button"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TimeDependentPage.generate_input_button" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TimeDependentPage.get_parameters">
+<span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TimeDependentPage.get_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TimeDependentPage.get_parameters" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TimeDependentPage.get_pol_list">
+<span class="sig-name descname"><span class="pre">get_pol_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TimeDependentPage.get_pol_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TimeDependentPage.get_pol_list" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TimeDependentPage.get_property_list">
+<span class="sig-name descname"><span class="pre">get_property_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TimeDependentPage.get_property_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TimeDependentPage.get_property_list" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TimeDependentPage.get_td_out">
+<span class="sig-name descname"><span class="pre">get_td_out</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TimeDependentPage.get_td_out"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TimeDependentPage.get_td_out" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TimeDependentPage.read_pol_dir">
+<span class="sig-name descname"><span class="pre">read_pol_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TimeDependentPage.read_pol_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TimeDependentPage.read_pol_dir" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TimeDependentPage.save_button">
+<span class="sig-name descname"><span class="pre">save_button</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TimeDependentPage.save_button"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TimeDependentPage.save_button" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TimeDependentPage.set_label_msg">
+<span class="sig-name descname"><span class="pre">set_label_msg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TimeDependentPage.set_label_msg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TimeDependentPage.set_label_msg" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TimeDependentPage.update_engine_default">
+<span class="sig-name descname"><span class="pre">update_engine_default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">engn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TimeDependentPage.update_engine_default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TimeDependentPage.update_engine_default" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.TimeDependentPage.update_var">
+<span class="sig-name descname"><span class="pre">update_var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">default_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#TimeDependentPage.update_var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.TimeDependentPage.update_var" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.views.View">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.views.</span></span><span class="sig-name descname"><span class="pre">View</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#View"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.View" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.ttk.Frame</span></code></p>
+<p>Construct a Ttk Frame with parent master.</p>
+<p>STANDARD OPTIONS</p>
+<blockquote>
+<div><p>class, cursor, style, takefocus</p>
+</div></blockquote>
+<p>WIDGET-SPECIFIC OPTIONS</p>
+<blockquote>
+<div><p>borderwidth, relief, padding, width, height</p>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.View.clear_widgets">
+<span class="sig-name descname"><span class="pre">clear_widgets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#View.clear_widgets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.View.clear_widgets" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.View.set_sub_button_state">
+<span class="sig-name descname"><span class="pre">set_sub_button_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#View.set_sub_button_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.View.set_sub_button_state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.gui.views.WorkManagerPage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.gui.views.</span></span><span class="sig-name descname"><span class="pre">WorkManagerPage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#WorkManagerPage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.WorkManagerPage" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tkinter.ttk.Frame</span></code></p>
+<p>Construct a Ttk Frame with parent master.</p>
+<p>STANDARD OPTIONS</p>
+<blockquote>
+<div><p>class, cursor, style, takefocus</p>
+</div></blockquote>
+<p>WIDGET-SPECIFIC OPTIONS</p>
+<blockquote>
+<div><p>borderwidth, relief, padding, width, height</p>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litesoph.gui.views.WorkManagerPage.MainTask">
+<span class="sig-name descname"><span class="pre">MainTask</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['Preprocessing</span> <span class="pre">Jobs',</span> <span class="pre">'Simulations',</span> <span class="pre">'Postprocessing</span> <span class="pre">Jobs']</span></em><a class="headerlink" href="#litesoph.gui.views.WorkManagerPage.MainTask" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litesoph.gui.views.WorkManagerPage.Post_task">
+<span class="sig-name descname"><span class="pre">Post_task</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['Compute</span> <span class="pre">Spectrum',</span> <span class="pre">'Kohn</span> <span class="pre">Sham</span> <span class="pre">Decomposition',</span> <span class="pre">'Population</span> <span class="pre">Tracking',</span> <span class="pre">'Masking',</span> <span class="pre">'Induced</span> <span class="pre">Density</span> <span class="pre">Analysis',</span> <span class="pre">'Generalised</span> <span class="pre">Plasmonicity</span> <span class="pre">Index',</span> <span class="pre">'Plot']</span></em><a class="headerlink" href="#litesoph.gui.views.WorkManagerPage.Post_task" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litesoph.gui.views.WorkManagerPage.Pre_task">
+<span class="sig-name descname"><span class="pre">Pre_task</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['Ground</span> <span class="pre">State']</span></em><a class="headerlink" href="#litesoph.gui.views.WorkManagerPage.Pre_task" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litesoph.gui.views.WorkManagerPage.Sim_task">
+<span class="sig-name descname"><span class="pre">Sim_task</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['Delta</span> <span class="pre">Kick',</span> <span class="pre">'Gaussian</span> <span class="pre">Pulse']</span></em><a class="headerlink" href="#litesoph.gui.views.WorkManagerPage.Sim_task" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litesoph.gui.views.WorkManagerPage.engine_list">
+<span class="sig-name descname"><span class="pre">engine_list</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['auto-mode',</span> <span class="pre">'gpaw',</span> <span class="pre">'nwchem',</span> <span class="pre">'octopus']</span></em><a class="headerlink" href="#litesoph.gui.views.WorkManagerPage.engine_list" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.WorkManagerPage.get_value">
+<span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#WorkManagerPage.get_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.WorkManagerPage.get_value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.WorkManagerPage.pick_sub_task">
+<span class="sig-name descname"><span class="pre">pick_sub_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">_</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#WorkManagerPage.pick_sub_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.WorkManagerPage.pick_sub_task" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.WorkManagerPage.pick_task">
+<span class="sig-name descname"><span class="pre">pick_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">_</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#WorkManagerPage.pick_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.WorkManagerPage.pick_task" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.WorkManagerPage.proceed_button">
+<span class="sig-name descname"><span class="pre">proceed_button</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#WorkManagerPage.proceed_button"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.WorkManagerPage.proceed_button" title="Permalink to this definition"></a></dt>
+<dd><p>event generate on proceed button</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.WorkManagerPage.refresh_var">
+<span class="sig-name descname"><span class="pre">refresh_var</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#WorkManagerPage.refresh_var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.WorkManagerPage.refresh_var" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.WorkManagerPage.set_value">
+<span class="sig-name descname"><span class="pre">set_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#WorkManagerPage.set_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.WorkManagerPage.set_value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.WorkManagerPage.show_plot_option_frame">
+<span class="sig-name descname"><span class="pre">show_plot_option_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#WorkManagerPage.show_plot_option_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.WorkManagerPage.show_plot_option_frame" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.WorkManagerPage.show_sim_task_frame">
+<span class="sig-name descname"><span class="pre">show_sim_task_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#WorkManagerPage.show_sim_task_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.WorkManagerPage.show_sim_task_frame" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.WorkManagerPage.show_sub_task_frame">
+<span class="sig-name descname"><span class="pre">show_sub_task_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#WorkManagerPage.show_sub_task_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.WorkManagerPage.show_sub_task_frame" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.WorkManagerPage.show_upload_label">
+<span class="sig-name descname"><span class="pre">show_upload_label</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#WorkManagerPage.show_upload_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.WorkManagerPage.show_upload_label" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.gui.views.WorkManagerPage.update_project_entry">
+<span class="sig-name descname"><span class="pre">update_project_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#WorkManagerPage.update_project_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.WorkManagerPage.update_project_entry" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.gui.views.add_job_frame">
+<span class="sig-prename descclassname"><span class="pre">litesoph.gui.views.</span></span><span class="sig-name descname"><span class="pre">add_job_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#add_job_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.add_job_frame" title="Permalink to this definition"></a></dt>
+<dd><p>Adds submit job buttons</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.gui.views.add_tabs">
+<span class="sig-prename descclassname"><span class="pre">litesoph.gui.views.</span></span><span class="sig-name descname"><span class="pre">add_tabs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#add_tabs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.add_tabs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.gui.views.define_tk_var">
+<span class="sig-prename descclassname"><span class="pre">litesoph.gui.views.</span></span><span class="sig-name descname"><span class="pre">define_tk_var</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#define_tk_var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.define_tk_var" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.gui.views.property_frame">
+<span class="sig-prename descclassname"><span class="pre">litesoph.gui.views.</span></span><span class="sig-name descname"><span class="pre">property_frame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">myFont</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spectra_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ksd_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pop_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_freq_var</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#property_frame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.property_frame" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.gui.views.set_state">
+<span class="sig-prename descclassname"><span class="pre">litesoph.gui.views.</span></span><span class="sig-name descname"><span class="pre">set_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">widget</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#set_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.set_state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.gui.views.var_define">
+<span class="sig-prename descclassname"><span class="pre">litesoph.gui.views.</span></span><span class="sig-name descname"><span class="pre">var_define</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">var_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/views.html#var_define"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.views.var_define" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-litesoph.gui.visual_parameter">
+<span id="litesoph-gui-visual-parameter-module"></span><h2>litesoph.gui.visual_parameter module<a class="headerlink" href="#module-litesoph.gui.visual_parameter" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.gui.visual_parameter.myfont">
+<span class="sig-prename descclassname"><span class="pre">litesoph.gui.visual_parameter.</span></span><span class="sig-name descname"><span class="pre">myfont</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/visual_parameter.html#myfont"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.visual_parameter.myfont" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.gui.visual_parameter.myfont1">
+<span class="sig-prename descclassname"><span class="pre">litesoph.gui.visual_parameter.</span></span><span class="sig-name descname"><span class="pre">myfont1</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/visual_parameter.html#myfont1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.visual_parameter.myfont1" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.gui.visual_parameter.myfont15">
+<span class="sig-prename descclassname"><span class="pre">litesoph.gui.visual_parameter.</span></span><span class="sig-name descname"><span class="pre">myfont15</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/visual_parameter.html#myfont15"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.visual_parameter.myfont15" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.gui.visual_parameter.myfont2">
+<span class="sig-prename descclassname"><span class="pre">litesoph.gui.visual_parameter.</span></span><span class="sig-name descname"><span class="pre">myfont2</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/gui/visual_parameter.html#myfont2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.gui.visual_parameter.myfont2" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-litesoph.gui">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-litesoph.gui" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="litesoph.html" class="btn btn-neutral float-left" title="litesoph package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="litesoph.gui.engine_views.html" class="btn btn-neutral float-right" title="litesoph.gui.engine_views package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 10:54:25.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

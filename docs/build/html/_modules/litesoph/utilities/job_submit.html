@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.utilities.job_submit &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>litesoph.utilities.job_submit</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for litesoph.utilities.job_submit</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">subprocess</span>  
+<span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">paramiko</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">scp</span> <span class="kn">import</span> <span class="n">SCPClient</span>
+<span class="kn">import</span> <span class="nn">pexpect</span>
+
+
+<div class="viewcode-block" id="execute"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.execute">[docs]</a><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">directory</span><span class="p">):</span>
+    
+    <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+    
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;str&#39;</span><span class="p">:</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="n">command</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="n">command</span><span class="p">:</span>
+        <span class="n">out_dict</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Job started with command:&quot;</span><span class="p">,</span> <span class="n">cmd</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">job</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span> <span class="n">directory</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">raise</span> 
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;returncode =&quot;</span><span class="p">,</span> <span class="n">job</span><span class="o">.</span><span class="n">returncode</span><span class="p">)</span>
+    
+            <span class="k">if</span> <span class="n">job</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error...&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;job done..&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Output...&quot;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;returncode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">returncode</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;output&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+            <span class="n">out_dict</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+    
+<div class="viewcode-block" id="SubmitLocal"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.SubmitLocal">[docs]</a><span class="k">class</span> <span class="nc">SubmitLocal</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">nprocessors</span><span class="p">:</span><span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="n">task</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">project_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">np</span> <span class="o">=</span> <span class="n">nprocessors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">command</span> <span class="o">=</span> <span class="kc">None</span>                   
+
+<div class="viewcode-block" id="SubmitLocal.run_job"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.SubmitLocal.run_job">[docs]</a>    <span class="k">def</span> <span class="nf">run_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>    
+        <span class="n">result</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">local_cmd_out</span> <span class="o">=</span> <span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="n">cmd</span><span class="p">][</span><span class="s1">&#39;returncode&#39;</span><span class="p">],</span> <span class="n">result</span><span class="p">[</span><span class="n">cmd</span><span class="p">][</span><span class="s1">&#39;output&#39;</span><span class="p">],</span> <span class="n">result</span><span class="p">[</span><span class="n">cmd</span><span class="p">][</span><span class="s1">&#39;error&#39;</span><span class="p">])</span></div></div>
+
+<div class="viewcode-block" id="SubmitNetwork"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.SubmitNetwork">[docs]</a><span class="k">class</span> <span class="nc">SubmitNetwork</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">task</span><span class="p">,</span>
+                    <span class="n">hostname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                    <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                    <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                    <span class="n">remote_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="n">task</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">project_dir</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hostname</span> <span class="o">=</span> <span class="n">hostname</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">password</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remote_path</span> <span class="o">=</span> <span class="n">remote_path</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">network_sub</span> <span class="o">=</span> <span class="n">NetworkJobSubmission</span><span class="p">(</span><span class="n">hostname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">network_sub</span><span class="o">.</span><span class="n">ssh_connect</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">network_sub</span><span class="o">.</span><span class="n">check_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remote_path</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">add_proper_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remote_path</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">upload_files</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Remote path: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">remote_path</span><span class="si">}</span><span class="s2"> not found.&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SubmitNetwork.upload_files"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.SubmitNetwork.upload_files">[docs]</a>    <span class="k">def</span> <span class="nf">upload_files</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;uploads entire project directory to remote path&quot;&quot;&quot;</span>
+
+        <span class="n">include</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;*/&#39;</span><span class="p">,</span><span class="s1">&#39;*.xyz&#39;</span><span class="p">,</span> <span class="s1">&#39;*.sh&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">NAME</span><span class="si">}</span><span class="s1">/**&#39;</span><span class="p">]</span>
+        <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span> <span class="o">=</span> <span class="n">rsync_upload_files</span><span class="p">(</span><span class="n">ruser</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="n">rhost</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span><span class="n">port</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
+                                                <span class="n">source_dir</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span><span class="p">),</span> <span class="n">dst_dir</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remote_path</span><span class="p">),</span>
+                                                <span class="n">include</span><span class="o">=</span><span class="n">include</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+        <span class="c1">#self.network_sub.upload_files(str(self.project_dir), str(self.remote_path), recursive=True)</span>
+        <span class="k">if</span> <span class="n">error</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SubmitNetwork.download_output_files"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.SubmitNetwork.download_output_files">[docs]</a>    <span class="k">def</span> <span class="nf">download_output_files</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads entire project directory to local project dir.&quot;&quot;&quot;</span>
+        <span class="n">remote_path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remote_path</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span><span class="o">.</span><span class="n">name</span>
+        <span class="c1">#self.network_sub.download_files(str(remote_path),str(self.project_dir.parent),  recursive=True)</span>
+        <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span> <span class="o">=</span> <span class="n">rsync_download_files</span><span class="p">(</span><span class="n">ruser</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="n">rhost</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hostname</span><span class="p">,</span><span class="n">port</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
+                                                <span class="n">source_dir</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">remote_path</span><span class="p">),</span> <span class="n">dst_dir</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span><span class="o">.</span><span class="n">parent</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">error</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SubmitNetwork.get_output_log"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.SubmitNetwork.get_output_log">[docs]</a>    <span class="k">def</span> <span class="nf">get_output_log</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Downloads engine log file for that particular task.&quot;&quot;&quot;</span>
+        <span class="n">rpath</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remote_path</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">engine_log</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">network_sub</span><span class="o">.</span><span class="n">download_files</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">rpath</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">engine_log</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SubmitNetwork.run_job"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.SubmitNetwork.run_job">[docs]</a>    <span class="k">def</span> <span class="nf">run_job</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
+        <span class="s2">&quot;This method creates the job submission command and executes the command on the cluster&quot;</span>
+        <span class="n">remote_path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remote_path</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">project_dir</span><span class="o">.</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">remote_path</span><span class="p">)</span><span class="si">}</span><span class="s2"> &amp;&amp; </span><span class="si">{</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">BASH_filename</span><span class="si">}</span><span class="s2">&quot;</span>
+        
+        
+        <span class="n">exit_status</span><span class="p">,</span> <span class="n">ssh_output</span><span class="p">,</span> <span class="n">ssh_error</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">network_sub</span><span class="o">.</span><span class="n">execute_command</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">command</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">exit_status</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error...&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">ssh_error</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Job submitted successfully!...&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">ssh_output</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">net_cmd_out</span> <span class="o">=</span> <span class="p">(</span><span class="n">exit_status</span><span class="p">,</span> <span class="n">ssh_output</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span> <span class="n">ssh_error</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span></div>
+    
+<div class="viewcode-block" id="SubmitNetwork.check_job_status"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.SubmitNetwork.check_job_status">[docs]</a>    <span class="k">def</span> <span class="nf">check_job_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;returns true if the job is completed in remote machine&quot;&quot;&quot;</span>
+        <span class="n">rpath</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remote_path</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="o">.</span><span class="n">network_done_file</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">network_sub</span><span class="o">.</span><span class="n">check_file</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">rpath</span><span class="p">))</span></div></div>
+
+<div class="viewcode-block" id="NetworkJobSubmission"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.NetworkJobSubmission">[docs]</a><span class="k">class</span> <span class="nc">NetworkJobSubmission</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;This class contain methods connect to remote cluster through ssh and perform common</span>
+<span class="sd">    uploadig and downloading of files and also to execute command on the remote cluster.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                <span class="n">host</span><span class="p">,</span>
+                <span class="n">port</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">host</span> <span class="o">=</span> <span class="n">host</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
+             
+<div class="viewcode-block" id="NetworkJobSubmission.ssh_connect"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.NetworkJobSubmission.ssh_connect">[docs]</a>    <span class="k">def</span> <span class="nf">ssh_connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pkey</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="s2">&quot;connects to the cluster through ssh.&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Establishing ssh connection&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">set_missing_host_key_policy</span><span class="p">(</span><span class="n">paramiko</span><span class="o">.</span><span class="n">AutoAddPolicy</span><span class="p">())</span>
+            
+            <span class="k">if</span> <span class="n">pkey</span><span class="p">:</span>
+                <span class="n">private_key</span> <span class="o">=</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">RSAKey</span><span class="o">.</span><span class="n">from_private_key</span><span class="p">(</span><span class="n">pkey</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">hostname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">pkey</span><span class="o">=</span><span class="n">private_key</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;connected to the server&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>    
+                <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">hostname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;connected to the server&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">host</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">AuthenticationException</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Authentication failed, please verfiy your credentials&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHException</span> <span class="k">as</span> <span class="n">sshException</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not establish SSH connection: </span><span class="si">{</span><span class="n">sshException</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">timeout</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Connection timed out&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+     
+           <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exception in connecting to the server </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">scp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_connection</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">SCPClient</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_transport</span><span class="p">(),</span> <span class="n">progress</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">progress</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="NetworkJobSubmission.disconnect"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.NetworkJobSubmission.disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;closes the ssh session with the cluster.&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scp</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_check_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&quot;This checks whether ssh connection is active or not.&quot;</span>
+        <span class="n">transport</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_transport</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">transport</span><span class="o">.</span><span class="n">is_active</span><span class="p">()</span> <span class="ow">and</span> <span class="n">transport</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Not connected to a cluster&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="NetworkJobSubmission.upload_files"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.NetworkJobSubmission.upload_files">[docs]</a>    <span class="k">def</span> <span class="nf">upload_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_file_path</span><span class="p">,</span> <span class="n">remote_path</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method uploads the file to remote server.&quot;&quot;&quot;</span>
+       
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_connection</span><span class="p">()</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scp</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">local_file_path</span><span class="p">,</span> <span class="n">remote_path</span><span class="o">=</span><span class="n">remote_path</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="n">recursive</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unable to upload the file to the remote server </span><span class="si">{</span><span class="n">remote_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NetworkJobSubmission.progress"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.NetworkJobSubmission.progress">[docs]</a>    <span class="k">def</span> <span class="nf">progress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">sent</span><span class="p">):</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&#39;s progress: </span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">sent</span><span class="p">)</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">size</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span> <span class="si">:</span><span class="s2"> .2f</span><span class="si">}</span><span class="s2">   </span><span class="se">\r</span><span class="s2">&quot;</span><span class="p">)</span> </div>
+
+<div class="viewcode-block" id="NetworkJobSubmission.download_files"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.NetworkJobSubmission.download_files">[docs]</a>    <span class="k">def</span> <span class="nf">download_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_file_path</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="s2">&quot;This method downloads the file from cluster&quot;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_connection</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+           <span class="bp">self</span><span class="o">.</span><span class="n">scp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span> <span class="n">remote_file_path</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="n">recursive</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unable to download the file from the remote server </span><span class="si">{</span><span class="n">remote_file_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NetworkJobSubmission.check_file"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.NetworkJobSubmission.check_file">[docs]</a>    <span class="k">def</span> <span class="nf">check_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote_file_path</span><span class="p">):</span>
+        <span class="s2">&quot;checks if the file exists in the remote path&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_connection</span><span class="p">()</span>
+        <span class="n">sftp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">open_sftp</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+           <span class="n">sftp</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">remote_file_path</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="NetworkJobSubmission.execute_command"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.NetworkJobSubmission.execute_command">[docs]</a>    <span class="k">def</span> <span class="nf">execute_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Execute a command on the remote host.</span>
+<span class="sd">        Return a tuple containing retruncode, stdout and stderr</span>
+<span class="sd">        from the command.&quot;&quot;&quot;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_connection</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Executing command --&gt; </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">stdin</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+            <span class="n">ssh_output</span> <span class="o">=</span> <span class="n">stdout</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="n">ssh_error</span> <span class="o">=</span> <span class="n">stderr</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            <span class="n">exit_status</span> <span class="o">=</span> <span class="n">stdout</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">recv_exit_status</span><span class="p">()</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">exit_status</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">exit_status</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">ssh_error</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">ssh_error</span><span class="p">)</span>
+                <span class="c1">#raise Exception(f&quot;Problem occurred while running command: {command} The error is {ssh_error}&quot;)</span>
+        <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">timeout</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">exit_status</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">pass</span>
+            <span class="c1">#raise Exception(&quot;Command timed out.&quot;, command)</span>
+        <span class="k">except</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHException</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Failed to execute the command!&quot;</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">exit_status</span><span class="p">,</span> <span class="n">ssh_output</span><span class="p">,</span> <span class="n">ssh_error</span></div></div>
+
+
+<div class="viewcode-block" id="rsync_upload_files"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.rsync_upload_files">[docs]</a><span class="k">def</span> <span class="nf">rsync_upload_files</span><span class="p">(</span><span class="n">ruser</span><span class="p">,</span> <span class="n">rhost</span><span class="p">,</span><span class="n">port</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">source_dir</span><span class="p">,</span> <span class="n">dst_dir</span><span class="p">,</span> <span class="n">include</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+    <span class="k">return</span> <span class="n">rsync_cmd</span><span class="p">(</span><span class="n">ruser</span><span class="p">,</span> <span class="n">rhost</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">source_dir</span><span class="p">,</span> <span class="n">dst_dir</span><span class="p">,</span> <span class="n">include</span><span class="o">=</span><span class="n">include</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="n">exclude</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="rsync_download_files"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.rsync_download_files">[docs]</a><span class="k">def</span> <span class="nf">rsync_download_files</span><span class="p">(</span><span class="n">ruser</span><span class="p">,</span> <span class="n">rhost</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">source_dir</span><span class="p">,</span> <span class="n">dst_dir</span><span class="p">,</span> <span class="n">include</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    
+    <span class="k">return</span> <span class="n">rsync_cmd</span><span class="p">(</span><span class="n">ruser</span><span class="p">,</span> <span class="n">rhost</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">source_dir</span><span class="p">,</span> <span class="n">dst_dir</span><span class="p">,</span> <span class="n">include</span><span class="o">=</span><span class="n">include</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="n">exclude</span><span class="p">,</span><span class="n">upload</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="rsync_cmd"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.rsync_cmd">[docs]</a><span class="k">def</span> <span class="nf">rsync_cmd</span><span class="p">(</span><span class="n">ruser</span><span class="p">,</span> <span class="n">rhost</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">source_dir</span><span class="p">,</span> <span class="n">dst_dir</span><span class="p">,</span><span class="n">include</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">upload</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    
+    <span class="n">cmd</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;rsync -av -e &quot;ssh -p </span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s1">&quot;&#39;&#39;&#39;</span><span class="p">)</span> 
+
+    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">option</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">option</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">option</span> <span class="o">=</span> <span class="p">[</span><span class="n">option</span><span class="p">]</span>
+        <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="sa">f</span><span class="s2">&quot;--</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">=&quot;</span> <span class="o">+</span> <span class="s2">&quot;&#39;</span><span class="si">{}</span><span class="s2">&#39; &quot;</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">option</span><span class="p">))</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">option</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">include</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span><span class="n">exclude</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">option</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">&#39;include&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;exclude&#39;</span><span class="p">,</span> <span class="n">exclude</span><span class="p">)]:</span>
+            <span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+   
+    <span class="k">if</span> <span class="n">upload</span><span class="p">:</span>
+        <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">source_dir</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">ruser</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="n">rhost</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">dst_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>   
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cmd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ruser</span><span class="si">}</span><span class="s2">@</span><span class="si">{</span><span class="n">rhost</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">source_dir</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">dst_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span> <span class="o">=</span> <span class="n">execute_rsync</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">passwd</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="execute_rsync"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.job_submit.execute_rsync">[docs]</a><span class="k">def</span> <span class="nf">execute_rsync</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span><span class="n">passwd</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">3600</span><span class="p">):</span>
+    <span class="n">intitial_response</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Are you sure&#39;</span><span class="p">,</span> <span class="s1">&#39;password:&#39;</span><span class="p">,</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">EOF</span><span class="p">]</span>
+    
+    <span class="n">ssh</span> <span class="o">=</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span><span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">ssh</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">intitial_response</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="n">ssh</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">ssh</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s1">&#39;yes&#39;</span><span class="p">)</span>
+        <span class="n">ssh</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="s1">&#39;password:&#39;</span><span class="p">,</span> <span class="n">Timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">ssh</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="n">passwd</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">ssh</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="n">passwd</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">str1</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">ssh</span><span class="o">.</span><span class="n">before</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Error: Unknown:&#39;</span><span class="o">+</span> <span class="n">str1</span><span class="p">)</span>
+
+    <span class="n">possible_response</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;password:&#39;</span><span class="p">,</span> <span class="n">pexpect</span><span class="o">.</span><span class="n">EOF</span><span class="p">]</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">ssh</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="n">possible_response</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;Error: Incorrect password.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">ssh</span><span class="o">.</span><span class="n">before</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">ssh</span><span class="o">.</span><span class="n">before</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span></div>
+    
+        
+       
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 10:54:25.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

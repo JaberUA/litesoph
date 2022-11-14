@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.gui.logpanel &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>litesoph.gui.logpanel</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for litesoph.gui.logpanel</h1><div class="highlight"><pre>
+<div class="viewcode-block" id="LogPanelManager"><a class="viewcode-back" href="../../../litesoph/litesoph.gui.html#litesoph.gui.logpanel.LogPanelManager">[docs]</a><span></span><span class="k">class</span> <span class="nc">LogPanelManager</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">app</span> <span class="o">=</span> <span class="n">app</span>
+        <span class="n">builder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">builder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">btn_messages</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="s1">&#39;btn_messages&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">txt_log</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="s1">&#39;text_log&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buttonsvar</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s1">&#39;bpanel_buttonsvar&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bpanel</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="s1">&#39;bpanel&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gcontainer</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="s1">&#39;bp_container&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gbuttons</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="s1">&#39;bp_buttons&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainpw</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="s1">&#39;mainpw&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainpw</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Configure&gt;&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pwindow_configure</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainpw_sash_pos</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gcontainer</span><span class="o">.</span><span class="n">pack_forget</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">btn_messages_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">btn_messages</span><span class="o">.</span><span class="n">cget</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unread</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="LogPanelManager.pwindow_configure"><a class="viewcode-back" href="../../../litesoph/litesoph.gui.html#litesoph.gui.logpanel.LogPanelManager.pwindow_configure">[docs]</a>    <span class="k">def</span> <span class="nf">pwindow_configure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainpw_sash_pos</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<div class="viewcode-block" id="LogPanelManager.update_sash"><a class="viewcode-back" href="../../../litesoph/litesoph.gui.html#litesoph.gui.logpanel.LogPanelManager.update_sash">[docs]</a>    <span class="k">def</span> <span class="nf">update_sash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;show&#39;</span><span class="p">):</span>
+        <span class="n">pwh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainpw</span><span class="o">.</span><span class="n">winfo_height</span><span class="p">()</span>
+        <span class="n">gch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bpanel</span><span class="o">.</span><span class="n">winfo_reqheight</span><span class="p">()</span>
+        <span class="n">gbh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gbuttons</span><span class="o">.</span><span class="n">winfo_height</span><span class="p">()</span>
+        <span class="n">newpos</span> <span class="o">=</span> <span class="n">pwh</span> <span class="o">-</span> <span class="n">gch</span>
+        <span class="n">hidden_pos</span> <span class="o">=</span> <span class="n">pwh</span> <span class="o">-</span> <span class="p">(</span><span class="n">gbh</span> <span class="o">+</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;show&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainpw_sash_pos</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainpw_sash_pos</span> <span class="o">&gt;</span> <span class="n">hidden_pos</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">mainpw_sash_pos</span> <span class="o">=</span> <span class="n">newpos</span>
+                <span class="n">newpos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainpw_sash_pos</span>
+        <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s1">&#39;hide&#39;</span><span class="p">:</span>
+            <span class="n">newpos</span> <span class="o">=</span> <span class="n">hidden_pos</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mainpw_sash_pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainpw</span><span class="o">.</span><span class="n">sashpos</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mainpw</span><span class="o">.</span><span class="n">sashpos</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">newpos</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LogPanelManager.on_bpanel_button_clicked"><a class="viewcode-back" href="../../../litesoph/litesoph.gui.html#litesoph.gui.logpanel.LogPanelManager.on_bpanel_button_clicked">[docs]</a>    <span class="k">def</span> <span class="nf">on_bpanel_button_clicked</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonsvar</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;messages&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unread</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">btn_messages</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">btn_messages_label</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gcontainer</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gcontainer</span><span class="o">.</span><span class="n">after_idle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update_sash</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gcontainer</span><span class="o">.</span><span class="n">after_idle</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_sash</span><span class="p">(</span><span class="s2">&quot;hide&quot;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gcontainer</span><span class="o">.</span><span class="n">pack_forget</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_log_set_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="n">tktext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">txt_log</span>
+        <span class="n">tktext</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">)</span>
+        <span class="n">tktext</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s1">&#39;0.0&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span>
+        <span class="n">tktext</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;0.0&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+        <span class="n">tktext</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="s1">&#39;disabled&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_log_add_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="n">tktext</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">txt_log</span>
+        <span class="n">tktext</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">)</span>
+        <span class="n">tktext</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="n">text</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">tktext</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="s1">&#39;disabled&#39;</span><span class="p">)</span>
+        <span class="n">tktext</span><span class="o">.</span><span class="n">see</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LogPanelManager.log_message"><a class="viewcode-back" href="../../../litesoph/litesoph.gui.html#litesoph.gui.logpanel.LogPanelManager.log_message">[docs]</a>    <span class="k">def</span> <span class="nf">log_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttonsvar</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;messages&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unread</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="c1"># log panel is not visible, update label</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">btn_messages_label</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">unread</span><span class="si">}</span><span class="s1">)&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">btn_messages</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log_add_text</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 10:54:25.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.simulations.nwchem.nwchem_read_rt &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+          <li><a href="../../simulations.html">litesoph.simulations</a> &raquo;</li>
+          <li><a href="../nwchem.html">litesoph.simulations.nwchem</a> &raquo;</li>
+      <li>litesoph.simulations.nwchem.nwchem_read_rt</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for litesoph.simulations.nwchem.nwchem_read_rt</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">ArgumentParser</span>
+
+<div class="viewcode-block" id="parse_input"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_read_rt.parse_input">[docs]</a><span class="k">def</span> <span class="nf">parse_input</span><span class="p">(</span><span class="n">td_dict</span><span class="p">,</span> <span class="n">lines</span><span class="p">):</span>
+    
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">td_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;labels&#39;</span><span class="p">)</span>
+    <span class="n">pol</span> <span class="o">=</span> <span class="n">td_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;polarization&#39;</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">all</span> <span class="p">([</span><span class="n">tag</span> <span class="ow">in</span> <span class="n">l</span> <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">vals</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span> <span class="p">(</span><span class="s2">&quot;Failed to parse line: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">pol</span><span class="p">:</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">vals</span><span class="p">[</span><span class="n">pol</span><span class="p">[</span><span class="mi">1</span><span class="p">]])])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">vals</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span> <span class="p">(</span><span class="s2">&quot;Failed to convert data line: </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
+
+    <span class="n">ndata</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ndata</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span> <span class="p">(</span><span class="s2">&quot;Failed to find any data, check target and options.&quot;</span><span class="p">)</span>
+         
+    <span class="k">return</span> <span class="n">data</span></div>
+
+    
+<div class="viewcode-block" id="postprocess_check"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_read_rt.postprocess_check">[docs]</a><span class="k">def</span> <span class="nf">postprocess_check</span><span class="p">(</span><span class="n">write</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    
+    <span class="n">tprev</span> <span class="o">=</span> <span class="o">-</span><span class="mf">9999.0</span>
+    <span class="n">d0</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="n">tprev</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span> <span class="p">(</span><span class="s2">&quot;Error: Repeating times found--ambiguous target.  Multiple geometries?  Using closedshell target for openshell or spin-orbit?&quot;</span><span class="p">)</span>
+
+        <span class="n">tprev</span> <span class="o">=</span> <span class="n">t</span>
+
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">zero</span><span class="p">:</span>
+            <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">d0</span>
+
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">header</span> <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">zero</span><span class="p">:</span>
+        <span class="n">write</span><span class="p">(</span><span class="s2">&quot;# Postprocessing: zeroed at first time point&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="write_td_output"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_read_rt.write_td_output">[docs]</a><span class="k">def</span> <span class="nf">write_td_output</span><span class="p">(</span><span class="n">write</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">td_dict</span><span class="p">):</span>
+    <span class="n">pol</span> <span class="o">=</span> <span class="n">td_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;polarization&#39;</span><span class="p">)</span> 
+    <span class="n">target</span> <span class="o">=</span> <span class="n">td_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;target&#39;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">target</span> <span class="o">!=</span> <span class="s1">&#39;moocc&#39;</span><span class="p">:</span>
+  
+        <span class="n">write</span><span class="p">(</span><span class="s2">&quot;#</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">write</span><span class="p">(</span><span class="s2">&quot;#-----------------------------------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">pol</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="n">target</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">pol</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">write</span><span class="p">(</span><span class="s2">&quot;#   Time [au]        </span><span class="si">{0}</span><span class="s2"> [au]         </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s1">_x&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s1">_y&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s1">_z&#39;</span><span class="p">]</span>
+            <span class="n">write</span><span class="p">(</span><span class="s2">&quot;#   Time [au]        </span><span class="si">{}</span><span class="s2"> [au]         </span><span class="si">{}</span><span class="s2"> [au]         </span><span class="si">{}</span><span class="s2"> [au]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">tag</span><span class="p">))</span>
+        
+        <span class="n">write</span><span class="p">(</span><span class="s2">&quot;#-----------------------------------------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">write</span><span class="p">(</span><span class="s2">&quot;#</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">txt</span> <span class="o">=</span> <span class="s2">&quot;     </span><span class="si">{: .10e}</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">write</span><span class="p">(</span><span class="n">txt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">d</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="check_args_determine_labels"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_read_rt.check_args_determine_labels">[docs]</a><span class="k">def</span> <span class="nf">check_args_determine_labels</span><span class="p">(</span><span class="n">td_dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check arguments and generate tags for parsing the output&quot;&quot;&quot;</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">td_dict</span><span class="p">[</span><span class="s1">&#39;labels&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="n">td_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;target&#39;</span><span class="p">)</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="n">td_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tag&#39;</span><span class="p">)</span>
+
+    <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+    <span class="c1">## do these outputs have x,y,z values, geom, spin tags etc?</span>
+    <span class="n">spin</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">geom</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1">## data type</span>
+    <span class="k">if</span> <span class="n">target</span> <span class="o">==</span> <span class="s2">&quot;dipole&quot;</span><span class="p">:</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Dipole moment&quot;</span><span class="p">)</span>
+        <span class="n">spin</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">geom</span> <span class="o">=</span> <span class="kc">True</span>
+        
+    <span class="k">elif</span> <span class="n">target</span> <span class="o">==</span> <span class="s2">&quot;efield&quot;</span><span class="p">:</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Applied E-field&quot;</span><span class="p">)</span>
+        <span class="n">spin</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">geom</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">elif</span> <span class="n">target</span> <span class="o">==</span> <span class="s2">&quot;energy&quot;</span><span class="p">:</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Etot&quot;</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">target</span> <span class="o">==</span> <span class="s2">&quot;S2&quot;</span><span class="p">:</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;S^2&quot;</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">target</span> <span class="o">==</span> <span class="s2">&quot;charge&quot;</span><span class="p">:</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Charge&quot;</span><span class="p">)</span>
+        <span class="n">spin</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">geom</span> <span class="o">=</span> <span class="kc">True</span>
+    
+    <span class="k">elif</span> <span class="n">target</span> <span class="o">==</span> <span class="s2">&quot;moocc&quot;</span><span class="p">:</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;MO Occupations&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span> <span class="p">(</span><span class="s2">&quot;Invalid target: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">target</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">td_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;polarization&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">td_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;polarization&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;x&quot;</span><span class="p">:</span>
+            <span class="n">td_dict</span><span class="p">[</span><span class="s1">&#39;polarization&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">td_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;polarization&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span>
+            <span class="n">td_dict</span><span class="p">[</span><span class="s1">&#39;polarization&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">td_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;polarization&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;z&quot;</span><span class="p">:</span>
+            <span class="n">td_dict</span><span class="p">[</span><span class="s1">&#39;polarization&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+    <span class="c1">## spin type</span>
+    <span class="k">if</span> <span class="n">spin</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">td_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spin&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;closedshell&quot;</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="n">td_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spin&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;alpha&quot;</span><span class="p">:</span>
+            <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;(alpha spin)&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">td_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spin&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;beta&quot;</span><span class="p">:</span>
+            <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;(beta spin)&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">td_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;spin&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;total&quot;</span><span class="p">:</span>
+            <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;(total spin)&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span> <span class="p">(</span><span class="s2">&quot;Invalid spin type: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">spin</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span>
+    
+    <span class="c1">## geom</span>
+    <span class="k">if</span> <span class="n">geom</span><span class="p">:</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">td_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;geometry&#39;</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span>
+  
+    <span class="k">return</span> <span class="n">td_dict</span></div>
+
+<div class="viewcode-block" id="p"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_read_rt.p">[docs]</a><span class="k">def</span> <span class="nf">p</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span>
+    <span class="n">txt</span> <span class="o">=</span> <span class="n">txt</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="nwchem_rt_parser"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_read_rt.nwchem_rt_parser">[docs]</a><span class="k">def</span> <span class="nf">nwchem_rt_parser</span><span class="p">(</span><span class="n">td_out_file</span><span class="p">,</span> <span class="n">outfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s1">&#39;&lt;rt_tddft&gt;&#39;</span><span class="p">,</span>
+                    <span class="n">geometry</span><span class="o">=</span><span class="s1">&#39;system&#39;</span><span class="p">,</span> 
+                    <span class="n">target</span><span class="o">=</span><span class="s1">&#39;dipole&#39;</span><span class="p">,</span> <span class="n">spin</span><span class="o">=</span><span class="s1">&#39;closedshell&#39;</span><span class="p">,</span> 
+                    <span class="n">polarization</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">retrun_data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    
+    <span class="n">td_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span>
+                    <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">,</span>
+                    <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+                    <span class="n">spin</span><span class="o">=</span><span class="n">spin</span><span class="p">,</span>
+                    <span class="n">polarization</span><span class="o">=</span><span class="n">polarization</span><span class="p">,</span>
+                    <span class="n">zero</span><span class="o">=</span><span class="n">zero</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">outfile</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">write</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">write</span> <span class="o">=</span> <span class="n">p</span>
+
+    <span class="n">td_dict</span> <span class="o">=</span> <span class="n">check_args_determine_labels</span><span class="p">(</span><span class="n">td_dict</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">td_out_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Failed to read in data from file: </span><span class="si">{</span><span class="n">td_out_file</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    
+    <span class="n">data</span> <span class="o">=</span> <span class="n">parse_input</span><span class="p">(</span><span class="n">td_dict</span><span class="p">,</span> <span class="n">lines</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">retrun_data</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="n">write</span><span class="p">(</span><span class="s2">&quot;#======================================</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">write</span><span class="p">(</span><span class="s2">&quot;#  NWChem Real-time TDDFT output parser</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">write</span><span class="p">(</span><span class="s2">&quot;#======================================</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">write</span><span class="p">(</span><span class="s2">&quot;# </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="n">write</span><span class="p">(</span><span class="s2">&quot;# ------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">write</span><span class="p">(</span><span class="s1">&#39;# Filename: &quot;</span><span class="si">{0}</span><span class="s1">&quot;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">td_out_file</span><span class="p">))</span>
+    <span class="n">write</span><span class="p">(</span><span class="s2">&quot;#-------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">write</span><span class="p">(</span><span class="s2">&quot;# Number of data points: </span><span class="si">{0}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)))</span>
+    <span class="n">write</span><span class="p">(</span><span class="s2">&quot;# Time range: [</span><span class="si">{0}</span><span class="s2">: </span><span class="si">{1}</span><span class="s2">]</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+
+    <span class="n">write_td_output</span><span class="p">(</span><span class="n">write</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">td_dict</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">outfile</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_read_rt.main">[docs]</a><span class="k">def</span> <span class="nf">main</span> <span class="p">():</span>
+
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Parse NWChem real-time TDDFT output for time-dependent quantities.&quot;</span><span class="p">)</span>
+    
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;nw_file&#39;</span><span class="p">,</span> <span class="n">help</span> <span class="o">=</span> <span class="s2">&quot;NWchem rt tddft output file&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-o&quot;</span><span class="p">,</span> <span class="s1">&#39;--out_file&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span> <span class="s2">&quot;Output file.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-t&quot;</span><span class="p">,</span> <span class="s2">&quot;--tag&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;tag&quot;</span><span class="p">,</span>
+                       <span class="n">help</span><span class="o">=</span><span class="s2">&quot;parse for simulation tag STR, defaults to &#39;&lt;rt_tddft&gt;&#39;&quot;</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;STR&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-g&quot;</span><span class="p">,</span> <span class="s2">&quot;--geometry&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;geom&quot;</span><span class="p">,</span>
+                       <span class="n">help</span><span class="o">=</span><span class="s2">&quot;extract data for geometry STR, defaults to &#39;system&#39;&quot;</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;STR&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-x&quot;</span><span class="p">,</span> <span class="s2">&quot;--extract&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;target&quot;</span><span class="p">,</span>
+                       <span class="n">help</span><span class="o">=</span><span class="s2">&quot;target data to extract: dipole (default), efield, energy, S2, charge, moocc&quot;</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;STR&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-p&quot;</span><span class="p">,</span> <span class="s2">&quot;--polarization&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;polarization&quot;</span><span class="p">,</span>
+                       <span class="n">help</span><span class="o">=</span><span class="s2">&quot;target polarization: x (default), y, z&quot;</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;STR&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-s&quot;</span><span class="p">,</span> <span class="s2">&quot;--spin&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;spin&quot;</span><span class="p">,</span>
+                       <span class="n">help</span><span class="o">=</span><span class="s2">&quot;target spin: closedshell (default), alpha, beta, total&quot;</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;STR&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-C&quot;</span><span class="p">,</span> <span class="s2">&quot;--clean&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;header&quot;</span><span class="p">,</span>
+                      <span class="n">help</span><span class="o">=</span><span class="s2">&quot;clean output; data only, no header or comments&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-z&quot;</span><span class="p">,</span> <span class="s2">&quot;--zero&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;zero&quot;</span><span class="p">,</span>
+                      <span class="n">help</span><span class="o">=</span><span class="s2">&quot;zero data at t=0&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">out_file</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;&lt;rt_tddft&gt;&quot;</span><span class="p">,</span> <span class="n">geom</span> <span class="o">=</span> <span class="s2">&quot;system&quot;</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="s2">&quot;dipole&quot;</span><span class="p">,</span><span class="n">polarization</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">spin</span><span class="o">=</span><span class="s2">&quot;closedshell&quot;</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">zero</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+
+    
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    
+    <span class="n">nwchem_rt_parser</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">nw_file</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">out_file</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">geom</span><span class="p">,</span>
+                    <span class="n">target</span><span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">spin</span><span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">spin</span><span class="p">,</span> <span class="n">polarization</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">polarization</span><span class="p">,</span>
+                    <span class="n">zero</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">zero</span><span class="p">)</span></div>
+    
+    
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 10:54:25.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

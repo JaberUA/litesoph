@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.utilities.plot_spectrum &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>litesoph.utilities.plot_spectrum</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for litesoph.utilities.plot_spectrum</h1><div class="highlight"><pre>
+<span></span>
+<div class="viewcode-block" id="plot"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.plot_spectrum.plot">[docs]</a><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">image</span><span class="p">):</span>
+
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+    <span class="n">data_ej</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;spec.dat&#39;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_ej</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data_ej</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Energy (eV)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Photoabsorption (eV$^{-1}$)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ymin</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;spec.png&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="plot_spectrum"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.plot_spectrum.plot_spectrum">[docs]</a><span class="k">def</span> <span class="nf">plot_spectrum</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="n">imgfile</span><span class="p">,</span><span class="n">row</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">column</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">xlimit</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">)):</span>  
+    <span class="sd">&quot;&quot;&quot; Shows the plot&quot;&quot;&quot;</span>
+            
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+    <span class="n">data_ej</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> 
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> 
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_ej</span><span class="p">[:,</span> <span class="n">row</span><span class="p">],</span> <span class="n">data_ej</span><span class="p">[:,</span> <span class="n">column</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>                           
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;bottom&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlimit</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xlimit</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">imgfile</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>      </div>
+
+<div class="viewcode-block" id="plot_multiple_column"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.plot_spectrum.plot_multiple_column">[docs]</a><span class="k">def</span> <span class="nf">plot_multiple_column</span><span class="p">(</span><span class="n">data_array</span><span class="p">,</span> <span class="n">column_list</span><span class="p">,</span> <span class="n">row_range</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+    <span class="c1"># data = np.loadtxt(filename)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data_array</span>
+    <span class="n">time_array</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">row_range</span> <span class="o">=</span> <span class="n">row_range</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">column_list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="n">column_beg</span> <span class="o">=</span> <span class="n">column_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">column_end</span> <span class="o">=</span> <span class="n">column_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> 
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;xlabel&#39;</span><span class="p">,</span> <span class="s1">&#39;Time (in as)&#39;</span><span class="p">)</span>
+    <span class="n">ylabel</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ylabel&#39;</span><span class="p">,</span> <span class="s1">&#39;Change in population&#39;</span><span class="p">)</span>
+    <span class="n">xcolumn</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;xcolumn&#39;</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">xlimit</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;xlimit&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">column_dict</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;column_dict&#39;</span><span class="p">,</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="s2">&quot;HOMO-2&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="s2">&quot;HOMO-1&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span><span class="s2">&quot;HOMO&quot;</span><span class="p">})</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">column_beg</span><span class="p">,</span> <span class="n">column_end</span><span class="o">+</span><span class="mi">1</span><span class="p">)):</span>
+        <span class="n">legend</span> <span class="o">=</span> <span class="n">column_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span><span class="n">xcolumn</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">legend</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">xlimit</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlimit</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xlimit</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>  </div>
+
+<div class="viewcode-block" id="plot_population_tracking"><a class="viewcode-back" href="../../../litesoph/litesoph.utilities.html#litesoph.utilities.plot_spectrum.plot_population_tracking">[docs]</a><span class="k">def</span> <span class="nf">plot_population_tracking</span><span class="p">(</span><span class="n">population_file</span><span class="p">,</span> <span class="n">homo_index</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Arguments: homo_index= column number corresopnding to homo</span>
+<span class="sd">                   num_occupied_mo_plot,num_unoccupied_mo_plot,time_unit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">from</span> <span class="nn">litesoph.post_processing.mo_population</span> <span class="kn">import</span> <span class="n">create_states_index</span>
+    <span class="kn">from</span> <span class="nn">litesoph.utilities.units</span> <span class="kn">import</span> <span class="n">au_to_as</span><span class="p">,</span><span class="n">au_to_fs</span>
+
+    <span class="n">population_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">population_file</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">total_rows</span><span class="p">,</span> <span class="n">total_columns</span><span class="p">)</span> <span class="o">=</span> <span class="n">population_data</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">default_above_lumo</span> <span class="o">=</span> <span class="n">total_columns</span><span class="o">-</span><span class="n">homo_index</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">default_below_homo</span> <span class="o">=</span> <span class="n">homo_index</span>
+
+    <span class="n">below_homo_value</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;num_occupied_mo_plot&#39;</span><span class="p">,</span> <span class="n">default_below_homo</span><span class="p">)</span>
+    <span class="n">above_lumo_value</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;num_unoccupied_mo_plot&#39;</span><span class="p">,</span> <span class="n">default_above_lumo</span><span class="p">)</span>
+
+    <span class="c1"># Upper limit on (un/)occupied states</span>
+    <span class="n">below_homo</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">below_homo_value</span><span class="p">,</span> <span class="n">default_below_homo</span><span class="p">)</span>
+    <span class="n">above_lumo</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">above_lumo_value</span><span class="p">,</span> <span class="n">default_above_lumo</span><span class="p">)</span>
+    
+    <span class="n">time_unit</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;time_unit&#39;</span><span class="p">,</span> <span class="s1">&#39;atomic&#39;</span><span class="p">)</span>            
+    <span class="n">column_range</span> <span class="o">=</span> <span class="p">(</span><span class="n">homo_index</span><span class="o">-</span><span class="n">below_homo</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">homo_index</span><span class="o">+</span><span class="n">above_lumo</span><span class="p">)</span>
+    <span class="n">legend_dict</span> <span class="o">=</span> <span class="n">create_states_index</span><span class="p">(</span><span class="n">num_below_homo</span><span class="o">=</span><span class="n">below_homo</span><span class="p">,</span> <span class="n">num_above_lumo</span><span class="o">=</span><span class="n">above_lumo</span><span class="p">,</span> <span class="n">homo_index</span><span class="o">=</span><span class="n">homo_index</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">time_unit</span> <span class="o">==</span> <span class="s1">&#39;h_cut/eV&#39;</span><span class="p">:</span>
+        <span class="n">population_data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span> <span class="n">population_data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">27.12</span><span class="o">*</span><span class="n">au_to_fs</span>
+
+    <span class="n">plot_multiple_column</span><span class="p">(</span><span class="n">population_data</span><span class="p">,</span> <span class="n">column_list</span><span class="o">=</span><span class="n">column_range</span><span class="p">,</span> <span class="n">column_dict</span><span class="o">=</span><span class="n">legend_dict</span><span class="p">,</span> <span class="n">xcolumn</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Time (in femtosecond)&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Change in population&#39;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 10:54:25.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

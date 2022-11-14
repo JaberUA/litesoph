@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.simulations.nwchem package &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="litesoph.simulations.octopus package" href="litesoph.simulations.octopus.html" />
+    <link rel="prev" title="litesoph.simulations.gpaw package" href="litesoph.simulations.gpaw.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../Developer_Guideline.html">Developer Guideline</a> &raquo;</li>
+          <li><a href="litesoph.html">litesoph package</a> &raquo;</li>
+          <li><a href="litesoph.simulations.html">litesoph.simulations package</a> &raquo;</li>
+      <li>litesoph.simulations.nwchem package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/litesoph/litesoph.simulations.nwchem.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="litesoph-simulations-nwchem-package">
+<h1>litesoph.simulations.nwchem package<a class="headerlink" href="#litesoph-simulations-nwchem-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-litesoph.simulations.nwchem.nwchem">
+<span id="litesoph-simulations-nwchem-nwchem-module"></span><h2>litesoph.simulations.nwchem.nwchem module<a class="headerlink" href="#module-litesoph.simulations.nwchem.nwchem" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem.NWChem">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.nwchem.</span></span><span class="sig-name descname"><span class="pre">NWChem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">infile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'nwchem'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem.html#NWChem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem.NWChem" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem.NWChem.create_input">
+<span class="sig-name descname"><span class="pre">create_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem.html#NWChem.create_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem.NWChem.create_input" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem.NWChem.get_eigen_energy">
+<span class="sig-name descname"><span class="pre">get_eigen_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">td_out_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem.html#NWChem.get_eigen_energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem.NWChem.get_eigen_energy" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem.NWChem.get_td_dipole">
+<span class="sig-name descname"><span class="pre">get_td_dipole</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dipole_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td_out_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'&lt;rt_tddft&gt;'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'closedshell'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geometry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'system'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polarization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem.html#NWChem.get_td_dipole"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem.NWChem.get_td_dipole" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem.NWChem.get_td_moocc">
+<span class="sig-name descname"><span class="pre">get_td_moocc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">popl_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td_out_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'&lt;rt_tddft&gt;'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">homo_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">below_homo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">above_lumo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem.html#NWChem.get_td_moocc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem.NWChem.get_td_moocc" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem.NWChem.read_results">
+<span class="sig-name descname"><span class="pre">read_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem.html#NWChem.read_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem.NWChem.read_results" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem.NWChem.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem.html#NWChem.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem.NWChem.run" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem.NWChem.write_input">
+<span class="sig-name descname"><span class="pre">write_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem.html#NWChem.write_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem.NWChem.write_input" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-litesoph.simulations.nwchem.nwchem_input">
+<span id="litesoph-simulations-nwchem-nwchem-input-module"></span><h2>litesoph.simulations.nwchem.nwchem_input module<a class="headerlink" href="#module-litesoph.simulations.nwchem.nwchem_input" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_input.nwchem_create_input">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.nwchem_input.</span></span><span class="sig-name descname"><span class="pre">nwchem_create_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">echo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_input.html#nwchem_create_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_input.nwchem_create_input" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-litesoph.simulations.nwchem.nwchem_read_rt">
+<span id="litesoph-simulations-nwchem-nwchem-read-rt-module"></span><h2>litesoph.simulations.nwchem.nwchem_read_rt module<a class="headerlink" href="#module-litesoph.simulations.nwchem.nwchem_read_rt" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_read_rt.check_args_determine_labels">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.nwchem_read_rt.</span></span><span class="sig-name descname"><span class="pre">check_args_determine_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">td_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_read_rt.html#check_args_determine_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_read_rt.check_args_determine_labels" title="Permalink to this definition"></a></dt>
+<dd><p>Check arguments and generate tags for parsing the output</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_read_rt.main">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.nwchem_read_rt.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_read_rt.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_read_rt.main" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_read_rt.nwchem_rt_parser">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.nwchem_read_rt.</span></span><span class="sig-name descname"><span class="pre">nwchem_rt_parser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">td_out_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'&lt;rt_tddft&gt;'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geometry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'system'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'dipole'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'closedshell'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polarization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retrun_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_read_rt.html#nwchem_rt_parser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_read_rt.nwchem_rt_parser" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_read_rt.p">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.nwchem_read_rt.</span></span><span class="sig-name descname"><span class="pre">p</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">txt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_read_rt.html#p"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_read_rt.p" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_read_rt.parse_input">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.nwchem_read_rt.</span></span><span class="sig-name descname"><span class="pre">parse_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">td_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lines</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_read_rt.html#parse_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_read_rt.parse_input" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_read_rt.postprocess_check">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.nwchem_read_rt.</span></span><span class="sig-name descname"><span class="pre">postprocess_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">write</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_read_rt.html#postprocess_check"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_read_rt.postprocess_check" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_read_rt.write_td_output">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.nwchem_read_rt.</span></span><span class="sig-name descname"><span class="pre">write_td_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">write</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">td_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_read_rt.html#write_td_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_read_rt.write_td_output" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-litesoph.simulations.nwchem.nwchem_task">
+<span id="litesoph-simulations-nwchem-nwchem-task-module"></span><h2>litesoph.simulations.nwchem.nwchem_task module<a class="headerlink" href="#module-litesoph.simulations.nwchem.nwchem_task" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.NwchemTask">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.nwchem_task.</span></span><span class="sig-name descname"><span class="pre">NwchemTask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lsconfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_task.html#NwchemTask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.NwchemTask" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="litesoph.simulations.html#litesoph.simulations.esmd.Task" title="litesoph.simulations.esmd.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">litesoph.simulations.esmd.Task</span></code></a></p>
+<dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.NwchemTask.NAME">
+<span class="sig-name descname"><span class="pre">NAME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'nwchem'</span></em><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.NwchemTask.NAME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.NwchemTask.compute_spectrum">
+<span class="sig-name descname"><span class="pre">compute_spectrum</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_task.html#NwchemTask.compute_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.NwchemTask.compute_spectrum" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.NwchemTask.create_engine">
+<span class="sig-name descname"><span class="pre">create_engine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_task.html#NwchemTask.create_engine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.NwchemTask.create_engine" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.NwchemTask.create_job_script">
+<span class="sig-name descname"><span class="pre">create_job_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">np</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_task.html#NwchemTask.create_job_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.NwchemTask.create_job_script" title="Permalink to this definition"></a></dt>
+<dd><p>Create the bash script to run the job and “touch Done” command to it, to know when the
+command is completed.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.NwchemTask.create_template">
+<span class="sig-name descname"><span class="pre">create_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_task.html#NwchemTask.create_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.NwchemTask.create_template" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.NwchemTask.extract_mo_population">
+<span class="sig-name descname"><span class="pre">extract_mo_population</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_task.html#NwchemTask.extract_mo_population"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.NwchemTask.extract_mo_population" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.NwchemTask.get_engine_log">
+<span class="sig-name descname"><span class="pre">get_engine_log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_task.html#NwchemTask.get_engine_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.NwchemTask.get_engine_log" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.NwchemTask.get_engine_network_job_cmd">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_engine_network_job_cmd</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_task.html#NwchemTask.get_engine_network_job_cmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.NwchemTask.get_engine_network_job_cmd" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.NwchemTask.implemented_task">
+<span class="sig-name descname"><span class="pre">implemented_task</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['ground_state',</span> <span class="pre">'rt_tddft_delta',</span> <span class="pre">'rt_tddft_laser',</span> <span class="pre">'spectrum',</span> <span class="pre">'mo_population']</span></em><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.NwchemTask.implemented_task" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.NwchemTask.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_task.html#NwchemTask.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.NwchemTask.plot" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.NwchemTask.post_processing_tasks">
+<span class="sig-name descname"><span class="pre">post_processing_tasks</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['spectrum',</span> <span class="pre">'mo_population']</span></em><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.NwchemTask.post_processing_tasks" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.NwchemTask.prepare_input">
+<span class="sig-name descname"><span class="pre">prepare_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_task.html#NwchemTask.prepare_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.NwchemTask.prepare_input" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.NwchemTask.run_job_local">
+<span class="sig-name descname"><span class="pre">run_job_local</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_task.html#NwchemTask.run_job_local"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.NwchemTask.run_job_local" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.NwchemTask.simulation_tasks">
+<span class="sig-name descname"><span class="pre">simulation_tasks</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['ground_state',</span> <span class="pre">'rt_tddft_delta',</span> <span class="pre">'rt_tddft_laser']</span></em><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.NwchemTask.simulation_tasks" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.NwchemTask.write_input">
+<span class="sig-name descname"><span class="pre">write_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_task.html#NwchemTask.write_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.NwchemTask.write_input" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.get_pol_and_tag">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.nwchem_task.</span></span><span class="sig-name descname"><span class="pre">get_pol_and_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_task.html#get_pol_and_tag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.get_pol_and_tag" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.out_print">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.nwchem_task.</span></span><span class="sig-name descname"><span class="pre">out_print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_task.html#out_print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.out_print" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.read_pol_dir">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.nwchem_task.</span></span><span class="sig-name descname"><span class="pre">read_pol_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pol</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_task.html#read_pol_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.read_pol_dir" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.nwchem_task.update_td_param">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.nwchem_task.</span></span><span class="sig-name descname"><span class="pre">update_td_param</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/nwchem_task.html#update_td_param"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.nwchem_task.update_td_param" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-litesoph.simulations.nwchem.spectrum">
+<span id="litesoph-simulations-nwchem-spectrum-module"></span><h2>litesoph.simulations.nwchem.spectrum module<a class="headerlink" href="#module-litesoph.simulations.nwchem.spectrum" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.spectrum.compute_fft">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.spectrum.</span></span><span class="sig-name descname"><span class="pre">compute_fft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ifname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_process_zero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">damping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">padding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/spectrum.html#compute_fft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.spectrum.compute_fft" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.spectrum.main">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.spectrum.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/spectrum.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.spectrum.main" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.spectrum.photoabsorption_spectrum">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.spectrum.</span></span><span class="sig-name descname"><span class="pre">photoabsorption_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dipole_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spectrum_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">process_zero</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">damping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">padding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/spectrum.html#photoabsorption_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.spectrum.photoabsorption_spectrum" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.spectrum.rotate_spectrum">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.spectrum.</span></span><span class="sig-name descname"><span class="pre">rotate_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem/spectrum.html#rotate_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.spectrum.rotate_spectrum" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-litesoph.simulations.nwchem">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-litesoph.simulations.nwchem" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.pre_condition_ground_state">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.</span></span><span class="sig-name descname"><span class="pre">pre_condition_ground_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem.html#pre_condition_ground_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.pre_condition_ground_state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.pre_condition_rt_tddft_delta">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.</span></span><span class="sig-name descname"><span class="pre">pre_condition_rt_tddft_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem.html#pre_condition_rt_tddft_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.pre_condition_rt_tddft_delta" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.pre_condition_rt_tddft_laser">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.</span></span><span class="sig-name descname"><span class="pre">pre_condition_rt_tddft_laser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem.html#pre_condition_rt_tddft_laser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.pre_condition_rt_tddft_laser" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.pre_condition_spectrum">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.</span></span><span class="sig-name descname"><span class="pre">pre_condition_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem.html#pre_condition_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.pre_condition_spectrum" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.nwchem.pre_condition_tcm">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.nwchem.</span></span><span class="sig-name descname"><span class="pre">pre_condition_tcm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/nwchem.html#pre_condition_tcm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.nwchem.pre_condition_tcm" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="litesoph.simulations.gpaw.html" class="btn btn-neutral float-left" title="litesoph.simulations.gpaw package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="litesoph.simulations.octopus.html" class="btn btn-neutral float-right" title="litesoph.simulations.octopus package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 10:54:25.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

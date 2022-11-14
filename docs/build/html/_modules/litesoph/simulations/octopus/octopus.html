@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.simulations.octopus.octopus &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+          <li><a href="../../simulations.html">litesoph.simulations</a> &raquo;</li>
+          <li><a href="../octopus.html">litesoph.simulations.octopus</a> &raquo;</li>
+      <li>litesoph.simulations.octopus.octopus</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for litesoph.simulations.octopus.octopus</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">from</span> <span class="nn">litesoph.post_processing.octopus.oct_projections</span> <span class="kn">import</span> <span class="n">Projections</span>
+<span class="kn">from</span> <span class="nn">litesoph.simulations.octopus.octopus_input</span> <span class="kn">import</span> <span class="n">generate_input</span>
+
+<div class="viewcode-block" id="Octopus"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus.Octopus">[docs]</a><span class="k">class</span> <span class="nc">Octopus</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">infile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">outfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                <span class="n">directory</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">cmd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">infile</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">infile</span> <span class="o">=</span> <span class="n">infile</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">infile</span> <span class="o">=</span> <span class="s1">&#39;inp&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span> <span class="o">=</span> <span class="n">outfile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">=</span> <span class="n">directory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">kwargs</span>
+        
+<div class="viewcode-block" id="Octopus.create_input"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus.Octopus.create_input">[docs]</a>    <span class="k">def</span> <span class="nf">create_input</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="n">generate_input</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">template</span></div>
+
+<div class="viewcode-block" id="Octopus.write_input"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus.Octopus.write_input">[docs]</a>    <span class="k">def</span> <span class="nf">write_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">template</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="n">template</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">infile_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">infile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outfile_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span>
+        <span class="c1"># self.infolder = pathlib.Path(self.infile_path).parent()</span>
+        <span class="c1"># self.outfolder = pathlib.Path(self.outfolder).parent()</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">!=</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">directory</span><span class="p">)</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">directory</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">infile_path</span><span class="p">,</span> <span class="s1">&#39;w+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="p">)</span>   </div>
+
+<div class="viewcode-block" id="Octopus.run"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus.Octopus.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;octopus&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">outfile_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span>   
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_input</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_input</span><span class="p">()</span> 
+
+        <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd</span><span class="si">}</span><span class="s2"> &amp;&gt; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">command</span><span class="p">,</span>
+                                      <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                                      <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                                      <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                      <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cwd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">directory</span><span class="p">)</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">stderr</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> </div>
+        
+        
+<div class="viewcode-block" id="Octopus.read_info"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus.Octopus.read_info">[docs]</a>    <span class="k">def</span> <span class="nf">read_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info_file</span><span class="p">:</span><span class="n">Path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">num_unoccupied</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns number of un/occupied states and eigen values&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">info_file</span><span class="p">:</span>
+            <span class="n">info_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;static/info&#39;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">info_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+        <span class="n">itr</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;Occupation&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">itr_beg</span> <span class="o">=</span> <span class="n">itr</span>
+                <span class="k">break</span>
+            <span class="n">itr</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="n">itr</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;Energy&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">itr_energy</span> <span class="o">=</span> <span class="n">itr</span>
+                <span class="k">break</span>
+            <span class="n">itr</span> <span class="o">+=</span> <span class="mi">1</span>       
+
+        <span class="c1">### extracts number of occupied states from &#39;static/info&#39; file</span>
+        <span class="n">occ_itr</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">itr_beg</span><span class="o">+</span><span class="mi">1</span><span class="p">:]:</span>            
+            <span class="n">occ_value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">3</span><span class="p">])</span>
+            <span class="n">occ_itr</span> <span class="o">+=</span><span class="mi">1</span> 
+            <span class="k">if</span> <span class="n">occ_value</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>  
+                <span class="n">occ_end</span> <span class="o">=</span> <span class="n">occ_itr</span>              
+                <span class="k">break</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">occ</span> <span class="o">=</span> <span class="n">occ_end</span><span class="o">-</span><span class="mi">1</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">num_unoccupied</span><span class="p">:</span>
+            <span class="n">num_states</span> <span class="o">=</span> <span class="n">itr_energy</span><span class="o">-</span><span class="n">itr_beg</span><span class="o">-</span><span class="mi">2</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">unocc</span> <span class="o">=</span> <span class="n">num_states</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">occ</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unocc</span> <span class="o">=</span> <span class="n">num_unoccupied</span>
+
+        <span class="c1">### stores energy eigen values in a list</span>
+        <span class="n">evals</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">itr_st</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">itr_beg</span><span class="o">+</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="k">if</span> <span class="n">itr_st</span> <span class="o">==</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">occ</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">unocc</span><span class="p">):</span>
+                <span class="k">break</span>
+            <span class="n">evals</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">2</span><span class="p">]))</span>
+            <span class="n">itr_st</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">occ</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">unocc</span><span class="p">,</span> <span class="n">evals</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Octopus.calculate_eigen_difference"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus.Octopus.calculate_eigen_difference">[docs]</a>    <span class="k">def</span> <span class="nf">calculate_eigen_difference</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Returns eigen values of HOMO,LUMO and all others with HOMO as origin &quot;&quot;&quot;</span>
+
+        <span class="p">[</span><span class="n">num_occupied</span><span class="p">,</span> <span class="n">num_unoccupied</span><span class="p">,</span> <span class="n">eigen_val</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_info</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">num_occupied</span><span class="p">,</span> <span class="n">num_unoccupied</span><span class="p">,</span> <span class="n">eigen_val</span><span class="p">)</span>
+
+        <span class="n">homo</span> <span class="o">=</span> <span class="n">eigen_val</span><span class="p">[</span><span class="n">num_occupied</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">lumo</span> <span class="o">=</span> <span class="n">eigen_val</span><span class="p">[</span><span class="n">num_unoccupied</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">eigen_diff</span> <span class="o">=</span> <span class="p">[</span><span class="nb">eval</span> <span class="o">-</span> <span class="n">homo</span> <span class="k">for</span> <span class="nb">eval</span> <span class="ow">in</span> <span class="n">eigen_val</span><span class="p">]</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="n">homo</span><span class="p">,</span> <span class="n">lumo</span><span class="p">,</span> <span class="n">eigen_diff</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">homo</span><span class="p">,</span> <span class="n">lumo</span><span class="p">,</span> <span class="n">eigen_diff</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Octopus.energy_range_to_states"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus.Octopus.energy_range_to_states">[docs]</a>    <span class="k">def</span> <span class="nf">energy_range_to_states</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">emin</span><span class="p">,</span> <span class="n">emax</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Octopus.read_projections"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus.Octopus.read_projections">[docs]</a>    <span class="k">def</span> <span class="nf">read_projections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">projection_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Reads and stores projections for given arguments</span>
+
+<span class="sd">        Arguments: time_start = start of time steps, time_end = end of time steps</span>
+<span class="sd">                   number_of_proj_(un/)occupied = number of un/occupied states to project,</span>
+<span class="sd">                   axis = polarization vector for TD simulation as list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">########## if total occ,nunocc number not present, calculate from static/info</span>
+
+        <span class="kn">from</span> <span class="nn">litesoph.post_processing.octopus.oct_projections</span> <span class="kn">import</span> <span class="n">Projections</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">projection_file</span><span class="p">:</span>
+            <span class="n">projection_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;td.general/projections&#39;</span><span class="p">)</span>
+
+        <span class="c1">### inputs to extract projections</span>
+        <span class="n">start_of_time_steps</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;time_start&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">end_of_time_steps</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;time_end&#39;</span><span class="p">)</span>                
+        <span class="n">number_of_proj_occupied</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;number_of_proj_occupied&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">occ</span><span class="p">)</span>
+        <span class="n">number_of_proj_unoccupied</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;number_of_proj_unoccupied&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">unocc</span><span class="p">)</span>
+        <span class="n">number_of_time_steps</span> <span class="o">=</span> <span class="n">end_of_time_steps</span> <span class="o">-</span> <span class="n">start_of_time_steps</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="c1">### extra inputs to store</span>
+        <span class="n">axis</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;axis&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="c1">### gets the list of projected states from input dictionary or define the list </span>
+        <span class="n">ibeg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occ</span><span class="o">-</span><span class="n">number_of_proj_occupied</span><span class="o">+</span><span class="mi">1</span>
+        <span class="n">iend</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">occ</span><span class="o">+</span><span class="n">number_of_proj_unoccupied</span>
+
+        <span class="n">iproj</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ibeg</span><span class="p">,</span> <span class="n">iend</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">iproj</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">list_of_projected</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;iproj&#39;</span><span class="p">,</span> <span class="n">iproj</span><span class="p">)</span>            
+
+        <span class="c1">##################################################################################</span>
+
+        <span class="n">projection</span> <span class="o">=</span> <span class="n">Projections</span><span class="p">(</span><span class="n">number_of_time_steps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">occ</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">unocc</span><span class="p">)</span>
+        <span class="n">projection</span><span class="o">.</span><span class="n">num_proj_occ</span> <span class="o">=</span> <span class="n">number_of_proj_occupied</span>
+        <span class="n">projection</span><span class="o">.</span><span class="n">num_proj_unocc</span> <span class="o">=</span> <span class="n">number_of_proj_unoccupied</span>
+        <span class="n">projection</span><span class="o">.</span><span class="n">states_projected</span> <span class="o">=</span> <span class="n">list_of_projected</span>
+        <span class="n">projection</span><span class="o">.</span><span class="n">axis</span> <span class="o">=</span> <span class="n">axis</span>
+        
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">projection_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">projection</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">start_of_time_steps</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">projection</span></div>
+
+<div class="viewcode-block" id="Octopus.compute_populations"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus.Octopus.compute_populations">[docs]</a>    <span class="k">def</span> <span class="nf">compute_populations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span> <span class="n">proj</span><span class="p">:</span><span class="n">Projections</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        
+        <span class="c1">### Computing</span>
+        <span class="n">projection_file_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;td.general/projections&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">proj</span><span class="p">:</span>
+            <span class="n">proj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_projections</span><span class="p">(</span><span class="n">projection_file_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>       
+        <span class="n">popln</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">populations</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">states_projected</span><span class="p">)</span>
+
+        <span class="c1">### Writing to file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="n">proj</span><span class="o">.</span><span class="n">write_pop</span><span class="p">(</span><span class="n">popln</span><span class="p">,</span><span class="n">fp</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">proj</span><span class="p">,</span><span class="n">popln</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Octopus.compute_ksd"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus.Octopus.compute_ksd">[docs]</a>    <span class="k">def</span> <span class="nf">compute_ksd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proj</span><span class="p">:</span><span class="n">Projections</span><span class="p">,</span> <span class="n">out_directory</span><span class="p">:</span><span class="n">Path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; arguments: polarization axis for TD simulation&quot;&quot;&quot;</span>
+
+        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+        <span class="c1">### Computing</span>
+        <span class="n">eigen_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_info</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="p">(</span><span class="n">stocc</span><span class="p">,</span> <span class="n">stunocc</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">dmat</span><span class="p">)</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">denmat</span><span class="p">(</span><span class="n">proj</span><span class="o">.</span><span class="n">num_proj_occ</span><span class="p">,</span><span class="n">proj</span><span class="o">.</span><span class="n">num_proj_unocc</span><span class="p">)</span>
+
+        <span class="n">axis</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;axis&#39;</span><span class="p">,</span> <span class="n">proj</span><span class="o">.</span><span class="n">axis</span><span class="p">)</span>
+        <span class="n">nus</span><span class="p">,</span> <span class="n">dmatw</span><span class="p">,</span> <span class="n">strengthKS</span><span class="p">,</span> <span class="n">transwt</span><span class="p">,</span> <span class="n">strength</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">ft_dmat</span><span class="p">(</span><span class="n">dmat</span><span class="o">.</span><span class="n">real</span><span class="p">,</span><span class="n">stocc</span><span class="p">,</span><span class="n">stunocc</span><span class="p">,</span><span class="n">axis</span><span class="p">)</span>
+       
+        <span class="n">nus</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">nus</span>     <span class="c1">## Converted to omega       </span>
+
+	    <span class="c1">## Writing to file</span>
+        <span class="n">enocc</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">enuocc</span> <span class="o">=</span> <span class="p">[]</span>
+       
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="n">stocc</span><span class="p">:</span>
+                <span class="n">enocc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eigen_val</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span>
+       
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="n">stunocc</span><span class="p">:</span>
+                <span class="n">enuocc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eigen_val</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span>
+
+        <span class="n">dmat_path</span> <span class="o">=</span> <span class="n">out_directory</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;dmat.dat&quot;</span><span class="p">)</span>
+        <span class="n">dmatw_path</span> <span class="o">=</span> <span class="n">out_directory</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;dmatw.dat&quot;</span><span class="p">)</span>
+        <span class="n">strength_path</span> <span class="o">=</span> <span class="n">out_directory</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;strength.dat&quot;</span><span class="p">)</span>
+        <span class="n">transwt_path</span> <span class="o">=</span> <span class="n">out_directory</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;transwt.dat&quot;</span><span class="p">)</span>
+        <span class="n">spectrum_prop_path</span> <span class="o">=</span> <span class="n">out_directory</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;spectrum_prop.dat&quot;</span><span class="p">)</span>
+       
+        <span class="n">fp</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">dmat_path</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>	
+        <span class="n">proj</span><span class="o">.</span><span class="n">write_dmat</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">dmat</span><span class="p">,</span><span class="n">enocc</span><span class="p">,</span><span class="n">enuocc</span><span class="p">,</span><span class="n">fp</span><span class="p">)</span>
+        <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+       
+        <span class="c1"># axis = kwargs.get(&#39;axis&#39;, [1,0,0])</span>
+        <span class="c1"># nus, dmatw, strengthKS, transwt, strength = proj.ft_dmat(dmat.real,stocc,stunocc,axis)</span>
+       
+        <span class="c1"># nus = 2.0*np.pi*nus     ## Convert to omega       </span>
+	   
+        <span class="n">fp</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">dmatw_path</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+        <span class="n">proj</span><span class="o">.</span><span class="n">write_dmat</span><span class="p">(</span><span class="n">nus</span><span class="p">,</span><span class="n">dmatw</span><span class="p">,</span><span class="n">enocc</span><span class="p">,</span><span class="n">enuocc</span><span class="p">,</span><span class="n">fp</span><span class="p">)</span>
+        <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+        <span class="n">fp</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">strength_path</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+        <span class="n">proj</span><span class="o">.</span><span class="n">write_dmatr</span><span class="p">(</span><span class="n">nus</span><span class="p">,</span><span class="n">strengthKS</span><span class="p">,</span><span class="n">enocc</span><span class="p">,</span><span class="n">enuocc</span><span class="p">,</span><span class="n">fp</span><span class="p">)</span>
+        <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+       
+        <span class="n">fp</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">transwt_path</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+        <span class="n">proj</span><span class="o">.</span><span class="n">write_dmatr</span><span class="p">(</span><span class="n">nus</span><span class="p">,</span><span class="n">transwt</span><span class="p">,</span><span class="n">enocc</span><span class="p">,</span><span class="n">enuocc</span><span class="p">,</span><span class="n">fp</span><span class="p">)</span>
+        <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+       
+<span class="c1">#######  Plot the particle-hole resolved strength function </span>
+        <span class="n">fp</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="n">spectrum_prop_path</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+        <span class="n">nuspos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">nus</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">iw</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nuspos</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+             <span class="n">fp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%10.6f</span><span class="s2"> </span><span class="si">%10.6f</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">nuspos</span><span class="p">[</span><span class="n">iw</span><span class="p">],</span><span class="n">strength</span><span class="p">[</span><span class="n">iw</span><span class="p">]))</span>
+        <span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+        
+<div class="viewcode-block" id="Octopus.compute_dos"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus.Octopus.compute_dos">[docs]</a>    <span class="k">def</span> <span class="nf">compute_dos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proj</span><span class="p">:</span><span class="n">Projections</span><span class="p">,</span> <span class="n">out_dir</span><span class="p">:</span><span class="n">Path</span><span class="p">):</span>
+        <span class="k">pass</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 10:54:25.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

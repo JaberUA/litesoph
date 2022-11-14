@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.post_processing.mo_population &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>litesoph.post_processing.mo_population</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for litesoph.post_processing.mo_population</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<div class="viewcode-block" id="extract_pop_window"><a class="viewcode-back" href="../../../litesoph/litesoph.post_processing.html#litesoph.post_processing.mo_population.extract_pop_window">[docs]</a><span class="k">def</span> <span class="nf">extract_pop_window</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">popl_file</span><span class="p">,</span> <span class="n">homo_index</span><span class="p">,</span> <span class="n">below_homo</span><span class="p">,</span> <span class="n">above_lumo</span><span class="p">):</span>
+        <span class="n">pop_data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">homo_index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="n">pop</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">pop</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">homo_index</span> <span class="o">-</span> <span class="n">below_homo</span><span class="p">:</span> <span class="n">homo_index</span><span class="o">+</span> <span class="n">above_lumo</span><span class="p">])</span>
+            <span class="n">pop_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span>
+            
+        <span class="n">pop_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pop_data</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">popl_file</span><span class="p">,</span> <span class="n">pop_data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="get_occ_unocc"><a class="viewcode-back" href="../../../litesoph/litesoph.post_processing.html#litesoph.post_processing.mo_population.get_occ_unocc">[docs]</a><span class="k">def</span> <span class="nf">get_occ_unocc</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">energy_col</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">occupancy_col</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">occ</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">unocc</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="n">occupancy_col</span><span class="p">]</span> <span class="o">==</span> <span class="mf">2.0</span> <span class="ow">or</span> <span class="n">row</span><span class="p">[</span><span class="n">occupancy_col</span><span class="p">]</span> <span class="o">==</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="n">occ</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">energy_col</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="n">occupancy_col</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="n">unocc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">energy_col</span><span class="p">])</span>
+        
+    <span class="k">return</span> <span class="n">occ</span><span class="p">,</span> <span class="n">unocc</span></div>
+
+<div class="viewcode-block" id="get_energy_window"><a class="viewcode-back" href="../../../litesoph/litesoph.post_processing.html#litesoph.post_processing.mo_population.get_energy_window">[docs]</a><span class="k">def</span> <span class="nf">get_energy_window</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">energy_file</span><span class="p">,</span> <span class="n">below_homo</span><span class="p">,</span> <span class="n">above_lumo</span><span class="p">):</span>
+    
+    <span class="n">occ</span><span class="p">,</span> <span class="n">unocc</span> <span class="o">=</span> <span class="n">get_occ_unocc</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">r_occ</span> <span class="o">=</span> <span class="n">occ</span><span class="p">[</span><span class="o">-</span><span class="n">below_homo</span><span class="p">:</span> <span class="p">]</span>
+    <span class="n">r_unocc</span> <span class="o">=</span> <span class="n">unocc</span><span class="p">[:</span> <span class="n">above_lumo</span><span class="p">]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">energy_file</span><span class="p">,</span> <span class="s1">&#39;w+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">r_occ</span><span class="p">,</span> <span class="n">r_unocc</span><span class="p">):</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:.6e}</span><span class="s2">  </span><span class="si">{:.6e}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">occ</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">occ</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span></div>
+
+<div class="viewcode-block" id="calc_population_diff"><a class="viewcode-back" href="../../../litesoph/litesoph.post_processing.html#litesoph.post_processing.mo_population.calc_population_diff">[docs]</a><span class="k">def</span> <span class="nf">calc_population_diff</span><span class="p">(</span><span class="n">homo_index</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">infile</span><span class="p">,</span> <span class="n">outfile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculates and writes change in population of KS states from population file&quot;&quot;&quot;</span>
+    
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
+    <span class="n">time_array</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">homo_index</span><span class="p">):</span>
+        <span class="n">data</span><span class="p">[:,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">2</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="n">outfile</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="create_states_index"><a class="viewcode-back" href="../../../litesoph/litesoph.post_processing.html#litesoph.post_processing.mo_population.create_states_index">[docs]</a><span class="k">def</span> <span class="nf">create_states_index</span><span class="p">(</span><span class="n">num_below_homo</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span><span class="n">num_above_lumo</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">homo_index</span><span class="p">:</span><span class="nb">int</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Creates the states to index dictionary&quot;&quot;&quot;</span>
+    
+    <span class="n">index_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">index_dict</span><span class="p">[</span><span class="n">homo_index</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;HOMO&quot;</span>
+    <span class="n">index_dict</span><span class="p">[</span><span class="n">homo_index</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;LUMO&quot;</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_below_homo</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">occ_index</span> <span class="o">=</span> <span class="n">homo_index</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span>
+        <span class="n">index_dict</span><span class="p">[</span><span class="n">occ_index</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;HOMO-</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">index</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">unocc_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">homo_index</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">homo_index</span><span class="o">+</span><span class="n">num_above_lumo</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>        
+        <span class="n">index_dict</span><span class="p">[</span><span class="n">unocc_index</span><span class="p">]</span><span class="o">=</span> <span class="s2">&quot;LUMO+</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">index</span> <span class="o">+=</span><span class="mi">1</span>
+     
+    <span class="k">return</span> <span class="n">index_dict</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 10:54:25.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

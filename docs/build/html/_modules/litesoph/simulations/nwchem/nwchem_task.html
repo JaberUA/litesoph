@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.simulations.nwchem.nwchem_task &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+          <li><a href="../../simulations.html">litesoph.simulations</a> &raquo;</li>
+          <li><a href="../nwchem.html">litesoph.simulations.nwchem</a> &raquo;</li>
+      <li>litesoph.simulations.nwchem.nwchem_task</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for litesoph.simulations.nwchem.nwchem_task</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">litesoph.utilities.units</span> <span class="kn">import</span> <span class="n">as_to_au</span>
+<span class="kn">from</span> <span class="nn">litesoph</span> <span class="kn">import</span> <span class="n">config</span>
+<span class="kn">from</span> <span class="nn">litesoph.post_processing.mo_population</span> <span class="kn">import</span> <span class="n">calc_population_diff</span><span class="p">,</span> <span class="n">get_energy_window</span><span class="p">,</span> <span class="n">get_occ_unocc</span>
+<span class="kn">from</span> <span class="nn">litesoph.simulations.esmd</span> <span class="kn">import</span> <span class="n">InputError</span><span class="p">,</span> <span class="n">Task</span><span class="p">,</span> <span class="n">TaskFailed</span><span class="p">,</span> <span class="n">TaskNotImplementedError</span><span class="p">,</span> <span class="n">assemable_job_cmd</span>
+<span class="kn">from</span> <span class="nn">litesoph.simulations.nwchem.nwchem</span> <span class="kn">import</span> <span class="n">NWChem</span>
+<span class="kn">from</span> <span class="nn">litesoph.simulations.nwchem.spectrum</span> <span class="kn">import</span> <span class="n">photoabsorption_spectrum</span>
+<span class="kn">from</span> <span class="nn">litesoph.post_processing.mo_population_correlation.moocc_correlation_plot</span> <span class="kn">import</span> <span class="n">plot_mo_population_correlations</span>
+<span class="kn">from</span> <span class="nn">litesoph.post_processing</span> <span class="kn">import</span> <span class="n">mo_population_correlation</span>
+<span class="kn">from</span> <span class="nn">litesoph.utilities.plot_spectrum</span> <span class="kn">import</span> <span class="n">plot_multiple_column</span><span class="p">,</span> <span class="n">plot_spectrum</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">litesoph.post_processing.mo_population</span> <span class="kn">import</span> <span class="n">create_states_index</span>
+
+<span class="n">xc</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;B3LYP&#39;</span>     <span class="p">:</span><span class="s1">&#39;xc b3lyp&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;PBE0&#39;</span>      <span class="p">:</span><span class="s1">&#39;xc pbe0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;PBE96&#39;</span>     <span class="p">:</span><span class="s1">&#39;xc xpbe96 cpbe96&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;BHLYP&#39;</span>     <span class="p">:</span><span class="s1">&#39;xc bhlyp&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;PW91&#39;</span>      <span class="p">:</span><span class="s1">&#39;xc xperdew91 perdew91&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;BP86&#39;</span>      <span class="p">:</span><span class="s1">&#39;xc becke88 perdew86&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;BP91&#39;</span>      <span class="p">:</span><span class="s1">&#39;xc becke88 perdew91&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;BLYP&#39;</span>      <span class="p">:</span><span class="s1">&#39;xc becke88 lyp&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;M05&#39;</span>       <span class="p">:</span><span class="s1">&#39;xc m05&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;M05-2X&#39;</span>    <span class="p">:</span><span class="s1">&#39;xc m05-2x&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;M06&#39;</span>       <span class="p">:</span><span class="s1">&#39;xc m06&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;M06-HF&#39;</span>    <span class="p">:</span><span class="s1">&#39;xc m06-hf&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;M08-SO&#39;</span>    <span class="p">:</span><span class="s1">&#39;xc m08-so&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;M11&#39;</span>       <span class="p">:</span><span class="s1">&#39;xc m11&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;CAM-B3LYP&#39;</span> <span class="p">:</span><span class="s1">&#39;xc xcamb88 1.00 lyp 0.81 vwn_5 0.19 hfexch 1.00 </span><span class="se">\n</span><span class="s1"> cam 0.33 cam_alpha 0.19 cam_beta 0.46&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;LC-BLYP&#39;</span>   <span class="p">:</span><span class="s1">&#39;xc xcamb88 1.00 lyp 1.0 hfexch 1.00 </span><span class="se">\n</span><span class="s1"> cam 0.33 cam_alpha 0.0 cam_beta 1.0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;LC-PBE&#39;</span>    <span class="p">:</span><span class="s1">&#39;xc xcampbe96 1.0 cpbe96 1.0 HFexch 1.0 </span><span class="se">\n</span><span class="s1"> cam 0.30 cam_alpha 0.0 cam_beta 1.0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;LC-wPBE&#39;</span>   <span class="p">:</span><span class="s1">&#39;xc xwpbe 1.00 cpbe96 1.0 hfexch 1.00 </span><span class="se">\n</span><span class="s1"> cam 0.4 cam_alpha 0.00 cam_beta 1.00&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;CAM-PBE0&#39;</span>  <span class="p">:</span><span class="s1">&#39;xc xcampbe96 1.0 cpbe96 1.0 HFexch 1.0 </span><span class="se">\n</span><span class="s1"> cam 0.30 cam_alpha 0.25 cam_beta 0.75&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;rCAM-B3LYP&#39;</span><span class="p">:</span><span class="s1">&#39;xc xcamb88 1.00 lyp 1.0 vwn_5 0. hfexch 1.00 becke88 nonlocal 0.13590 </span><span class="se">\n</span><span class="s1"> cam 0.33 cam_alpha 0.18352 cam_beta 0.94979&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;HSE03&#39;</span>     <span class="p">:</span><span class="s1">&#39;xc xpbe96 1.0 xcampbe96 -0.25 cpbe96 1.0 srhfexch 0.25 </span><span class="se">\n</span><span class="s1"> cam 0.33 cam_alpha 0.0 cam_beta 1.0&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;HSE06&#39;</span>     <span class="p">:</span><span class="s1">&#39;xc xpbe96 1.0 xcampbe96 -0.25 cpbe96 1.0 srhfexch 0.25 </span><span class="se">\n</span><span class="s1"> cam 0.11 cam_alpha 0.0 cam_beta 1.0&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">nwchem_data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s1">&#39;ground_state&#39;</span> <span class="p">:</span> <span class="p">{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span><span class="s1">&#39;nwchem/GS/gs.nwi&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;out_log&#39;</span> <span class="p">:</span> <span class="s1">&#39;nwchem/GS/gs.nwo&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;dir&#39;</span> <span class="p">:</span> <span class="s1">&#39;GS&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;file_name&#39;</span><span class="p">:</span><span class="s1">&#39;gs&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;req&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;coordinate.xyz&#39;</span><span class="p">,</span> <span class="s1">&#39;nwchem/restart&#39;</span><span class="p">],</span>            
+            <span class="s1">&#39;check_list&#39;</span><span class="p">:[</span><span class="s1">&#39;Converged&#39;</span><span class="p">,</span> <span class="s1">&#39;Fermi level:&#39;</span><span class="p">,</span><span class="s1">&#39;Total:&#39;</span><span class="p">]},</span>
+
+<span class="s1">&#39;rt_tddft_delta&#39;</span> <span class="p">:</span> <span class="p">{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span><span class="s1">&#39;nwchem/TD_Delta/td.nwi&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;out_log&#39;</span> <span class="p">:</span> <span class="s1">&#39;nwchem/TD_Delta/td.nwo&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;dir&#39;</span> <span class="p">:</span> <span class="s1">&#39;TD_Delta&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;file_name&#39;</span> <span class="p">:</span> <span class="s1">&#39;td&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;req&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;coordinate.xyz&#39;</span><span class="p">,</span> <span class="s1">&#39;nwchem/restart&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;check_list&#39;</span><span class="p">:[</span><span class="s1">&#39;Converged&#39;</span><span class="p">,</span> <span class="s1">&#39;Fermi level:&#39;</span><span class="p">,</span><span class="s1">&#39;Total:&#39;</span><span class="p">]},</span>
+
+<span class="s1">&#39;rt_tddft_laser&#39;</span> <span class="p">:</span> <span class="p">{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span><span class="s1">&#39;nwchem/TD_Laser/tdlaser.nwi&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;out_log&#39;</span> <span class="p">:</span> <span class="s1">&#39;nwchem/TD_Laser/tdlaser.nwo&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;dir&#39;</span> <span class="p">:</span> <span class="s1">&#39;TD_Laser&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;file_name&#39;</span><span class="p">:</span> <span class="s1">&#39;tdlaser&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;req&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;coordinate.xyz&#39;</span><span class="p">,</span> <span class="s1">&#39;nwchem/restart&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;check_list&#39;</span><span class="p">:[</span><span class="s1">&#39;Converged&#39;</span><span class="p">,</span> <span class="s1">&#39;Fermi level:&#39;</span><span class="p">,</span><span class="s1">&#39;Total:&#39;</span><span class="p">]},</span>
+
+<span class="s1">&#39;spectrum&#39;</span> <span class="p">:</span> <span class="p">{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span><span class="s1">&#39;nwchem/TD_Delta/td.nwi&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;out_log&#39;</span> <span class="p">:</span> <span class="s1">&#39;nwchem/TD_Delta/td.nwo&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;dir&#39;</span> <span class="p">:</span> <span class="s1">&#39;spectrum&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;req&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;nwchem/TD_Delta/td.nwo&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;spectra_file&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;nwchem/Spectrum/spec_x.dat&#39;</span><span class="p">,</span><span class="s1">&#39;nwchem/Spectrum/spec_y.dat&#39;</span><span class="p">,</span> <span class="s1">&#39;nwchem/Spectrum/spec_z.dat&#39;</span> <span class="p">],</span>
+        <span class="s1">&#39;spec_dir_path&#39;</span> <span class="p">:</span> <span class="s1">&#39;nwchem/Spectrum&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;check_list&#39;</span><span class="p">:[</span><span class="s1">&#39;Converged&#39;</span><span class="p">,</span> <span class="s1">&#39;Fermi level:&#39;</span><span class="p">,</span><span class="s1">&#39;Total:&#39;</span><span class="p">]},</span>
+
+<span class="s1">&#39;mo_population&#39;</span><span class="p">:{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span><span class="s1">&#39;nwchem/TD_Delta/td.nwi&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;out_log&#39;</span> <span class="p">:</span> <span class="s1">&#39;nwchem/TD_Delta/td.nwo&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;req&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;nwchem/TD_Delta/td.nwo&#39;</span><span class="p">],</span>
+                            <span class="s1">&#39;dir&#39;</span><span class="p">:</span> <span class="s1">&#39;mo_population&#39;</span><span class="p">},</span>
+<span class="s1">&#39;restart&#39;</span><span class="p">:</span> <span class="s1">&#39;nwchem/restart&#39;</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="NwchemTask"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_task.NwchemTask">[docs]</a><span class="k">class</span> <span class="nc">NwchemTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
+
+    <span class="n">NAME</span> <span class="o">=</span> <span class="s1">&#39;nwchem&#39;</span>
+    <span class="n">simulation_tasks</span> <span class="o">=</span>  <span class="p">[</span><span class="s1">&#39;ground_state&#39;</span><span class="p">,</span> <span class="s1">&#39;rt_tddft_delta&#39;</span><span class="p">,</span> <span class="s1">&#39;rt_tddft_laser&#39;</span><span class="p">]</span>
+    <span class="n">post_processing_tasks</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;spectrum&#39;</span><span class="p">,</span> <span class="s1">&#39;mo_population&#39;</span><span class="p">]</span>
+    <span class="n">implemented_task</span> <span class="o">=</span> <span class="n">simulation_tasks</span> <span class="o">+</span> <span class="n">post_processing_tasks</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_dir</span><span class="p">,</span> <span class="n">lsconfig</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;task&#39;</span><span class="p">,</span> <span class="s1">&#39;ground_state&#39;</span><span class="p">)</span>
+        
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="ow">in</span> <span class="n">nwchem_data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> 
+            <span class="k">raise</span> <span class="n">TaskNotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">task_name</span><span class="si">}</span><span class="s1"> is not implemented.&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_data</span> <span class="o">=</span> <span class="n">nwchem_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_name</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;nwchem&#39;</span><span class="p">,</span><span class="n">status</span><span class="p">,</span> <span class="n">project_dir</span><span class="p">,</span> <span class="n">lsconfig</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_input</span> <span class="o">=</span> <span class="n">kwargs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_input</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="NwchemTask.create_engine"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_task.NwchemTask.create_engine">[docs]</a>    <span class="k">def</span> <span class="nf">create_engine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+
+        <span class="n">infile_ext</span> <span class="o">=</span> <span class="s1">&#39;.nwi&#39;</span>
+        <span class="n">outfile_ext</span> <span class="o">=</span> <span class="s1">&#39;.nwo&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span> <span class="o">/</span> <span class="s1">&#39;nwchem&#39;</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dir&#39;</span><span class="p">)</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;file_name&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">network_done_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span> <span class="o">/</span> <span class="s1">&#39;Done&#39;</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">post_processing_tasks</span><span class="p">:</span>
+            <span class="n">completed_task</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nwchem&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s1">&#39;rt_tddft_laser&#39;</span> <span class="ow">in</span> <span class="n">completed_task</span><span class="p">:</span>
+                <span class="n">td_out</span> <span class="o">=</span> <span class="n">nwchem_data</span><span class="p">[</span><span class="s1">&#39;rt_tddft_laser&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;out_log&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">td_out</span> <span class="o">=</span> <span class="n">nwchem_data</span><span class="p">[</span><span class="s1">&#39;rt_tddft_delta&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;out_log&#39;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span> <span class="o">/</span> <span class="n">td_out</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine_log</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">nwchem</span> <span class="o">=</span> <span class="n">NWChem</span><span class="p">(</span><span class="n">outfile</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="p">),</span> 
+                            <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">param</span><span class="p">[</span><span class="s1">&#39;perm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s1">&#39;restart&#39;</span><span class="p">)</span>
+        <span class="n">param</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span> <span class="o">/</span> <span class="s1">&#39;coordinate.xyz&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="s1">&#39;rt_tddft&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span><span class="p">:</span>
+            <span class="n">param</span><span class="p">[</span><span class="s1">&#39;restart_kw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;restart&#39;</span>
+            <span class="n">param</span><span class="p">[</span><span class="s1">&#39;basis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nwchem.ground_state.param&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;basis&#39;</span><span class="p">)</span>
+            <span class="n">update_td_param</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+
+        <span class="n">file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;file_name&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">infile</span> <span class="o">=</span> <span class="n">file_name</span> <span class="o">+</span> <span class="n">infile_ext</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span> <span class="o">=</span> <span class="n">file_name</span> <span class="o">+</span> <span class="n">outfile_ext</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">engine_log</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nwchem</span> <span class="o">=</span> <span class="n">NWChem</span><span class="p">(</span><span class="n">infile</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">infile</span><span class="p">,</span> <span class="n">outfile</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="p">,</span> 
+                            <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span><span class="p">,</span> <span class="o">**</span><span class="n">param</span><span class="p">)</span></div>
+            
+
+<div class="viewcode-block" id="NwchemTask.write_input"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_task.NwchemTask.write_input">[docs]</a>    <span class="k">def</span> <span class="nf">write_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">template</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="n">template</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_directory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nwchem</span><span class="o">.</span><span class="n">write_input</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NwchemTask.create_template"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_task.NwchemTask.create_template">[docs]</a>    <span class="k">def</span> <span class="nf">create_template</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nwchem</span><span class="o">.</span><span class="n">create_input</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_create_spectrum_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">remote</span><span class="o">=</span><span class="kc">False</span> <span class="p">):</span>
+
+        <span class="n">td_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pol</span><span class="p">,</span> <span class="n">tag</span> <span class="o">=</span> <span class="n">get_pol_and_tag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+
+        <span class="k">if</span>  <span class="ow">not</span> <span class="n">td_out</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39; Required file </span><span class="si">{</span><span class="n">td_out</span><span class="si">}</span><span class="s1"> doesnot exists!&#39;</span><span class="p">)</span>
+            
+        <span class="n">path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">remote</span><span class="p">:</span>
+            <span class="n">path_python</span> <span class="o">=</span> <span class="s1">&#39;python3&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">path_python</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">python_path</span>
+
+        <span class="n">nw_rtparse</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span><span class="s1">&#39;nwchem_read_rt.py&#39;</span><span class="p">)</span>
+        <span class="n">spectrum_file</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s1">&#39;spectrum.py&#39;</span><span class="p">)</span>
+        
+        <span class="n">dm_cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">path_python</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">nw_rtparse</span><span class="si">}</span><span class="s1"> -x dipole -p </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pol</span><span class="si">}</span><span class="s1"> -t </span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">td_out</span><span class="si">}</span><span class="s1"> &gt; </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pol</span><span class="si">}</span><span class="s1">.dat&#39;</span>
+
+        <span class="n">spec_cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">path_python</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">spectrum_file</span><span class="si">}</span><span class="s1"> dipole.dat spec_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pol</span><span class="si">}</span><span class="s1">.dat&#39;</span>
+        
+        <span class="k">return</span> <span class="n">spec_cmd</span>
+
+<div class="viewcode-block" id="NwchemTask.compute_spectrum"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_task.NwchemTask.compute_spectrum">[docs]</a>    <span class="k">def</span> <span class="nf">compute_spectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_directory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span><span class="p">)</span>
+        
+        <span class="n">td_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pol</span><span class="p">,</span> <span class="n">tag</span> <span class="o">=</span> <span class="n">get_pol_and_tag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dipole_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span> <span class="o">/</span> <span class="s1">&#39;dipole.dat&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spectra_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;spec_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pol</span><span class="si">}</span><span class="s1">.dat&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nwchem</span><span class="o">.</span><span class="n">get_td_dipole</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dipole_file</span><span class="p">,</span> <span class="n">td_out</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">polarization</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pol</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">raise</span></div>
+        <span class="c1">#else:</span>
+        <span class="c1">#    photoabsorption_spectrum(self.dipole_file, self.spectra_file,)</span>
+
+<div class="viewcode-block" id="NwchemTask.extract_mo_population"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_task.NwchemTask.extract_mo_population">[docs]</a>    <span class="k">def</span> <span class="nf">extract_mo_population</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">below_homo</span> <span class="o">=</span> <span class="n">below_homo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_input</span><span class="p">[</span><span class="s1">&#39;num_occupied_mo&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">above_lumo</span> <span class="o">=</span> <span class="n">above_lumo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_input</span><span class="p">[</span><span class="s1">&#39;num_unoccupied_mo&#39;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_directory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span><span class="p">)</span>
+        <span class="n">td_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">energy_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span> <span class="o">/</span> <span class="s1">&#39;energy_format.dat&#39;</span>
+        <span class="n">eigen_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nwchem</span><span class="o">.</span><span class="n">get_eigen_energy</span><span class="p">(</span><span class="n">td_out</span><span class="p">)</span>
+        <span class="n">occ</span><span class="p">,</span> <span class="n">unocc</span> <span class="o">=</span> <span class="n">get_occ_unocc</span><span class="p">(</span><span class="n">eigen_data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">occ</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">below_homo</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">unocc</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">above_lumo</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">InputError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;The selected MO is out of range. Number of MO: below HOMO = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">occ</span><span class="p">)</span><span class="si">}</span><span class="s1">, above_LUMO = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">unocc</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mo_population_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span> <span class="o">/</span> <span class="s1">&#39;mo_population.dat&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nwchem</span><span class="o">.</span><span class="n">get_td_moocc</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mo_population_file</span><span class="p">),</span> <span class="n">td_out</span><span class="p">,</span> <span class="n">homo_index</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">occ</span><span class="p">),</span>
+                                     <span class="n">below_homo</span><span class="o">=</span><span class="n">below_homo</span><span class="p">,</span> <span class="n">above_lumo</span><span class="o">=</span><span class="n">above_lumo</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mo_population_diff_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span><span class="o">/</span> <span class="s1">&#39;mo_pop_diff.dat&#39;</span>
+        <span class="n">calc_population_diff</span><span class="p">(</span><span class="n">homo_index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">below_homo</span><span class="p">,</span> <span class="n">infile</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mo_population_file</span><span class="p">,</span>
+                                <span class="n">outfile</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mo_population_diff_file</span><span class="p">)</span></div>
+        <span class="c1">#get_energy_window(eigen_data, self.energy_file, below_homo, above_lumo)</span>
+    
+    <span class="k">def</span> <span class="nf">_create_mo_pop_correlation_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="n">bandpass_window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_input</span><span class="p">[</span><span class="s1">&#39;bandpass_window&#39;</span><span class="p">]</span>
+        <span class="n">hanning_window</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_input</span><span class="p">[</span><span class="s1">&#39;hanning_window&#39;</span><span class="p">]</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">mo_population_correlation</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span>
+        
+        <span class="n">pop_py</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span><span class="s1">&#39;population_correlation.py&#39;</span><span class="p">)</span>
+        <span class="n">pop_cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;python </span><span class="si">{</span><span class="n">pop_py</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">below_homo</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">energy_file</span><span class="si">}</span><span class="s1">&#39;</span>    
+        
+        <span class="n">band_py</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s1">&#39;bandpass.py&#39;</span><span class="p">)</span>
+        <span class="n">band_cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;python </span><span class="si">{</span><span class="n">band_py</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mo_population_file</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">bandpass_window</span><span class="si">}</span><span class="s1">&#39;</span>       
+        
+        <span class="n">hann_py</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s1">&#39;test.py&#39;</span><span class="p">)</span>
+        <span class="n">hann_cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;python </span><span class="si">{</span><span class="n">hann_py</span><span class="si">}</span><span class="s1"> frest.dat hanning </span><span class="si">{</span><span class="n">hanning_window</span><span class="si">}</span><span class="s1">&#39;</span>
+        
+        <span class="n">dft_mod_py</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span><span class="s1">&#39;dft-mod.py&#39;</span><span class="p">)</span>
+        <span class="n">dft_mod_cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;python </span><span class="si">{</span><span class="n">dft_mod_py</span><span class="si">}</span><span class="s1"> fn_rest.dat&#39;</span>
+
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">band_cmd</span><span class="p">,</span> <span class="n">hann_cmd</span><span class="p">,</span> <span class="n">dft_mod_cmd</span><span class="p">,</span> <span class="n">pop_cmd</span><span class="p">])</span>
+
+<div class="viewcode-block" id="NwchemTask.create_job_script"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_task.NwchemTask.create_job_script">[docs]</a>    <span class="k">def</span> <span class="nf">create_job_script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">np</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">remote_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+                
+        <span class="n">ofilename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span>
+    
+        <span class="k">if</span> <span class="n">remote_path</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine_path</span> <span class="o">=</span> <span class="s1">&#39;nwchem&#39;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation_tasks</span><span class="p">:</span>
+            <span class="n">ifilename</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">infile</span>
+            <span class="n">engine_cmd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine_path</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">ifilename</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="s1">&#39;&gt;&#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">ofilename</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">remote_path</span><span class="p">:</span>
+                <span class="n">rpath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">remote_path</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+                <span class="n">job_script</span> <span class="o">=</span> <span class="n">assemable_job_cmd</span><span class="p">(</span><span class="n">engine_cmd</span><span class="p">,</span> <span class="n">np</span><span class="p">,</span> <span class="n">cd_path</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">rpath</span><span class="p">),</span>
+                                        <span class="n">remote</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">module_load_block</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_engine_network_job_cmd</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">job_script</span> <span class="o">=</span> <span class="n">assemable_job_cmd</span><span class="p">(</span><span class="n">engine_cmd</span><span class="p">,</span> <span class="n">np</span><span class="p">,</span> <span class="n">cd_path</span><span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span><span class="p">),</span>
+                                                <span class="n">mpi_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mpi_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="o">==</span> <span class="s1">&#39;spectrum&#39;</span><span class="p">:</span>    
+            <span class="bp">self</span><span class="o">.</span><span class="n">compute_spectrum</span><span class="p">()</span>
+            <span class="n">job_script</span> <span class="o">=</span> <span class="n">assemable_job_cmd</span><span class="p">(</span><span class="n">cd_path</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span><span class="p">),</span> <span class="n">extra_block</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_spectrum_cmd</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="n">remote_path</span><span class="p">)))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">job_script</span> <span class="o">=</span> <span class="n">job_script</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">job_script</span></div>
+    
+<div class="viewcode-block" id="NwchemTask.prepare_input"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_task.NwchemTask.prepare_input">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_input</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="o">==</span> <span class="s1">&#39;mo_population&#39;</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation_tasks</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_template</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_input</span><span class="p">()</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_job_script</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_job_script</span><span class="p">()</span></div>
+            
+
+<div class="viewcode-block" id="NwchemTask.run_job_local"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_task.NwchemTask.run_job_local">[docs]</a>    <span class="k">def</span> <span class="nf">run_job_local</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="o">==</span> <span class="s1">&#39;mo_population&#39;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">extract_mo_population</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">local_cmd_out</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">local_cmd_out</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;done&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">run_job_local</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NwchemTask.get_engine_log"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_task.NwchemTask.get_engine_log">[docs]</a>    <span class="k">def</span> <span class="nf">get_engine_log</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">out_log</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_output</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_log</span><span class="p">(</span><span class="n">out_log</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NwchemTask.plot"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_task.NwchemTask.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="o">==</span> <span class="s1">&#39;spectrum&#39;</span><span class="p">:</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spectra_file</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;spec_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pol</span><span class="si">}</span><span class="s2">.png&quot;</span>
+            <span class="n">plot_spectrum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spectra_file</span><span class="p">,</span><span class="n">img</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Energy(eV)&quot;</span><span class="p">,</span><span class="s2">&quot;Strength&quot;</span><span class="p">,</span><span class="n">xlimit</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_input</span><span class="p">[</span><span class="s1">&#39;e_min&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_input</span><span class="p">[</span><span class="s1">&#39;e_max&#39;</span><span class="p">]))</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="o">==</span> <span class="s1">&#39;mo_population&#39;</span><span class="p">:</span>
+        
+            <span class="n">below_homo</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;num_occupied_mo_plot&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">above_lumo</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;num_unoccupied_mo_plot&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">homo_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">below_homo</span>
+            <span class="c1"># time_unit = kwargs.get(&#39;time_unit&#39;)            </span>
+            <span class="n">column_range</span> <span class="o">=</span> <span class="p">(</span><span class="n">homo_index</span><span class="o">-</span><span class="n">below_homo</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">homo_index</span><span class="o">+</span><span class="n">above_lumo</span><span class="p">)</span>
+            <span class="n">legend_dict</span> <span class="o">=</span> <span class="n">create_states_index</span><span class="p">(</span><span class="n">num_below_homo</span><span class="o">=</span><span class="n">below_homo</span><span class="p">,</span> <span class="n">num_above_lumo</span><span class="o">=</span><span class="n">above_lumo</span><span class="p">,</span> <span class="n">homo_index</span><span class="o">=</span><span class="n">homo_index</span><span class="p">)</span>
+            
+            <span class="n">pop_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mo_population_diff_file</span><span class="p">)</span>
+            
+            <span class="n">plot_multiple_column</span><span class="p">(</span><span class="n">pop_data</span><span class="p">,</span> <span class="n">column_list</span><span class="o">=</span><span class="n">column_range</span><span class="p">,</span> <span class="n">column_dict</span><span class="o">=</span><span class="n">legend_dict</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Time (au)&#39;</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="NwchemTask.get_engine_network_job_cmd"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_task.NwchemTask.get_engine_network_job_cmd">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_engine_network_job_cmd</span><span class="p">():</span>
+
+        <span class="n">job_script</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">##### Please Provide the Excutable Path or environment of NWCHEM or load the module</span>
+
+<span class="s2">#eval &quot;$(conda shell.bash hook)&quot;</span>
+<span class="s2">#conda activate &lt;environment name&gt;</span>
+
+<span class="s2">#module load nwchem&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">job_script</span></div></div>
+
+
+<div class="viewcode-block" id="update_td_param"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_task.update_td_param">[docs]</a><span class="k">def</span> <span class="nf">update_td_param</span><span class="p">(</span><span class="n">param</span><span class="p">):</span>
+    <span class="n">strength</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;strength&#39;</span><span class="p">)</span>
+    <span class="n">pol</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;polarization&#39;</span><span class="p">)</span>
+    <span class="n">time_step</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;time_step&#39;</span><span class="p">)</span>
+    <span class="n">num_step</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;number_of_steps&#39;</span><span class="p">)</span>
+    <span class="n">out_freq</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;output_freq&#39;</span><span class="p">)</span>
+    <span class="n">properties</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;properties&#39;</span><span class="p">)</span>
+    <span class="n">laser</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;laser&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">param</span><span class="p">[</span><span class="s1">&#39;rt_tddft&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tmax&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">num_step</span> <span class="o">*</span> <span class="n">time_step</span> <span class="o">*</span> <span class="n">as_to_au</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="s1">&#39;dt&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">time_step</span> <span class="o">*</span> <span class="n">as_to_au</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+                        <span class="s1">&#39;print&#39;</span><span class="p">:</span><span class="n">out_print</span><span class="p">(</span><span class="n">properties</span><span class="p">)}</span>
+
+    <span class="k">if</span> <span class="n">laser</span><span class="p">:</span>     
+        <span class="n">param</span><span class="p">[</span><span class="s1">&#39;rt_tddft&#39;</span><span class="p">][</span><span class="s1">&#39;field&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;gpulse_&#39;</span>  <span class="o">+</span> <span class="n">read_pol_dir</span><span class="p">(</span><span class="n">pol</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span>
+                                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;gaussian&#39;</span><span class="p">,</span>
+                                <span class="s1">&#39;frequency&#39;</span> <span class="p">:</span> <span class="n">laser</span><span class="p">[</span><span class="s1">&#39;frequency&#39;</span><span class="p">],</span>
+                                <span class="s1">&#39;center&#39;</span><span class="p">:</span> <span class="n">laser</span><span class="p">[</span><span class="s1">&#39;time0&#39;</span><span class="p">],</span>
+                                <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="n">laser</span><span class="p">[</span><span class="s1">&#39;sigma&#39;</span><span class="p">],</span>
+                                <span class="s1">&#39;polarization&#39;</span><span class="p">:</span><span class="n">read_pol_dir</span><span class="p">(</span><span class="n">pol</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span>
+                                <span class="s1">&#39;max&#39;</span><span class="p">:</span><span class="n">laser</span><span class="p">[</span><span class="s1">&#39;strength&#39;</span><span class="p">]}</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">param</span><span class="p">[</span><span class="s1">&#39;rt_tddft&#39;</span><span class="p">][</span><span class="s1">&#39;field&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;kick_&#39;</span> <span class="o">+</span> <span class="n">read_pol_dir</span><span class="p">(</span><span class="n">pol</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span>
+                                        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;delta&#39;</span><span class="p">,</span>
+                                        <span class="s1">&#39;polarization&#39;</span><span class="p">:</span><span class="n">read_pol_dir</span><span class="p">(</span><span class="n">pol</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span>
+                                        <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="n">strength</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="out_print"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_task.out_print">[docs]</a><span class="k">def</span> <span class="nf">out_print</span><span class="p">(</span><span class="nb">property</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="p">[]</span> 
+        <span class="k">if</span> <span class="s1">&#39;spectrum&#39;</span> <span class="ow">in</span> <span class="nb">property</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;dipole&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;mo_population&#39;</span><span class="ow">in</span> <span class="nb">property</span><span class="p">:</span>
+            <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;moocc&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">p</span></div>
+
+<div class="viewcode-block" id="read_pol_dir"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_task.read_pol_dir">[docs]</a><span class="k">def</span> <span class="nf">read_pol_dir</span><span class="p">(</span><span class="n">pol</span><span class="p">):</span>        
+        <span class="k">if</span> <span class="n">pol</span> <span class="o">==</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">pol</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;y&#39;</span><span class="p">)</span> 
+        <span class="k">elif</span> <span class="n">pol</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;z&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_pol_and_tag"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_task.get_pol_and_tag">[docs]</a><span class="k">def</span> <span class="nf">get_pol_and_tag</span><span class="p">(</span><span class="n">status</span><span class="p">):</span>
+
+    <span class="n">param</span> <span class="o">=</span>  <span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nwchem.rt_tddft_delta.param&#39;</span><span class="p">)</span>
+    <span class="n">pol</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="s1">&#39;rt_tddft&#39;</span><span class="p">][</span><span class="s1">&#39;field&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;polarization&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="n">param</span><span class="p">[</span><span class="s1">&#39;rt_tddft&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tag&#39;</span><span class="p">,</span> <span class="s1">&#39;rt_tddft&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pol</span><span class="p">,</span> <span class="n">tag</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 10:54:25.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

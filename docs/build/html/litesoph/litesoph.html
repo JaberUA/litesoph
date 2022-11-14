@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph package &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="litesoph.gui package" href="litesoph.gui.html" />
+    <link rel="prev" title="Developer Guideline" href="../Developer_Guideline.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Issues.html">Issues</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Developer_Guideline.html">Developer Guideline</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../Developer_Guideline.html#litesoph-architecture">Litesoph Architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../Developer_Guideline.html#modules-of-litesoph">Modules of LITESOPH:</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">litesoph package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-litesoph.config">litesoph.config module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-litesoph">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../Developer_Guideline.html">Developer Guideline</a> &raquo;</li>
+      <li>litesoph package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/litesoph/litesoph.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="litesoph-package">
+<h1>litesoph package<a class="headerlink" href="#litesoph-package" title="Permalink to this headline"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="litesoph.gui.html">litesoph.gui package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.gui.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="litesoph.gui.engine_views.html">litesoph.gui.engine_views package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.gui.engine_views.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="litesoph.gui.engine_views.gpaw_views.html">litesoph.gui.engine_views.gpaw_views package</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="litesoph.gui.engine_views.gpaw_views.html#submodules">Submodules</a></li>
+<li class="toctree-l6"><a class="reference internal" href="litesoph.gui.engine_views.gpaw_views.html#module-litesoph.gui.engine_views.gpaw_views.gs_views">litesoph.gui.engine_views.gpaw_views.gs_views module</a></li>
+<li class="toctree-l6"><a class="reference internal" href="litesoph.gui.engine_views.gpaw_views.html#module-litesoph.gui.engine_views.gpaw_views">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="litesoph.gui.engine_views.nwchem_views.html">litesoph.gui.engine_views.nwchem_views package</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="litesoph.gui.engine_views.nwchem_views.html#submodules">Submodules</a></li>
+<li class="toctree-l6"><a class="reference internal" href="litesoph.gui.engine_views.nwchem_views.html#module-litesoph.gui.engine_views.nwchem_views.gs_views">litesoph.gui.engine_views.nwchem_views.gs_views module</a></li>
+<li class="toctree-l6"><a class="reference internal" href="litesoph.gui.engine_views.nwchem_views.html#module-litesoph.gui.engine_views.nwchem_views">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="litesoph.gui.engine_views.octopus_views.html">litesoph.gui.engine_views.octopus_views package</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="litesoph.gui.engine_views.octopus_views.html#submodules">Submodules</a></li>
+<li class="toctree-l6"><a class="reference internal" href="litesoph.gui.engine_views.octopus_views.html#module-litesoph.gui.engine_views.octopus_views.gs_views">litesoph.gui.engine_views.octopus_views.gs_views module</a></li>
+<li class="toctree-l6"><a class="reference internal" href="litesoph.gui.engine_views.octopus_views.html#module-litesoph.gui.engine_views.octopus_views">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.gui.engine_views.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.gui.engine_views.html#module-litesoph.gui.engine_views.engine_views_abc">litesoph.gui.engine_views.engine_views_abc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.gui.engine_views.html#module-litesoph.gui.engine_views">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="litesoph.gui.images.html">litesoph.gui.images package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.gui.images.html#module-litesoph.gui.images">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.gui.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.gui.html#module-litesoph.gui.actions">litesoph.gui.actions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.gui.html#module-litesoph.gui.gui">litesoph.gui.gui module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.gui.html#module-litesoph.gui.input_validation">litesoph.gui.input_validation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.gui.html#module-litesoph.gui.logpanel">litesoph.gui.logpanel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.gui.html#module-litesoph.gui.menubar">litesoph.gui.menubar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.gui.html#module-litesoph.gui.navigation">litesoph.gui.navigation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.gui.html#module-litesoph.gui.user_data">litesoph.gui.user_data module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.gui.html#module-litesoph.gui.viewpanel">litesoph.gui.viewpanel module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.gui.html#module-litesoph.gui.views">litesoph.gui.views module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.gui.html#module-litesoph.gui.visual_parameter">litesoph.gui.visual_parameter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.gui.html#module-litesoph.gui">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="litesoph.lsio.html">litesoph.lsio package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.lsio.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.lsio.html#module-litesoph.lsio.IO">litesoph.lsio.IO module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.lsio.html#module-litesoph.lsio.data_types">litesoph.lsio.data_types module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.lsio.html#module-litesoph.lsio">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="litesoph.post_processing.html">litesoph.post_processing package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.post_processing.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="litesoph.post_processing.mo_population_correlation.html">litesoph.post_processing.mo_population_correlation package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.post_processing.mo_population_correlation.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.post_processing.mo_population_correlation.html#litesoph-post-processing-mo-population-correlation-bandpass-module">litesoph.post_processing.mo_population_correlation.bandpass module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.post_processing.mo_population_correlation.html#litesoph-post-processing-mo-population-correlation-dft-mod-module">litesoph.post_processing.mo_population_correlation.dft-mod module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.post_processing.mo_population_correlation.html#module-litesoph.post_processing.mo_population_correlation.fourier">litesoph.post_processing.mo_population_correlation.fourier module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.post_processing.mo_population_correlation.html#module-litesoph.post_processing.mo_population_correlation.moocc_correlation_plot">litesoph.post_processing.mo_population_correlation.moocc_correlation_plot module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.post_processing.mo_population_correlation.html#litesoph-post-processing-mo-population-correlation-population-correlation-module">litesoph.post_processing.mo_population_correlation.population_correlation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.post_processing.mo_population_correlation.html#litesoph-post-processing-mo-population-correlation-test-module">litesoph.post_processing.mo_population_correlation.test module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.post_processing.mo_population_correlation.html#module-litesoph.post_processing.mo_population_correlation">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="litesoph.post_processing.octopus.html">litesoph.post_processing.octopus package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.post_processing.octopus.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.post_processing.octopus.html#module-litesoph.post_processing.octopus.binner">litesoph.post_processing.octopus.binner module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.post_processing.octopus.html#module-litesoph.post_processing.octopus.oct_projections">litesoph.post_processing.octopus.oct_projections module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.post_processing.octopus.html#litesoph-post-processing-octopus-tddenmat-module">litesoph.post_processing.octopus.tddenmat module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.post_processing.octopus.html#module-litesoph.post_processing.octopus">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.post_processing.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.post_processing.html#module-litesoph.post_processing.fourier">litesoph.post_processing.fourier module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.post_processing.html#module-litesoph.post_processing.masking_utls">litesoph.post_processing.masking_utls module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.post_processing.html#module-litesoph.post_processing.mo_population">litesoph.post_processing.mo_population module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.post_processing.html#module-litesoph.post_processing">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="litesoph.simulations.html">litesoph.simulations package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.simulations.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="litesoph.simulations.gpaw.html">litesoph.simulations.gpaw package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.simulations.gpaw.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.simulations.gpaw.html#module-litesoph.simulations.gpaw.gpaw_input">litesoph.simulations.gpaw.gpaw_input module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.simulations.gpaw.html#module-litesoph.simulations.gpaw.gpaw_task">litesoph.simulations.gpaw.gpaw_task module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.simulations.gpaw.html#module-litesoph.simulations.gpaw.gpawtcm">litesoph.simulations.gpaw.gpawtcm module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.simulations.gpaw.html#litesoph-simulations-gpaw-spectrum-module">litesoph.simulations.gpaw.spectrum module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.simulations.gpaw.html#module-litesoph.simulations.gpaw">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="litesoph.simulations.nwchem.html">litesoph.simulations.nwchem package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.simulations.nwchem.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.simulations.nwchem.html#module-litesoph.simulations.nwchem.nwchem">litesoph.simulations.nwchem.nwchem module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.simulations.nwchem.html#module-litesoph.simulations.nwchem.nwchem_input">litesoph.simulations.nwchem.nwchem_input module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.simulations.nwchem.html#module-litesoph.simulations.nwchem.nwchem_read_rt">litesoph.simulations.nwchem.nwchem_read_rt module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.simulations.nwchem.html#module-litesoph.simulations.nwchem.nwchem_task">litesoph.simulations.nwchem.nwchem_task module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.simulations.nwchem.html#module-litesoph.simulations.nwchem.spectrum">litesoph.simulations.nwchem.spectrum module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.simulations.nwchem.html#module-litesoph.simulations.nwchem">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="litesoph.simulations.octopus.html">litesoph.simulations.octopus package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.simulations.octopus.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.simulations.octopus.html#module-litesoph.simulations.octopus.octopus">litesoph.simulations.octopus.octopus module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.simulations.octopus.html#module-litesoph.simulations.octopus.octopus_input">litesoph.simulations.octopus.octopus_input module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.simulations.octopus.html#module-litesoph.simulations.octopus.octopus_task">litesoph.simulations.octopus.octopus_task module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.simulations.octopus.html#module-litesoph.simulations.octopus">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.simulations.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.simulations.html#module-litesoph.simulations.esmd">litesoph.simulations.esmd module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.simulations.html#module-litesoph.simulations.models">litesoph.simulations.models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.simulations.html#module-litesoph.simulations.project_status">litesoph.simulations.project_status module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.simulations.html#module-litesoph.simulations">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="litesoph.utilities.html">litesoph.utilities package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.utilities.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.utilities.html#module-litesoph.utilities.job_submit">litesoph.utilities.job_submit module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.utilities.html#module-litesoph.utilities.plot_spectrum">litesoph.utilities.plot_spectrum module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.utilities.html#module-litesoph.utilities.run_local">litesoph.utilities.run_local module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.utilities.html#module-litesoph.utilities.units">litesoph.utilities.units module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.utilities.html#module-litesoph.utilities">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="litesoph.visualization.html">litesoph.visualization package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.visualization.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.visualization.html#litesoph-visualization-blend-vedio-module">litesoph.visualization.blend_vedio module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.visualization.html#module-litesoph.visualization.spec_plot">litesoph.visualization.spec_plot module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.visualization.html#module-litesoph.visualization.visualize_geometry">litesoph.visualization.visualize_geometry module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.visualization.html#litesoph-visualization-vmd-python-module">litesoph.visualization.vmd_python module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="litesoph.visualization.html#module-litesoph.visualization">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-litesoph.config">
+<span id="litesoph-config-module"></span><h2>litesoph.config module<a class="headerlink" href="#module-litesoph.config" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.config.check_config">
+<span class="sig-prename descclassname"><span class="pre">litesoph.config.</span></span><span class="sig-name descname"><span class="pre">check_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lsconfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/config.html#check_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.config.check_config" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.config.config_to_dict">
+<span class="sig-prename descclassname"><span class="pre">litesoph.config.</span></span><span class="sig-name descname"><span class="pre">config_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">infile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/config.html#config_to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.config.config_to_dict" title="Permalink to this definition"></a></dt>
+<dd><p>converts configparser to dictionary object</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.config.create_default_config">
+<span class="sig-prename descclassname"><span class="pre">litesoph.config.</span></span><span class="sig-name descname"><span class="pre">create_default_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sections</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/config.html#create_default_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.config.create_default_config" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.config.dict_to_config">
+<span class="sig-prename descclassname"><span class="pre">litesoph.config.</span></span><span class="sig-name descname"><span class="pre">dict_to_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configfilename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/config.html#dict_to_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.config.dict_to_config" title="Permalink to this definition"></a></dt>
+<dd><p>converts dictionary to configfile  object</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.config.get_mpi_command">
+<span class="sig-prename descclassname"><span class="pre">litesoph.config.</span></span><span class="sig-name descname"><span class="pre">get_mpi_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">engine_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/config.html#get_mpi_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.config.get_mpi_command" title="Permalink to this definition"></a></dt>
+<dd><p>returns mpi command from lsconfig.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.config.get_path">
+<span class="sig-prename descclassname"><span class="pre">litesoph.config.</span></span><span class="sig-name descname"><span class="pre">get_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/config.html#get_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.config.get_path" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.config.none2emptystr">
+<span class="sig-prename descclassname"><span class="pre">litesoph.config.</span></span><span class="sig-name descname"><span class="pre">none2emptystr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/config.html#none2emptystr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.config.none2emptystr" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.config.read_config">
+<span class="sig-prename descclassname"><span class="pre">litesoph.config.</span></span><span class="sig-name descname"><span class="pre">read_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/config.html#read_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.config.read_config" title="Permalink to this definition"></a></dt>
+<dd><p>Reads the lsconfig.ini file and retrun configparser.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.config.remove_empty_value">
+<span class="sig-prename descclassname"><span class="pre">litesoph.config.</span></span><span class="sig-name descname"><span class="pre">remove_empty_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_items</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/config.html#remove_empty_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.config.remove_empty_value" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.config.set_config">
+<span class="sig-prename descclassname"><span class="pre">litesoph.config.</span></span><span class="sig-name descname"><span class="pre">set_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">section</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/config.html#set_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.config.set_config" title="Permalink to this definition"></a></dt>
+<dd><p>updates lsconfig object and writes it to lsconfig.ini file</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.config.write_config">
+<span class="sig-prename descclassname"><span class="pre">litesoph.config.</span></span><span class="sig-name descname"><span class="pre">write_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/config.html#write_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.config.write_config" title="Permalink to this definition"></a></dt>
+<dd><p>makes a ~/.litesoph directory to store app data.
+and writes lsconfig.ini with guess values.</p>
+</dd></dl>
+
+</section>
+<section id="module-litesoph">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-litesoph" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../Developer_Guideline.html" class="btn btn-neutral float-left" title="Developer Guideline" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="litesoph.gui.html" class="btn btn-neutral float-right" title="litesoph.gui package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 14:40:28.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

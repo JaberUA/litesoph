@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.gui.menubar &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>litesoph.gui.menubar</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for litesoph.gui.menubar</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="o">*</span>                    <span class="c1"># importing tkinter, a standart python interface for GUI.</span>
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">ttk</span>                  <span class="c1"># importing ttk which is used for styling widgets.     </span>
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">messagebox</span>
+<span class="kn">from</span> <span class="nn">litesoph.gui</span> <span class="kn">import</span> <span class="n">actions</span>
+
+
+
+
+<span class="c1"># class MainMenu(tk.Menu):</span>
+<span class="c1">#     &quot;&quot;&quot;The Application&#39;s main menu&quot;&quot;&quot;</span>
+
+<span class="c1">#     def _event(self, sequence):</span>
+<span class="c1">#         def callback(*_):</span>
+<span class="c1">#             root = self.master.winfo_toplevel()</span>
+<span class="c1">#             root.event_generate(sequence)</span>
+<span class="c1">#         return callback</span>
+
+<span class="c1">#     def __init__(self, parent, **kwargs):</span>
+<span class="c1">#         super().__init__(parent, **kwargs)</span>
+
+
+<span class="c1">#         file_menu = Menu(self, tearoff=0)</span>
+<span class="c1">#         file_menu.add_command(label=&quot;New&quot;)</span>
+<span class="c1">#         file_menu.add_command(label=&quot;Open&quot;)</span>
+<span class="c1">#         file_menu.add_command(label=&quot;Save&quot;)</span>
+<span class="c1">#         file_menu.add_command(label=&quot;Save as...&quot;)</span>
+<span class="c1">#         file_menu.add_command(label=&quot;Exit&quot;, command=parent.quit)</span>
+<span class="c1">#         self.add_cascade(label=&quot;file&quot;)</span>
+
+
+<span class="c1">#         edit = Menu(self, tearoff=0)</span>
+<span class="c1">#         edit.add_command(label=&quot;Undo&quot;)</span>
+<span class="c1">#         edit.add_command(label=&quot;Cut&quot;)</span>
+<span class="c1">#         edit.add_command(label=&quot;Copy&quot;)</span>
+<span class="c1">#         edit.add_command(label=&quot;Paste&quot;)</span>
+<span class="c1">#         edit.add_command(label=&quot;Delete&quot;)</span>
+<span class="c1">#         edit.add_command(label=&quot;Select All&quot;)</span>
+<span class="c1">#         edit.add_cascade(label=&quot;Edit&quot;)</span>
+
+<span class="c1">#         view = Menu(self, tearoff=0)</span>
+<span class="c1">#         view.add_command(label=&quot;file&quot;)</span>
+<span class="c1">#         view.add_command(label=&quot;Graphs&quot;)</span>
+<span class="c1">#         view.add_command(label=&quot;Images&quot;)</span>
+<span class="c1">#         view.add_command(label=&quot;Movies&quot;)</span>
+<span class="c1">#         view.add_command(label=&quot;VMD&quot;)</span>
+<span class="c1">#         view.add_command(label=&quot;Vesta&quot;)</span>
+<span class="c1">#         self.add_cascade(label=&quot;View&quot;, menu=view)</span>
+        
+<span class="c1">#         help = Menu(self, tearoff=0)</span>
+<span class="c1">#         help.add_command(label=&quot;About&quot;)</span>
+<span class="c1">#         help.add_command(label=&quot;Webpage&quot;)</span>
+<span class="c1">#         self.add_cascade(label=&quot;Help&quot;, menu=help)</span>
+
+
+<span class="c1">#         myFont = font.Font(family=&#39;Helvetica&#39;, size=10, weight=&#39;bold&#39;)</span>
+
+<span class="c1">#         self[&#39;font&#39;] = myFont</span>
+
+<span class="c1">#         parent.config(menu=self)</span>
+<span class="c1">#         self.configure(bg=&quot;gainsboro&quot;)</span>
+
+    
+
+
+<span class="kn">import</span> <span class="nn">tkinter</span> <span class="k">as</span> <span class="nn">tk</span>
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">ttk</span>
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">messagebox</span>
+
+
+<div class="viewcode-block" id="GenericMainMenu"><a class="viewcode-back" href="../../../litesoph/litesoph.gui.html#litesoph.gui.menubar.GenericMainMenu">[docs]</a><span class="k">class</span> <span class="nc">GenericMainMenu</span><span class="p">(</span><span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;The Application&#39;s main menu&quot;&quot;&quot;</span>
+
+  <span class="n">accelerators</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;file_open&#39;</span><span class="p">:</span> <span class="s1">&#39;Ctrl+O&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;quit&#39;</span><span class="p">:</span> <span class="s1">&#39;Ctrl+Q&#39;</span><span class="p">,</span>
+    
+  <span class="p">}</span>
+
+  <span class="n">keybinds</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;&lt;Control-o&gt;&#39;</span><span class="p">:</span> <span class="s1">&#39;&lt;&lt;FileSelect&gt;&gt;&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;&lt;Control-q&gt;&#39;</span><span class="p">:</span> <span class="s1">&#39;&lt;&lt;FileQuit&gt;&gt;&#39;</span><span class="p">,</span>
+   
+  <span class="p">}</span>
+
+  <span class="n">styles</span> <span class="o">=</span> <span class="p">{}</span>
+
+  <span class="k">def</span> <span class="nf">_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a callback function that generates the sequence&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="o">*</span><span class="n">_</span><span class="p">):</span>
+      <span class="n">root</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">master</span><span class="o">.</span><span class="n">winfo_toplevel</span><span class="p">()</span>
+      <span class="n">root</span><span class="o">.</span><span class="n">event_generate</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">callback</span>
+
+
+  <span class="k">def</span> <span class="nf">_add_file_open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menu</span><span class="p">):</span>
+
+    <span class="n">menu</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span>
+      <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Select file…&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_event</span><span class="p">(</span><span class="s1">&#39;&lt;&lt;FileSelect&gt;&gt;&#39;</span><span class="p">),</span>
+      <span class="c1">#image=self.icons.get(&#39;file&#39;), compound=tk.LEFT</span>
+  <span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">_add_new_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menu</span><span class="p">):</span>
+
+    <span class="n">menu</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span>
+      <span class="n">label</span><span class="o">=</span><span class="s1">&#39;New Project…&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_event</span><span class="p">(</span><span class="n">actions</span><span class="o">.</span><span class="n">CREATE_PROJECT_WINDOW</span><span class="p">),</span>
+      <span class="c1">#image=self.icons.get(&#39;file&#39;), compound=tk.LEFT</span>
+  <span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">_add_open_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menu</span><span class="p">):</span>
+
+    <span class="n">menu</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span>
+      <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Open Project…&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_event</span><span class="p">(</span><span class="s1">&#39;&lt;&lt;OpenExistingProject&gt;&gt;&#39;</span><span class="p">),</span>
+      <span class="c1">#image=self.icons.get(&#39;file&#39;), compound=tk.LEFT</span>
+  <span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">_add_quit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menu</span><span class="p">):</span>
+    <span class="n">menu</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span>
+      <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Exit&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_event</span><span class="p">(</span><span class="s1">&#39;&lt;&lt;ProjectQuit&gt;&gt;&#39;</span><span class="p">),</span>
+      <span class="c1">#image=self.icons.get(&#39;quit&#39;), compound=tk.LEFT</span>
+    <span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">_add_refresh_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menu</span><span class="p">):</span>
+    <span class="n">menu</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span>
+      <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Refresh Config&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_event</span><span class="p">(</span><span class="s1">&#39;&lt;&lt;RefreshConfig&gt;&gt;&#39;</span><span class="p">),</span>
+      <span class="c1">#image=self.icons.get(&#39;quit&#39;), compound=tk.LEFT</span>
+    <span class="p">)</span>
+
+
+  <span class="k">def</span> <span class="nf">_add_about</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menu</span><span class="p">):</span>
+    <span class="n">menu</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span>
+      <span class="n">label</span><span class="o">=</span><span class="s1">&#39;About…&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">show_about</span><span class="p">,</span>
+      <span class="c1">#image=self.icons.get(&#39;about&#39;), compound=tk.LEFT</span>
+    <span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">_add_webpag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menu</span><span class="p">):</span>
+    <span class="n">menu</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span>
+      <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Webpag&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">show_about</span><span class="p">,</span>
+      <span class="c1">#image=self.icons.get(&#39;about&#39;), compound=tk.LEFT</span>
+    <span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">_build_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="c1"># The file menu</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;File&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">)</span>
+    <span class="c1">#self._add_file_open(self._menus[&#39;File&#39;])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_add_new_project</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;File&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_add_open_project</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;File&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;File&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">add_separator</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_add_quit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;File&#39;</span><span class="p">])</span>
+
+    <span class="c1">#Tools menu</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;Tools&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">)</span>
+
+    <span class="c1"># The options menu</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;Options&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">)</span>
+    
+    
+
+    <span class="c1"># switch from recordlist to recordform</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;Go&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_add_refresh_config</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;Go&#39;</span><span class="p">])</span>
+
+    <span class="c1"># The help menu</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;Help&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">add_cascade</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Help&#39;</span><span class="p">,</span> <span class="n">menu</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;Help&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_add_about</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;Help&#39;</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">menu</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">add_cascade</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">menu</span><span class="o">=</span><span class="n">menu</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_build_menu</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_bind_accelerators</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GenericMainMenu.show_about"><a class="viewcode-back" href="../../../litesoph/litesoph.gui.html#litesoph.gui.menubar.GenericMainMenu.show_about">[docs]</a>  <span class="k">def</span> <span class="nf">show_about</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Show the about dialog&quot;&quot;&quot;</span>
+
+    <span class="n">about_message</span> <span class="o">=</span> <span class="s1">&#39;litesoph&#39;</span>
+    <span class="n">about_detail</span> <span class="o">=</span> <span class="p">()</span>
+    
+    <span class="n">messagebox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span>
+      <span class="n">title</span><span class="o">=</span><span class="s1">&#39;About&#39;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">about_message</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="n">about_detail</span>
+    <span class="p">)</span></div>
+    
+
+  <span class="nd">@staticmethod</span>
+  <span class="k">def</span> <span class="nf">_on_theme_change</span><span class="p">(</span><span class="o">*</span><span class="n">_</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Popup a message about theme changes&quot;&quot;&quot;</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Change requires restart&quot;</span>
+    <span class="n">detail</span> <span class="o">=</span> <span class="p">(</span>
+      <span class="s2">&quot;Theme changes do not take effect&quot;</span>
+      <span class="s2">&quot; until application restart&quot;</span>
+    <span class="p">)</span>
+    <span class="n">messagebox</span><span class="o">.</span><span class="n">showwarning</span><span class="p">(</span>
+      <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Warning&#39;</span><span class="p">,</span>
+      <span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">,</span>
+      <span class="n">detail</span><span class="o">=</span><span class="n">detail</span>
+    <span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">_bind_accelerators</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">sequence</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keybinds</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">bind_all</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_event</span><span class="p">(</span><span class="n">sequence</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="LinuxMainMenu"><a class="viewcode-back" href="../../../litesoph/litesoph.gui.html#litesoph.gui.menubar.LinuxMainMenu">[docs]</a><span class="k">class</span> <span class="nc">LinuxMainMenu</span><span class="p">(</span><span class="n">GenericMainMenu</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Differences for Linux:</span>
+
+<span class="sd">    - Edit menu for autofill options</span>
+<span class="sd">    - View menu for font &amp; theme options</span>
+<span class="sd">    - Use color theme for menu</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">styles</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1">#&#39;background&#39;: &#39;#333&#39;,</span>
+    <span class="s1">&#39;foreground&#39;</span><span class="p">:</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;activebackground&#39;</span><span class="p">:</span> <span class="s1">&#39;#777&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;activeforeground&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;relief&#39;</span><span class="p">:</span> <span class="n">tk</span><span class="o">.</span><span class="n">GROOVE</span>
+  <span class="p">}</span>
+
+
+  <span class="k">def</span> <span class="nf">_build_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;File&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">)</span>
+<span class="c1">#    self._add_file_open(self._menus[&#39;File&#39;])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_add_new_project</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;File&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_add_open_project</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;File&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;File&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">add_separator</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_add_quit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;File&#39;</span><span class="p">])</span>
+
+    <span class="c1"># The edit menu</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;Edit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">)</span>
+  
+
+    <span class="c1">#Tools menu</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;Tools&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">)</span>
+    
+
+    <span class="c1"># The View menu</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;View&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">)</span>
+   
+
+    <span class="c1"># switch from recordlist to recordform</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;Go&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_add_refresh_config</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;Go&#39;</span><span class="p">])</span>
+
+    <span class="c1"># The help menu</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;Help&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">styles</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_add_about</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;Help&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_add_webpage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;Help&#39;</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">menu</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">add_cascade</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">menu</span><span class="o">=</span><span class="n">menu</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MacOsMainMenu"><a class="viewcode-back" href="../../../litesoph/litesoph.gui.html#litesoph.gui.menubar.MacOsMainMenu">[docs]</a><span class="k">class</span> <span class="nc">MacOsMainMenu</span><span class="p">(</span><span class="n">GenericMainMenu</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Differences for MacOS:</span>
+
+<span class="sd">    - Create App Menu</span>
+<span class="sd">    - Move about to app menu, remove &#39;help&#39;</span>
+<span class="sd">    - Remove redundant quit command</span>
+<span class="sd">    - Change accelerators to Command-[]</span>
+<span class="sd">    - Add View menu for font &amp; theme options</span>
+<span class="sd">    - Add Edit menu for autofill options</span>
+<span class="sd">    - Add Window menu for navigation commands</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">keybinds</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s1">&#39;&lt;Command-o&gt;&#39;</span><span class="p">:</span> <span class="s1">&#39;&lt;&lt;FileSelect&gt;&gt;&#39;</span><span class="p">,</span>
+     
+    <span class="p">}</span>
+  <span class="n">accelerators</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;file_open&#39;</span><span class="p">:</span> <span class="s1">&#39;Cmd-O&#39;</span><span class="p">,</span>
+   
+    <span class="p">}</span>
+
+  <span class="k">def</span> <span class="nf">_add_about</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">menu</span><span class="p">):</span>
+    <span class="n">menu</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span>
+      <span class="n">label</span><span class="o">=</span><span class="s1">&#39;About&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">show_about</span><span class="p">,</span>
+      <span class="c1">#image=self.icons.get(&#39;about&#39;), compound=tk.LEFT</span>
+    <span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">_build_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;LITESOPH&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">(</span>
+      <span class="bp">self</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+      <span class="n">name</span><span class="o">=</span><span class="s1">&#39;apple&#39;</span>
+    <span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_add_about</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;LITESOPH&#39;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;LITESOPH&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">add_separator</span><span class="p">()</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;File&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1">#    self._add_file_open(self._menus[&#39;File&#39;])</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;Edit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+
+    <span class="c1">#Tools menu</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;Tools&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+
+    <span class="c1"># View menu</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;View&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+   
+
+    <span class="c1"># Window Menu</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="p">[</span><span class="s1">&#39;Window&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;window&#39;</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+
+    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">menu</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_menus</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">add_cascade</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">menu</span><span class="o">=</span><span class="n">menu</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_main_menu_for_os"><a class="viewcode-back" href="../../../litesoph/litesoph.gui.html#litesoph.gui.menubar.get_main_menu_for_os">[docs]</a><span class="k">def</span> <span class="nf">get_main_menu_for_os</span><span class="p">(</span><span class="n">os_name</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Return the menu class appropriate to the given OS&quot;&quot;&quot;</span>
+  <span class="n">menus</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Linux&#39;</span><span class="p">:</span> <span class="n">LinuxMainMenu</span><span class="p">,</span>
+    <span class="s1">&#39;Darwin&#39;</span><span class="p">:</span> <span class="n">MacOsMainMenu</span><span class="p">,</span>
+    <span class="s1">&#39;freebsd7&#39;</span><span class="p">:</span> <span class="n">LinuxMainMenu</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="n">menus</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">os_name</span><span class="p">,</span> <span class="n">GenericMainMenu</span><span class="p">)</span></div>
+        
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 10:54:25.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

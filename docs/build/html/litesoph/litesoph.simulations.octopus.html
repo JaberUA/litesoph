@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.simulations.octopus package &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="litesoph.utilities package" href="litesoph.utilities.html" />
+    <link rel="prev" title="litesoph.simulations.nwchem package" href="litesoph.simulations.nwchem.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../Developer_Guideline.html">Developer Guideline</a> &raquo;</li>
+          <li><a href="litesoph.html">litesoph package</a> &raquo;</li>
+          <li><a href="litesoph.simulations.html">litesoph.simulations package</a> &raquo;</li>
+      <li>litesoph.simulations.octopus package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/litesoph/litesoph.simulations.octopus.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="litesoph-simulations-octopus-package">
+<h1>litesoph.simulations.octopus package<a class="headerlink" href="#litesoph-simulations-octopus-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-litesoph.simulations.octopus.octopus">
+<span id="litesoph-simulations-octopus-octopus-module"></span><h2>litesoph.simulations.octopus.octopus module<a class="headerlink" href="#module-litesoph.simulations.octopus.octopus" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus.Octopus">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.octopus.</span></span><span class="sig-name descname"><span class="pre">Octopus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">infile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus.html#Octopus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus.Octopus" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus.Octopus.calculate_eigen_difference">
+<span class="sig-name descname"><span class="pre">calculate_eigen_difference</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus.html#Octopus.calculate_eigen_difference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus.Octopus.calculate_eigen_difference" title="Permalink to this definition"></a></dt>
+<dd><p>Returns eigen values of HOMO,LUMO and all others with HOMO as origin</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus.Octopus.compute_dos">
+<span class="sig-name descname"><span class="pre">compute_dos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus.html#Octopus.compute_dos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus.Octopus.compute_dos" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus.Octopus.compute_ksd">
+<span class="sig-name descname"><span class="pre">compute_ksd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">proj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_directory</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus.html#Octopus.compute_ksd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus.Octopus.compute_ksd" title="Permalink to this definition"></a></dt>
+<dd><p>arguments: polarization axis for TD simulation</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus.Octopus.compute_populations">
+<span class="sig-name descname"><span class="pre">compute_populations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus.html#Octopus.compute_populations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus.Octopus.compute_populations" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus.Octopus.create_input">
+<span class="sig-name descname"><span class="pre">create_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus.html#Octopus.create_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus.Octopus.create_input" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus.Octopus.energy_range_to_states">
+<span class="sig-name descname"><span class="pre">energy_range_to_states</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">emin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emax</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus.html#Octopus.energy_range_to_states"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus.Octopus.energy_range_to_states" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus.Octopus.read_info">
+<span class="sig-name descname"><span class="pre">read_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">info_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_unoccupied</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus.html#Octopus.read_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus.Octopus.read_info" title="Permalink to this definition"></a></dt>
+<dd><p>Returns number of un/occupied states and eigen values</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus.Octopus.read_projections">
+<span class="sig-name descname"><span class="pre">read_projections</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">projection_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus.html#Octopus.read_projections"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus.Octopus.read_projections" title="Permalink to this definition"></a></dt>
+<dd><p>Reads and stores projections for given arguments</p>
+<dl class="simple">
+<dt>Arguments: time_start = start of time steps, time_end = end of time steps</dt><dd><p>number_of_proj_(un/)occupied = number of un/occupied states to project,
+axis = polarization vector for TD simulation as list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus.Octopus.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus.html#Octopus.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus.Octopus.run" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus.Octopus.write_input">
+<span class="sig-name descname"><span class="pre">write_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus.html#Octopus.write_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus.Octopus.write_input" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-litesoph.simulations.octopus.octopus_input">
+<span id="litesoph-simulations-octopus-octopus-input-module"></span><h2>litesoph.simulations.octopus.octopus_input module<a class="headerlink" href="#module-litesoph.simulations.octopus.octopus_input" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_input.format_lines">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.octopus_input.</span></span><span class="sig-name descname"><span class="pre">format_lines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inp_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_input.html#format_lines"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_input.format_lines" title="Permalink to this definition"></a></dt>
+<dd><p>formats lines from input dictionary structure</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_input.generate_input">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.octopus_input.</span></span><span class="sig-name descname"><span class="pre">generate_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inp_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_input.html#generate_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_input.generate_input" title="Permalink to this definition"></a></dt>
+<dd><p>Reads master dictionary, decides and returns the template format</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_input.get_block_dict">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.octopus_input.</span></span><span class="sig-name descname"><span class="pre">get_block_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inp_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_input.html#get_block_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_input.get_block_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Reads the input dictionary and returns the matched key-values for particular block type</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_input.get_dependent_features">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.octopus_input.</span></span><span class="sig-name descname"><span class="pre">get_dependent_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">property_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_input.html#get_dependent_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_input.get_dependent_features" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the dependent features(expt) corresponding to the property</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_input.get_task">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.octopus_input.</span></span><span class="sig-name descname"><span class="pre">get_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inp_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_input.html#get_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_input.get_task" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the type of task to be performed</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_input.key_value2line">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.octopus_input.</span></span><span class="sig-name descname"><span class="pre">key_value2line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_input.html#key_value2line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_input.key_value2line" title="Permalink to this definition"></a></dt>
+<dd><p>ABC = abc</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_input.key_value2str">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.octopus_input.</span></span><span class="sig-name descname"><span class="pre">key_value2str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_input.html#key_value2str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_input.key_value2str" title="Permalink to this definition"></a></dt>
+<dd><p>ABC = ‘abc’</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_input.list2block">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.octopus_input.</span></span><span class="sig-name descname"><span class="pre">list2block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rows</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_input.html#list2block"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_input.list2block" title="Permalink to this definition"></a></dt>
+<dd><p>Construct ‘block’ of Octopus input.</p>
+<p>convert a list of rows to a string with the format x | x | ….
+for the octopus input file</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_input.list2sums">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.octopus_input.</span></span><span class="sig-name descname"><span class="pre">list2sums</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_input.html#list2sums"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_input.list2sums" title="Permalink to this definition"></a></dt>
+<dd><p>ABC = a + b + c</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_input.validate_gs_input">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.octopus_input.</span></span><span class="sig-name descname"><span class="pre">validate_gs_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inp_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_input.html#validate_gs_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_input.validate_gs_input" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_input.validate_spec_input">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.octopus_input.</span></span><span class="sig-name descname"><span class="pre">validate_spec_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inp_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_input.html#validate_spec_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_input.validate_spec_input" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_input.validate_td_delta_input">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.octopus_input.</span></span><span class="sig-name descname"><span class="pre">validate_td_delta_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inp_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_input.html#validate_td_delta_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_input.validate_td_delta_input" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_input.validate_td_laser_input">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.octopus_input.</span></span><span class="sig-name descname"><span class="pre">validate_td_laser_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inp_dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_input.html#validate_td_laser_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_input.validate_td_laser_input" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-litesoph.simulations.octopus.octopus_task">
+<span id="litesoph-simulations-octopus-octopus-task-module"></span><h2>litesoph.simulations.octopus.octopus_task module<a class="headerlink" href="#module-litesoph.simulations.octopus.octopus_task" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_task.OctopusTask">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.octopus_task.</span></span><span class="sig-name descname"><span class="pre">OctopusTask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lsconfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_task.html#OctopusTask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_task.OctopusTask" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="litesoph.simulations.html#litesoph.simulations.esmd.Task" title="litesoph.simulations.esmd.Task"><code class="xref py py-class docutils literal notranslate"><span class="pre">litesoph.simulations.esmd.Task</span></code></a></p>
+<p>Wrapper class to perform Octopus tasks</p>
+<dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_task.OctopusTask.NAME">
+<span class="sig-name descname"><span class="pre">NAME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'octopus'</span></em><a class="headerlink" href="#litesoph.simulations.octopus.octopus_task.OctopusTask.NAME" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_task.OctopusTask.added_post_processing_tasks">
+<span class="sig-name descname"><span class="pre">added_post_processing_tasks</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['tcm',</span> <span class="pre">'mo_population']</span></em><a class="headerlink" href="#litesoph.simulations.octopus.octopus_task.OctopusTask.added_post_processing_tasks" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_task.OctopusTask.create_engine">
+<span class="sig-name descname"><span class="pre">create_engine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_task.html#OctopusTask.create_engine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_task.OctopusTask.create_engine" title="Permalink to this definition"></a></dt>
+<dd><p>Creates Octopus class object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_task.OctopusTask.create_job_script">
+<span class="sig-name descname"><span class="pre">create_job_script</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">np</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_task.html#OctopusTask.create_job_script"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_task.OctopusTask.create_job_script" title="Permalink to this definition"></a></dt>
+<dd><p>Create the bash script to run the job and “touch Done” command to it, to know when the
+command is completed.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_task.OctopusTask.create_template">
+<span class="sig-name descname"><span class="pre">create_template</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_task.html#OctopusTask.create_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_task.OctopusTask.create_template" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_task.OctopusTask.engine_tasks">
+<span class="sig-name descname"><span class="pre">engine_tasks</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['ground_state',</span> <span class="pre">'rt_tddft_delta',</span> <span class="pre">'rt_tddft_laser',</span> <span class="pre">'spectrum']</span></em><a class="headerlink" href="#litesoph.simulations.octopus.octopus_task.OctopusTask.engine_tasks" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_task.OctopusTask.get_engine_log">
+<span class="sig-name descname"><span class="pre">get_engine_log</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_task.html#OctopusTask.get_engine_log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_task.OctopusTask.get_engine_log" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_task.OctopusTask.get_engine_network_job_cmd">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_engine_network_job_cmd</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_task.html#OctopusTask.get_engine_network_job_cmd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_task.OctopusTask.get_engine_network_job_cmd" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_task.OctopusTask.get_ksd_popln">
+<span class="sig-name descname"><span class="pre">get_ksd_popln</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_task.html#OctopusTask.get_ksd_popln"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_task.OctopusTask.get_ksd_popln" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_task.OctopusTask.get_pol_list">
+<span class="sig-name descname"><span class="pre">get_pol_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_task.html#OctopusTask.get_pol_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_task.OctopusTask.get_pol_list" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_task.OctopusTask.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_task.html#OctopusTask.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_task.OctopusTask.plot" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_task.OctopusTask.prepare_input">
+<span class="sig-name descname"><span class="pre">prepare_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_task.html#OctopusTask.prepare_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_task.OctopusTask.prepare_input" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_task.OctopusTask.run_job_local">
+<span class="sig-name descname"><span class="pre">run_job_local</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_task.html#OctopusTask.run_job_local"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_task.OctopusTask.run_job_local" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_task.OctopusTask.write_input">
+<span class="sig-name descname"><span class="pre">write_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_task.html#OctopusTask.write_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_task.OctopusTask.write_input" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.octopus_task.get_oct_kw_dict">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.octopus_task.</span></span><span class="sig-name descname"><span class="pre">get_oct_kw_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inp_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus/octopus_task.html#get_oct_kw_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.octopus_task.get_oct_kw_dict" title="Permalink to this definition"></a></dt>
+<dd><p>Acts on the input dictionary to return Octopus specifc keyword dictionary
+inp_dict: dictionary from gui
+task_name</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-litesoph.simulations.octopus">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-litesoph.simulations.octopus" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.pre_condition_ground_state">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.</span></span><span class="sig-name descname"><span class="pre">pre_condition_ground_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus.html#pre_condition_ground_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.pre_condition_ground_state" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.pre_condition_rt_tddft_delta">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.</span></span><span class="sig-name descname"><span class="pre">pre_condition_rt_tddft_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus.html#pre_condition_rt_tddft_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.pre_condition_rt_tddft_delta" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.pre_condition_rt_tddft_laser">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.</span></span><span class="sig-name descname"><span class="pre">pre_condition_rt_tddft_laser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus.html#pre_condition_rt_tddft_laser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.pre_condition_rt_tddft_laser" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.pre_condition_spectrum">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.</span></span><span class="sig-name descname"><span class="pre">pre_condition_spectrum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus.html#pre_condition_spectrum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.pre_condition_spectrum" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.simulations.octopus.pre_condition_tcm">
+<span class="sig-prename descclassname"><span class="pre">litesoph.simulations.octopus.</span></span><span class="sig-name descname"><span class="pre">pre_condition_tcm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/simulations/octopus.html#pre_condition_tcm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.simulations.octopus.pre_condition_tcm" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="litesoph.simulations.nwchem.html" class="btn btn-neutral float-left" title="litesoph.simulations.nwchem package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="litesoph.utilities.html" class="btn btn-neutral float-right" title="litesoph.utilities package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 10:54:25.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

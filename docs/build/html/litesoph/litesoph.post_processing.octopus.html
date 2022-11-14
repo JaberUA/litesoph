@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.post_processing.octopus package &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="litesoph.simulations package" href="litesoph.simulations.html" />
+    <link rel="prev" title="litesoph.post_processing.mo_population_correlation package" href="litesoph.post_processing.mo_population_correlation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Issues.html">Issues</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Developer_Guideline.html">Developer Guideline</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../Developer_Guideline.html#litesoph-architecture">Litesoph Architecture</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../Developer_Guideline.html#modules-of-litesoph">Modules of LITESOPH:</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="litesoph.html">litesoph package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="litesoph.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.html#module-litesoph.config">litesoph.config module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="litesoph.html#module-litesoph">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../Developer_Guideline.html">Developer Guideline</a> &raquo;</li>
+          <li><a href="litesoph.html">litesoph package</a> &raquo;</li>
+          <li><a href="litesoph.post_processing.html">litesoph.post_processing package</a> &raquo;</li>
+      <li>litesoph.post_processing.octopus package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/litesoph/litesoph.post_processing.octopus.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="litesoph-post-processing-octopus-package">
+<h1>litesoph.post_processing.octopus package<a class="headerlink" href="#litesoph-post-processing-octopus-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-litesoph.post_processing.octopus.binner">
+<span id="litesoph-post-processing-octopus-binner-module"></span><h2>litesoph.post_processing.octopus.binner module<a class="headerlink" href="#module-litesoph.post_processing.octopus.binner" title="Permalink to this headline"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="litesoph.post_processing.octopus.binner.binit">
+<span class="sig-prename descclassname"><span class="pre">litesoph.post_processing.octopus.binner.</span></span><span class="sig-name descname"><span class="pre">binit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xsig</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/post_processing/octopus/binner.html#binit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.post_processing.octopus.binner.binit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-litesoph.post_processing.octopus.oct_projections">
+<span id="litesoph-post-processing-octopus-oct-projections-module"></span><h2>litesoph.post_processing.octopus.oct_projections module<a class="headerlink" href="#module-litesoph.post_processing.octopus.oct_projections" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="litesoph.post_processing.octopus.oct_projections.Projections">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litesoph.post_processing.octopus.oct_projections.</span></span><span class="sig-name descname"><span class="pre">Projections</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nocc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nunocc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/post_processing/octopus/oct_projections.html#Projections"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.post_processing.octopus.oct_projections.Projections" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.post_processing.octopus.oct_projections.Projections.denmat">
+<span class="sig-name descname"><span class="pre">denmat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ost</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ust</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/post_processing/octopus/oct_projections.html#Projections.denmat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.post_processing.octopus.oct_projections.Projections.denmat" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.post_processing.octopus.oct_projections.Projections.extract">
+<span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ibeg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/post_processing/octopus/oct_projections.html#Projections.extract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.post_processing.octopus.oct_projections.Projections.extract" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.post_processing.octopus.oct_projections.Projections.ft_dmat">
+<span class="sig-name descname"><span class="pre">ft_dmat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dmat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">occ</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unocc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/post_processing/octopus/oct_projections.html#Projections.ft_dmat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.post_processing.octopus.oct_projections.Projections.ft_dmat" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.post_processing.octopus.oct_projections.Projections.populations">
+<span class="sig-name descname"><span class="pre">populations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stlst</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/post_processing/octopus/oct_projections.html#Projections.populations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.post_processing.octopus.oct_projections.Projections.populations" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.post_processing.octopus.oct_projections.Projections.write_dmat">
+<span class="sig-name descname"><span class="pre">write_dmat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dmat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aocc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auocc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/post_processing/octopus/oct_projections.html#Projections.write_dmat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.post_processing.octopus.oct_projections.Projections.write_dmat" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.post_processing.octopus.oct_projections.Projections.write_dmatr">
+<span class="sig-name descname"><span class="pre">write_dmatr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dmat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aocc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auocc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/post_processing/octopus/oct_projections.html#Projections.write_dmatr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.post_processing.octopus.oct_projections.Projections.write_dmatr" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litesoph.post_processing.octopus.oct_projections.Projections.write_pop">
+<span class="sig-name descname"><span class="pre">write_pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litesoph/post_processing/octopus/oct_projections.html#Projections.write_pop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litesoph.post_processing.octopus.oct_projections.Projections.write_pop" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="litesoph-post-processing-octopus-tddenmat-module">
+<h2>litesoph.post_processing.octopus.tddenmat module<a class="headerlink" href="#litesoph-post-processing-octopus-tddenmat-module" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-litesoph.post_processing.octopus">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-litesoph.post_processing.octopus" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="litesoph.post_processing.mo_population_correlation.html" class="btn btn-neutral float-left" title="litesoph.post_processing.mo_population_correlation package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="litesoph.simulations.html" class="btn btn-neutral float-right" title="litesoph.simulations package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 14:40:28.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

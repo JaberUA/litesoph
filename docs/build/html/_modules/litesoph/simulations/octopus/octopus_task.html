@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.simulations.octopus.octopus_task &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+          <li><a href="../../simulations.html">litesoph.simulations</a> &raquo;</li>
+          <li><a href="../octopus.html">litesoph.simulations.octopus</a> &raquo;</li>
+      <li>litesoph.simulations.octopus.octopus_task</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for litesoph.simulations.octopus.octopus_task</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">litesoph.simulations.esmd</span> <span class="kn">import</span> <span class="n">Task</span><span class="p">,</span> <span class="n">TaskFailed</span><span class="p">,</span> <span class="n">TaskNotImplementedError</span><span class="p">,</span> <span class="n">assemable_job_cmd</span>
+<span class="kn">from</span> <span class="nn">litesoph.simulations.octopus.octopus</span> <span class="kn">import</span> <span class="n">Octopus</span>
+<span class="kn">from</span> <span class="nn">litesoph.simulations.octopus.octopus_input</span> <span class="kn">import</span> <span class="n">get_task</span>
+<span class="kn">from</span> <span class="nn">litesoph</span> <span class="kn">import</span> <span class="n">config</span>
+
+<span class="n">engine_dir</span> <span class="o">=</span> <span class="s1">&#39;octopus&#39;</span>
+
+<span class="n">engine_log_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">engine_dir</span><span class="si">}</span><span class="s1">/log&#39;</span>
+<span class="n">engine_inp_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">engine_dir</span><span class="si">}</span><span class="s1">/inputs&#39;</span>
+
+<span class="n">general_input_file</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">engine_dir</span><span class="si">}</span><span class="s1">/inp&#39;</span>
+
+<span class="n">octopus_data</span> <span class="o">=</span> <span class="p">{</span>    
+    <span class="s2">&quot;unoccupied_task&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;out_log&#39;</span><span class="p">:</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">engine_log_dir</span><span class="si">}</span><span class="s1">/unocc.log&#39;</span><span class="p">},</span>
+
+    <span class="s2">&quot;ground_state&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span><span class="n">general_input_file</span><span class="p">,</span>
+                    <span class="s1">&#39;task_inp&#39;</span><span class="p">:</span> <span class="s1">&#39;gs.inp&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;out_log&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">engine_log_dir</span><span class="si">}</span><span class="s1">/gs.log&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;req&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;coordinate.xyz&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;check_list&#39;</span><span class="p">:[</span><span class="s1">&#39;SCF converged&#39;</span><span class="p">]},</span>
+
+    <span class="s2">&quot;rt_tddft_delta&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span><span class="n">general_input_file</span><span class="p">,</span>
+                    <span class="s1">&#39;task_inp&#39;</span><span class="p">:</span> <span class="s1">&#39;td_delta.inp&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;out_log&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">engine_log_dir</span><span class="si">}</span><span class="s1">/delta.log&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;req&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;coordinate.xyz&#39;</span><span class="p">],</span>
+                    <span class="s1">&#39;check_list&#39;</span><span class="p">:[</span><span class="s1">&#39;Finished writing information&#39;</span><span class="p">,</span> <span class="s1">&#39;Calculation ended&#39;</span><span class="p">]},</span>   
+
+    <span class="s2">&quot;rt_tddft_laser&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span><span class="n">general_input_file</span><span class="p">,</span>
+                    <span class="s1">&#39;task_inp&#39;</span><span class="p">:</span> <span class="s1">&#39;td_laser.inp&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;out_log&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">engine_log_dir</span><span class="si">}</span><span class="s1">/laser.log&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;req&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;coordinate.xyz&#39;</span><span class="p">]},</span>
+
+    <span class="s2">&quot;spectrum&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span><span class="n">general_input_file</span><span class="p">,</span>
+                <span class="s1">&#39;task_inp&#39;</span><span class="p">:</span> <span class="s1">&#39;spec.inp&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;out_log&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">engine_log_dir</span><span class="si">}</span><span class="s1">/spec.log&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;req&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="s1">&#39;coordinate.xyz&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;spectra_file&#39;</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">engine_dir</span><span class="si">}</span><span class="s1">/cross_section_vector&#39;</span><span class="p">]},</span>
+
+    <span class="s2">&quot;tcm&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;req&#39;</span><span class="p">:[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">engine_dir</span><span class="si">}</span><span class="s1">/static/info&#39;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">engine_dir</span><span class="si">}</span><span class="s1">/td.general/projections&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;dir&#39;</span><span class="p">:</span> <span class="s1">&#39;ksd&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;ksd_file&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">engine_dir</span><span class="si">}</span><span class="s1">/ksd/transwt.dat&#39;</span><span class="p">},</span>
+
+    <span class="s2">&quot;mo_population&quot;</span><span class="p">:{</span><span class="s1">&#39;inp&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;req&#39;</span><span class="p">:[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">engine_dir</span><span class="si">}</span><span class="s1">/static/info&#39;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">engine_dir</span><span class="si">}</span><span class="s1">/td.general/projections&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;dir&#39;</span><span class="p">:</span> <span class="s1">&#39;population&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;population_file&#39;</span><span class="p">:</span> <span class="s1">&#39;population.dat&#39;</span><span class="p">}</span>
+
+
+    <span class="c1"># &quot;ksd&quot;: {&#39;inp&#39;: f&#39;{engine_dir}/ksd/oct.inp&#39;,</span>
+    <span class="c1">#     &#39;req&#39;:[f&#39;{engine_dir}/static/info&#39;,</span>
+    <span class="c1">#     f&#39;{engine_dir}/td.general/projections&#39;],</span>
+    <span class="c1">#     &#39;ksd_file&#39;: f&#39;{engine_dir}/ksd/transwt.dat&#39;}          </span>
+<span class="p">}</span>
+
+<div class="viewcode-block" id="OctopusTask"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus_task.OctopusTask">[docs]</a><span class="k">class</span> <span class="nc">OctopusTask</span><span class="p">(</span><span class="n">Task</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Wrapper class to perform Octopus tasks &quot;&quot;&quot;</span>
+    <span class="n">NAME</span> <span class="o">=</span> <span class="s1">&#39;octopus&#39;</span>
+    <span class="n">engine_tasks</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ground_state&#39;</span><span class="p">,</span> <span class="s1">&#39;rt_tddft_delta&#39;</span><span class="p">,</span> <span class="s1">&#39;rt_tddft_laser&#39;</span><span class="p">,</span><span class="s1">&#39;spectrum&#39;</span><span class="p">]</span>
+    <span class="n">added_post_processing_tasks</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tcm&#39;</span><span class="p">,</span> <span class="s1">&#39;mo_population&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_dir</span><span class="p">,</span> <span class="n">lsconfig</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>   
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;task&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="o">=</span> <span class="n">get_task</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="ow">in</span> <span class="n">octopus_data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> 
+            <span class="k">raise</span> <span class="n">TaskNotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">task_name</span><span class="si">}</span><span class="s1"> is not implemented.&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_data</span> <span class="o">=</span> <span class="n">octopus_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_name</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="s1">&#39;octopus&#39;</span><span class="p">,</span><span class="n">status</span><span class="p">,</span> <span class="n">project_dir</span><span class="p">,</span> <span class="n">lsconfig</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_input</span> <span class="o">=</span> <span class="n">kwargs</span>     
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">user_input</span><span class="p">)</span>
+
+<div class="viewcode-block" id="OctopusTask.create_engine"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus_task.OctopusTask.create_engine">[docs]</a>    <span class="k">def</span> <span class="nf">create_engine</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Creates Octopus class object &quot;&quot;&quot;</span>
+        <span class="n">oct_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span> <span class="o">/</span> <span class="n">engine_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">network_done_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span> <span class="o">/</span> <span class="n">engine_dir</span> <span class="o">/</span> <span class="s1">&#39;Done&#39;</span>
+        <span class="k">if</span> <span class="s1">&#39;out_log&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">engine_log</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;out_log&#39;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">added_post_processing_tasks</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span><span class="o">/</span><span class="n">engine_dir</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">task_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dir&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_directory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">octopus</span> <span class="o">=</span> <span class="n">Octopus</span><span class="p">(</span><span class="n">directory</span><span class="o">=</span><span class="n">oct_dir</span><span class="p">)</span>  
+            <span class="k">return</span>      
+
+        <span class="n">param</span><span class="p">[</span><span class="s1">&#39;XYZCoordinates&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span> <span class="o">/</span> <span class="s1">&#39;coordinate.xyz&#39;</span><span class="p">)</span>
+        <span class="n">param</span><span class="p">[</span><span class="s1">&#39;FromScratch&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;yes&#39;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine_tasks</span><span class="p">:</span>
+            <span class="n">infile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;inp&#39;</span><span class="p">)</span>
+            <span class="n">outfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;out_log&#39;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">infile</span> <span class="o">=</span> <span class="s1">&#39;inp&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">outfile</span><span class="p">)</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">engine_dir</span><span class="p">)</span>
+
+            <span class="n">indir</span> <span class="o">=</span> <span class="n">oct_dir</span> <span class="o">/</span> <span class="s1">&#39;inputs&#39;</span>
+            <span class="n">outdir</span> <span class="o">=</span> <span class="n">oct_dir</span> <span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="o">.</span><span class="n">parent</span>
+            <span class="k">for</span> <span class="nb">dir</span> <span class="ow">in</span> <span class="p">[</span><span class="n">indir</span><span class="p">,</span> <span class="n">outdir</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">create_directory</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;rt_tddft_delta&quot;</span><span class="p">,</span><span class="s2">&quot;rt_tddft_laser&quot;</span><span class="p">]:</span>
+            <span class="n">inp_dict</span> <span class="o">=</span> <span class="n">get_oct_kw_dict</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span><span class="p">)</span>
+            <span class="n">gs_from_status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;octopus.ground_state.param&#39;</span><span class="p">)</span>
+            <span class="n">gs_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">gs_from_status</span><span class="p">)</span> 
+            <span class="n">gs_copy</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;CalculationMode&quot;</span><span class="p">)</span>
+            <span class="n">inp_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">gs_copy</span><span class="p">)</span>
+
+            <span class="n">td_output_list</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;energy&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;multipoles&quot;</span><span class="p">]]</span>
+            <span class="n">added_list</span> <span class="o">=</span> <span class="n">inp_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;TDOutput&quot;</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="n">td_output_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">added_list</span><span class="p">)</span>
+            <span class="n">inp_dict</span><span class="p">[</span><span class="s2">&quot;TDOutput&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">td_output_list</span>
+            <span class="n">param</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">inp_dict</span><span class="p">)</span>  
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="o">==</span> <span class="s1">&#39;spectrum&#39;</span><span class="p">:</span>
+            <span class="n">inp_dict</span> <span class="o">=</span> <span class="n">get_oct_kw_dict</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span><span class="p">)</span>
+            <span class="n">param</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">inp_dict</span><span class="p">)</span> 
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="o">==</span> <span class="s1">&#39;tcm&#39;</span><span class="p">:</span>
+            <span class="n">param</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;output&#39;</span><span class="p">:[</span><span class="s1">&#39;DMAT&#39;</span><span class="p">,</span> <span class="s1">&#39;POP&#39;</span><span class="p">]})</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_input</span> <span class="o">=</span> <span class="n">param</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">octopus</span> <span class="o">=</span> <span class="n">Octopus</span><span class="p">(</span><span class="n">infile</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">infile</span><span class="p">,</span> <span class="n">outfile</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="p">,</span>
+                             <span class="n">directory</span><span class="o">=</span><span class="n">oct_dir</span><span class="p">,</span> <span class="o">**</span><span class="n">param</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OctopusTask.write_input"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus_task.OctopusTask.write_input">[docs]</a>    <span class="k">def</span> <span class="nf">write_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="n">template</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">octopus</span><span class="o">.</span><span class="n">write_input</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="p">)</span>
+        <span class="n">copy_infile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span> <span class="o">/</span> <span class="n">engine_inp_dir</span> <span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">task_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;task_inp&#39;</span><span class="p">)</span>
+        <span class="n">inp_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span> <span class="o">/</span> <span class="n">engine_dir</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">infile</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">inp_file</span><span class="p">,</span> <span class="n">copy_infile</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OctopusTask.create_template"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus_task.OctopusTask.create_template">[docs]</a>    <span class="k">def</span> <span class="nf">create_template</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">octopus</span><span class="o">.</span><span class="n">create_input</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="OctopusTask.create_job_script"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus_task.OctopusTask.create_job_script">[docs]</a>    <span class="k">def</span> <span class="nf">create_job_script</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">np</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">remote_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+        
+        <span class="n">job_script</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">create_job_script</span><span class="p">()</span>
+        
+        <span class="n">ofilename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">task_data</span><span class="p">[</span><span class="s1">&#39;out_log&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="s1">&#39;octopus&#39;</span><span class="p">)</span>
+       
+        <span class="n">engine_path</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_path</span><span class="p">)</span>
+        <span class="n">mpi_path</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpi_path</span><span class="p">)</span>
+        <span class="n">cd_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span> <span class="o">/</span> <span class="n">engine_dir</span>
+
+        <span class="k">if</span> <span class="n">remote_path</span><span class="p">:</span>
+            <span class="n">mpi_path</span> <span class="o">=</span> <span class="s1">&#39;mpirun&#39;</span>
+            <span class="n">engine_path</span> <span class="o">=</span> <span class="s1">&#39;octopus&#39;</span>
+            <span class="n">cd_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">remote_path</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span><span class="o">.</span><span class="n">name</span> <span class="o">/</span> <span class="s1">&#39;octopus&#39;</span>
+        
+        <span class="n">extra_cmd</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;ground_state&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_input</span><span class="p">[</span><span class="s1">&#39;ExtraStates&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">unocc_ofilename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">octopus_data</span><span class="p">[</span><span class="s1">&#39;unoccupied_task&#39;</span><span class="p">][</span><span class="s1">&#39;out_log&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">engine_dir</span><span class="p">)</span>
+                <span class="n">extra_cmd</span> <span class="o">=</span> <span class="s2">&quot;perl -i -p0e &#39;s/CalculationMode = gs/CalculationMode = unocc/s&#39; inp</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="n">extra_cmd</span> <span class="o">=</span> <span class="n">extra_cmd</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mpi_path</span><span class="si">}</span><span class="s2"> -np </span><span class="si">{</span><span class="n">np</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">engine_path</span><span class="p">)</span><span class="si">}</span><span class="s2"> &amp;&gt; </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">unocc_ofilename</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="o">==</span> <span class="s1">&#39;spectrum&#39;</span><span class="p">:</span>
+            <span class="n">engine_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_path</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s1">&#39;oct-propagation_spectrum&#39;</span>
+
+        <span class="n">engine_cmd</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">engine_path</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="s1">&#39;&amp;&gt;&#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">ofilename</span><span class="p">)</span>
+        <span class="n">job_script</span> <span class="o">=</span> <span class="n">assemable_job_cmd</span><span class="p">(</span><span class="n">engine_cmd</span><span class="p">,</span> <span class="n">np</span><span class="p">,</span> <span class="n">cd_path</span><span class="p">,</span> <span class="n">mpi_path</span><span class="o">=</span><span class="n">mpi_path</span><span class="p">,</span> <span class="n">remote</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">remote_path</span><span class="p">),</span>
+                                                <span class="n">module_load_block</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_engine_network_job_cmd</span><span class="p">(),</span>
+                                                <span class="n">extra_block</span><span class="o">=</span><span class="n">extra_cmd</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">job_script</span> <span class="o">=</span> <span class="n">job_script</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">job_script</span></div>
+
+<div class="viewcode-block" id="OctopusTask.prepare_input"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus_task.OctopusTask.prepare_input">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_input</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">added_post_processing_tasks</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_ksd_popln</span><span class="p">()</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_template</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_input</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">template</span><span class="p">)</span>
+        <span class="n">copy_infile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span> <span class="o">/</span> <span class="n">engine_inp_dir</span> <span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">task_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;task_inp&#39;</span><span class="p">)</span>
+        <span class="n">inp_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span> <span class="o">/</span> <span class="n">engine_dir</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">infile</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">inp_file</span><span class="p">,</span> <span class="n">copy_infile</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_job_script</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_job_script</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">job_script</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OctopusTask.get_engine_log"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus_task.OctopusTask.get_engine_log">[docs]</a>    <span class="k">def</span> <span class="nf">get_engine_log</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">out_log</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;out_log&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_output</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_log</span><span class="p">(</span><span class="n">out_log</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OctopusTask.plot"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus_task.OctopusTask.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">litesoph.utilities.plot_spectrum</span> <span class="kn">import</span> <span class="n">plot_spectrum</span><span class="p">,</span><span class="n">plot_multiple_column</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="o">==</span> <span class="s1">&#39;spectrum&#39;</span><span class="p">:</span>
+            <span class="n">pol</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;octopus.rt_tddft_delta.param.TDPolarizationDirection&#39;</span><span class="p">)</span>
+            <span class="n">energy_min</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_input</span><span class="p">[</span><span class="s1">&#39;PropagationSpectrumMinEnergy&#39;</span><span class="p">]</span>
+            <span class="n">energy_max</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_input</span><span class="p">[</span><span class="s1">&#39;PropagationSpectrumMaxEnergy&#39;</span><span class="p">]</span>
+            <span class="n">e_min_eV</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">energy_min</span><span class="p">)</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">e_max_eV</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">energy_max</span><span class="p">)</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">spec_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_data</span><span class="p">[</span><span class="s1">&#39;spectra_file&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span><span class="p">)</span> <span class="o">/</span> <span class="n">spec_file</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;spec_</span><span class="si">{</span><span class="n">pol</span><span class="si">}</span><span class="s2">.png&quot;</span>
+            <span class="n">plot_spectrum</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="n">img</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;Energy (in eV)&quot;</span><span class="p">,</span> <span class="s2">&quot;Strength(in /eV)&quot;</span><span class="p">,</span> <span class="n">xlimit</span><span class="o">=</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">e_min_eV</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">e_max_eV</span><span class="p">)))</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="o">==</span> <span class="s1">&#39;tcm&#39;</span><span class="p">:</span> 
+            <span class="kn">from</span> <span class="nn">litesoph.utilities.job_submit</span> <span class="kn">import</span> <span class="n">execute</span>
+
+            <span class="n">fmin</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fmin&#39;</span><span class="p">)</span>
+            <span class="n">fmax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;fmax&#39;</span><span class="p">)</span>
+            <span class="n">axis_limit</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;axis_limit&#39;</span><span class="p">)</span>
+
+            <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+            <span class="n">path_python</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lsconfig</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;programs&#39;</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">)[</span><span class="s1">&#39;python&#39;</span><span class="p">]</span>
+            <span class="n">path_plotdmat</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">parents</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span> <span class="s1">&#39;visualization/octopus/plotdmat.py&#39;</span><span class="p">)</span>
+
+            <span class="n">ksd_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">project_dir</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_data</span><span class="p">[</span><span class="s1">&#39;ksd_file&#39;</span><span class="p">]</span>
+            <span class="n">cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">path_python</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">path_plotdmat</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">ksd_file</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">fmin</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">fmax</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">axis_limit</span><span class="si">}</span><span class="s1"> -i&#39;</span>
+        
+            <span class="n">result</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="n">cmd</span><span class="p">][</span><span class="s1">&#39;returncode&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="p">[</span><span class="n">cmd</span><span class="p">][</span><span class="s1">&#39;error&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="o">==</span> <span class="s1">&#39;mo_population&#39;</span><span class="p">:</span>
+            <span class="c1"># first check if the file exists already </span>
+            <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+            <span class="kn">from</span> <span class="nn">litesoph.post_processing.mo_population</span> <span class="kn">import</span> <span class="n">create_states_index</span>
+            <span class="n">below_homo</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;num_occupied_mo_plot&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">above_lumo</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;num_unoccupied_mo_plot&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">population_diff_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span><span class="o">/</span><span class="s1">&#39;population_diff.dat&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">occ</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">octopus</span><span class="o">.</span><span class="n">read_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+            
+            <span class="c1"># time_unit = kwargs.get(&#39;time_unit&#39;)            </span>
+            <span class="n">column_range</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">occ</span><span class="o">-</span><span class="n">below_homo</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">occ</span><span class="o">+</span><span class="n">above_lumo</span><span class="p">)</span>
+            <span class="n">legend_dict</span> <span class="o">=</span> <span class="n">create_states_index</span><span class="p">(</span><span class="n">num_below_homo</span><span class="o">=</span><span class="n">below_homo</span><span class="p">,</span> <span class="n">num_above_lumo</span><span class="o">=</span><span class="n">above_lumo</span><span class="p">,</span> <span class="n">homo_index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">occ</span><span class="p">)</span>
+            
+            <span class="n">population_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">population_diff_file</span><span class="p">)</span>            
+            <span class="n">plot_multiple_column</span><span class="p">(</span><span class="n">population_data</span><span class="p">,</span> <span class="n">column_list</span><span class="o">=</span><span class="n">column_range</span><span class="p">,</span> <span class="n">column_dict</span><span class="o">=</span><span class="n">legend_dict</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Time (in h_cut/eV)&#39;</span><span class="p">)</span>
+            <span class="k">return</span>        </div>
+
+<div class="viewcode-block" id="OctopusTask.get_engine_network_job_cmd"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus_task.OctopusTask.get_engine_network_job_cmd">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_engine_network_job_cmd</span><span class="p">():</span>
+
+        <span class="n">job_script</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">##### Please Provide the Excutable Path or environment of Octopus or load the module</span>
+
+<span class="s2">#spack load octopus</span>
+<span class="s2">#module load octopus&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">job_script</span></div>
+
+<div class="viewcode-block" id="OctopusTask.run_job_local"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus_task.OctopusTask.run_job_local">[docs]</a>    <span class="k">def</span> <span class="nf">run_job_local</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">cmd</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;tcm&#39;</span><span class="p">,</span><span class="s1">&#39;mo_population&#39;</span><span class="p">]:</span>
+            <span class="k">return</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">cmd</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">BASH_filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sumbit_local</span><span class="o">.</span><span class="n">run_job</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OctopusTask.get_ksd_popln"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus_task.OctopusTask.get_ksd_popln">[docs]</a>    <span class="k">def</span> <span class="nf">get_ksd_popln</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>        
+        <span class="n">_axis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pol_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+        <span class="n">max_step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;octopus.rt_tddft_delta.param.TDMaxSteps&#39;</span><span class="p">)</span>
+        <span class="n">output_freq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;octopus.rt_tddft_delta.param.TDOutputComputeInterval&#39;</span><span class="p">)</span> 
+        <span class="n">nt</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">max_step</span><span class="o">/</span><span class="n">output_freq</span><span class="p">)</span> 
+        <span class="n">below_homo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_input</span><span class="p">[</span><span class="s1">&#39;num_occupied_mo&#39;</span><span class="p">]</span>
+        <span class="n">above_lumo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_input</span><span class="p">[</span><span class="s1">&#39;num_unoccupied_mo&#39;</span><span class="p">]</span>
+
+        <span class="p">[</span><span class="n">occ</span><span class="p">,</span><span class="n">homo</span><span class="p">,</span><span class="n">lumo</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">octopus</span><span class="o">.</span><span class="n">read_info</span><span class="p">()</span>
+        <span class="n">proj_read</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">octopus</span><span class="o">.</span><span class="n">read_projections</span><span class="p">(</span><span class="n">time_end</span><span class="o">=</span> <span class="n">nt</span><span class="p">,</span>
+                                <span class="n">number_of_proj_occupied</span><span class="o">=</span> <span class="n">below_homo</span><span class="p">,</span>
+                                <span class="n">number_of_proj_unoccupied</span><span class="o">=</span><span class="n">above_lumo</span><span class="p">,</span>
+                                <span class="n">axis</span><span class="o">=</span><span class="n">_axis</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>            
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="o">==</span> <span class="s1">&#39;tcm&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">octopus</span><span class="o">.</span><span class="n">compute_ksd</span><span class="p">(</span><span class="n">proj</span><span class="o">=</span><span class="n">proj_read</span><span class="p">,</span> <span class="n">out_directory</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_name</span> <span class="o">==</span> <span class="s1">&#39;mo_population&#39;</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">litesoph.post_processing.mo_population</span> <span class="kn">import</span> <span class="n">calc_population_diff</span>
+                <span class="n">population_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">task_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;population_file&#39;</span><span class="p">)</span>
+                <span class="p">[</span><span class="n">proj_obj</span><span class="p">,</span> <span class="n">population_array</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">octopus</span><span class="o">.</span><span class="n">compute_populations</span><span class="p">(</span><span class="n">out_file</span> <span class="o">=</span> <span class="n">population_file</span><span class="p">,</span> <span class="n">proj</span><span class="o">=</span><span class="n">proj_read</span><span class="p">)</span>
+                <span class="n">population_diff_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">task_dir</span><span class="o">/</span><span class="s1">&#39;population_diff.dat&#39;</span>
+                <span class="n">calc_population_diff</span><span class="p">(</span><span class="n">homo_index</span><span class="o">=</span><span class="n">occ</span><span class="p">,</span><span class="n">infile</span><span class="o">=</span><span class="n">population_file</span><span class="p">,</span> <span class="n">outfile</span><span class="o">=</span><span class="n">population_diff_file</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">local_cmd_out</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">local_cmd_out</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="OctopusTask.get_pol_list"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus_task.OctopusTask.get_pol_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_pol_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
+        <span class="n">e_pol</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;octopus.rt_tddft_delta.param.TDPolarizationDirection&#39;</span><span class="p">)</span>
+        <span class="n">assign_pol_list</span> <span class="o">=</span><span class="p">{</span>
+            <span class="mi">1</span> <span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+            <span class="mi">2</span> <span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+            <span class="mi">3</span> <span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">}</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">assign_pol_list</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">e_pol</span><span class="p">))</span></div></div>
+
+<span class="c1">##---------------------------------------------------------------------------------------------------------------</span>
+
+<span class="n">pol_list2dir</span> <span class="o">=</span> <span class="p">[([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span>
+                <span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="mi">3</span><span class="p">)]</span>
+
+<span class="n">property_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;energy&quot;</span><span class="p">,</span> <span class="s2">&quot;multipoles&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;ksd&quot;</span><span class="p">:</span> <span class="s2">&quot;td_occup&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mo_population&quot;</span><span class="p">:</span> <span class="s2">&quot;td_occup&quot;</span><span class="p">}</span>
+
+
+<div class="viewcode-block" id="get_oct_kw_dict"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.octopus.html#litesoph.simulations.octopus.octopus_task.get_oct_kw_dict">[docs]</a><span class="k">def</span> <span class="nf">get_oct_kw_dict</span><span class="p">(</span><span class="n">inp_dict</span><span class="p">:</span><span class="nb">dict</span><span class="p">,</span> <span class="n">task_name</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Acts on the input dictionary to return Octopus specifc keyword dictionary</span>
+<span class="sd">        inp_dict: dictionary from gui</span>
+<span class="sd">        task_name</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">litesoph.utilities.units</span> <span class="kn">import</span> <span class="n">as_to_au</span>
+
+    <span class="k">if</span> <span class="s1">&#39;rt_tddft&#39;</span> <span class="ow">in</span> <span class="n">task_name</span><span class="p">:</span>
+        <span class="n">pol_list</span> <span class="o">=</span> <span class="n">inp_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;polarization&#39;</span><span class="p">)</span>
+        <span class="n">t_step</span> <span class="o">=</span> <span class="n">inp_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;time_step&#39;</span><span class="p">)</span>
+        <span class="n">property_list</span> <span class="o">=</span> <span class="n">inp_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;properties&#39;</span><span class="p">)</span>
+        <span class="n">laser</span> <span class="o">=</span> <span class="n">inp_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;laser&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                  
+        <span class="c1">### add appropriate keywords from property list</span>
+        <span class="n">_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">td_out_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">property_list</span><span class="p">:</span>
+            <span class="n">td_key</span> <span class="o">=</span> <span class="n">property_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">td_key</span><span class="p">:</span>
+                <span class="n">_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">td_key</span><span class="p">)</span>
+        <span class="n">td_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">_list</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">td_list</span><span class="p">:</span>
+            <span class="n">td_out_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">item</span><span class="p">])</span>
+        
+        <span class="n">_dict</span> <span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;CalculationMode&#39;</span><span class="p">:</span> <span class="s1">&#39;td&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;TDPropagator&#39;</span><span class="p">:</span> <span class="s1">&#39;aetrs&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;TDMaxSteps&#39;</span><span class="p">:</span> <span class="n">inp_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;number_of_steps&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;TDTimeStep&#39;</span><span class="p">:</span><span class="nb">round</span><span class="p">(</span><span class="n">t_step</span><span class="o">*</span><span class="n">as_to_au</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="s1">&#39;TDOutput&#39;</span><span class="p">:</span> <span class="n">td_out_list</span> <span class="p">,</span>
+        <span class="s1">&#39;TDOutputComputeInterval&#39;</span><span class="p">:</span><span class="n">inp_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;output_freq&#39;</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">laser</span><span class="p">:</span>
+            <span class="n">_dict2update</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;TDFunctions&#39;</span><span class="p">:[[</span><span class="nb">str</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="o">+</span><span class="s2">&quot;envelope_gauss&quot;</span><span class="o">+</span><span class="s1">&#39;&quot;&#39;</span><span class="p">),</span>
+                                    <span class="s1">&#39;tdf_gaussian&#39;</span><span class="p">,</span>
+                                    <span class="n">inp_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;strength&#39;</span><span class="p">),</span>
+                                    <span class="n">laser</span><span class="p">[</span><span class="s1">&#39;sigma&#39;</span><span class="p">],</span>
+                                    <span class="n">laser</span><span class="p">[</span><span class="s1">&#39;time0&#39;</span><span class="p">]</span>
+                                    <span class="p">]],</span>
+                    <span class="s1">&#39;TDExternalFields&#39;</span><span class="p">:[[</span><span class="s1">&#39;electric_field&#39;</span><span class="p">,</span>
+                                        <span class="n">pol_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">pol_list</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">pol_list</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                                        <span class="nb">str</span><span class="p">(</span><span class="n">laser</span><span class="p">[</span><span class="s1">&#39;frequency&#39;</span><span class="p">])</span><span class="o">+</span><span class="s2">&quot;*eV&quot;</span><span class="p">,</span>
+                                        <span class="nb">str</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="o">+</span><span class="s2">&quot;envelope_gauss&quot;</span><span class="o">+</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+                                        <span class="p">]]</span> <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pol_list</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>      
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">pol_list2dir</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">pol_list</span><span class="p">:</span>
+                        <span class="n">pol_dir</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="n">_dict2update</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;TDDeltaStrength&#39;</span><span class="p">:</span><span class="n">inp_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;strength&#39;</span><span class="p">),</span>
+                <span class="s1">&#39;TDPolarizationDirection&#39;</span><span class="p">:</span><span class="n">pol_dir</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_dict2update</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">task_name</span> <span class="o">==</span> <span class="s1">&#39;spectrum&#39;</span><span class="p">:</span>
+        <span class="n">delta_e</span> <span class="o">=</span> <span class="n">inp_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;delta_e&#39;</span><span class="p">)</span>
+        <span class="n">e_max</span> <span class="o">=</span> <span class="n">inp_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;e_max&#39;</span><span class="p">)</span>
+        <span class="n">e_min</span> <span class="o">=</span> <span class="n">inp_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;e_min&#39;</span><span class="p">)</span> 
+        
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;UnitsOutput&quot;</span><span class="p">:</span> <span class="s1">&#39;eV_angstrom&#39;</span><span class="p">,</span>
+        <span class="s2">&quot;PropagationSpectrumEnergyStep&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">delta_e</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;*eV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PropagationSpectrumMaxEnergy&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e_max</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;*eV&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PropagationSpectrumMinEnergy&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e_min</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;*eV&quot;</span>
+        <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">_dict</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 10:54:25.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

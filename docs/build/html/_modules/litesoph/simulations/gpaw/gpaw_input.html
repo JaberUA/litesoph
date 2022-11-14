@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.simulations.gpaw.gpaw_input &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+          <li><a href="../../simulations.html">litesoph.simulations</a> &raquo;</li>
+          <li><a href="../gpaw.html">litesoph.simulations.gpaw</a> &raquo;</li>
+      <li>litesoph.simulations.gpaw.gpaw_input</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for litesoph.simulations.gpaw.gpaw_input</h1><div class="highlight"><pre>
+<span></span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;ground_state&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;import&#39;</span><span class="p">:[</span>  <span class="s1">&#39;from ase.io import read, write&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;from gpaw import GPAW&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;from numpy import inf&#39;</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;rt_tddft&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;lcao&#39;</span><span class="p">:{</span>
+            <span class="s1">&#39;import&#39;</span><span class="p">:[</span>  <span class="s1">&#39;from gpaw.lcaotddft import LCAOTDDFT&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;from gpaw.lcaotddft.diplemomentwriter import DipoleMomentWriter&#39;</span><span class="p">]</span>
+        <span class="p">},</span> 
+        <span class="s1">&#39;fd&#39;</span> <span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;import&#39;</span><span class="p">:[</span> <span class="s1">&#39;from gpaw.lcaotddft import LCAOTDDFT&#39;</span><span class="p">,</span>
+                            <span class="s1">&#39;from gpaw.lcaotddft.diplemomentwriter import DipoleMomentWriter&#39;</span><span class="p">]</span>            
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">default_param</span> <span class="o">=</span>  <span class="p">{</span>
+        <span class="s1">&#39;geometry&#39;</span> <span class="p">:</span> <span class="s1">&#39;coordinate.xyz&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;mode&#39;</span><span class="p">:</span> <span class="s1">&#39;fd&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;xc&#39;</span><span class="p">:</span> <span class="s1">&#39;LDA&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;occupations&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s1">&#39;poissonsolver&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># Angstrom</span>
+        <span class="s1">&#39;gpts&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s1">&#39;kpts&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)],</span>
+        <span class="s1">&#39;nbands&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s1">&#39;charge&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;setups&#39;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s1">&#39;basis&#39;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s1">&#39;spinpol&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s1">&#39;filter&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s1">&#39;mixer&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s1">&#39;eigensolver&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s1">&#39;background_charge&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s1">&#39;experimental&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;reuse_wfs_method&#39;</span><span class="p">:</span> <span class="s1">&#39;paw&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;niter_fixdensity&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                         <span class="s1">&#39;magmoms&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                         <span class="s1">&#39;soc&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                         <span class="s1">&#39;kpt_refine&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+        <span class="s1">&#39;external&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s1">&#39;random&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s1">&#39;hund&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s1">&#39;maxiter&#39;</span><span class="p">:</span> <span class="mi">333</span><span class="p">,</span>
+        <span class="s1">&#39;idiotproof&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;symmetry&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;point_group&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                     <span class="s1">&#39;time_reversal&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                     <span class="s1">&#39;symmorphic&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                     <span class="s1">&#39;tolerance&#39;</span><span class="p">:</span> <span class="mf">1e-7</span><span class="p">,</span>
+                     <span class="s1">&#39;do_not_symmetrize_the_density&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>  <span class="c1"># deprecated</span>
+        <span class="s1">&#39;convergence&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;energy&#39;</span><span class="p">:</span> <span class="mf">0.0005</span><span class="p">,</span>  <span class="c1"># eV / electron</span>
+                        <span class="s1">&#39;density&#39;</span><span class="p">:</span> <span class="mf">1.0e-4</span><span class="p">,</span>
+                        <span class="s1">&#39;eigenstates&#39;</span><span class="p">:</span> <span class="mf">4.0e-8</span><span class="p">,</span>  <span class="c1"># eV^2</span>
+                        <span class="s1">&#39;bands&#39;</span><span class="p">:</span> <span class="s1">&#39;occupied&#39;</span><span class="p">},</span>  <span class="c1"># eV / Ang</span>
+        <span class="s1">&#39;verbose&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s1">&#39;fixdensity&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># deprecated</span>
+        <span class="s1">&#39;dtype&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>  <span class="c1"># deprecated</span>
+
+<span class="n">gs_template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">from ase.io import read, write</span>
+<span class="s2">from gpaw import GPAW</span>
+<span class="s2">from numpy import inf</span>
+
+<span class="s2"># Molecule or nanostructure</span>
+<span class="s2">atoms = read(&#39;</span><span class="si">{geometry}</span><span class="s2">&#39;)</span>
+<span class="s2">atoms.center(vacuum=</span><span class="si">{vacuum}</span><span class="s2">)</span>
+
+<span class="s2">#Ground-state calculation</span>
+<span class="s2">calc = GPAW(mode=&#39;</span><span class="si">{mode}</span><span class="s2">&#39;,</span>
+<span class="s2">    xc=&#39;</span><span class="si">{xc}</span><span class="s2">&#39;,</span>
+<span class="s2">    occupations = </span><span class="si">{occupations}</span><span class="s2">,</span>
+<span class="s2">    h=</span><span class="si">{h}</span><span class="s2">,  # Angstrom</span>
+<span class="s2">    gpts=</span><span class="si">{gpts}</span><span class="s2">,</span>
+<span class="s2">    kpts=</span><span class="si">{kpts}</span><span class="s2">,</span>
+<span class="s2">    nbands= </span><span class="si">{nbands}</span><span class="s2">,</span>
+<span class="s2">    charge= </span><span class="si">{charge}</span><span class="s2">,</span>
+<span class="s2">    setups= </span><span class="si">{setups}</span><span class="s2">,</span>
+<span class="s2">    basis=</span><span class="si">{basis}</span><span class="s2">,</span>
+<span class="s2">    spinpol= </span><span class="si">{spinpol}</span><span class="s2">,</span>
+<span class="s2">    filter=</span><span class="si">{filter}</span><span class="s2">,</span>
+<span class="s2">    mixer=</span><span class="si">{mixer}</span><span class="s2">,</span>
+<span class="s2">    hund=</span><span class="si">{hund}</span><span class="s2">,</span>
+<span class="s2">    maxiter=</span><span class="si">{maxiter}</span><span class="s2">,</span>
+<span class="s2">    symmetry=</span><span class="si">{symmetry}</span><span class="s2">,  </span>
+<span class="s2">    convergence=</span><span class="si">{convergence}</span><span class="s2">,</span>
+<span class="s2">    txt=&#39;</span><span class="si">{txt_out}</span><span class="s2">&#39;)</span>
+<span class="s2">atoms.calc = calc</span>
+<span class="s2">energy = atoms.get_potential_energy()</span>
+<span class="s2">calc.write(&#39;</span><span class="si">{gpw_out}</span><span class="s2">&#39;, mode=&#39;all&#39;)</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">delta_kick_template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot; </span>
+<span class="s2">from gpaw.lcaotddft import LCAOTDDFT</span>
+<span class="s2">import numpy as np</span>
+<span class="s2">from gpaw.lcaotddft.dipolemomentwriter import DipoleMomentWriter</span>
+
+<span class="s2">td_calc = LCAOTDDFT(filename=&#39;</span><span class="si">{gfilename}</span><span class="s2">&#39;,txt=&#39;</span><span class="si">{txt_out}</span><span class="s2">&#39;)</span>
+
+
+<span class="s2">td_calc.absorption_kick(</span><span class="si">{absorption_kick}</span><span class="s2">)</span>
+<span class="s2"># Propagate&quot;</span>
+<span class="s2">td_calc.propagate</span><span class="si">{propagate}</span><span class="s2"></span>
+<span class="s2">td_calc.write(&#39;</span><span class="si">{gpw_out}</span><span class="s2">&#39;, mode=&#39;all&#39;)</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">external_field_template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot; </span>
+<span class="s2">import numpy as np</span>
+<span class="s2">from ase.units import Hartree, Bohr</span>
+<span class="s2">from gpaw.external import ConstantElectricField</span>
+<span class="s2">from gpaw.lcaotddft import LCAOTDDFT</span>
+<span class="s2">from gpaw.lcaotddft.dipolemomentwriter import DipoleMomentWriter</span>
+<span class="s2">from gpaw.lcaotddft.laser import GaussianPulse</span>
+<span class="s2">pulse = GaussianPulse(</span><span class="si">{strength}</span><span class="s2">,</span><span class="si">{time0}</span><span class="s2">,</span><span class="si">{frequency}</span><span class="s2">,</span><span class="si">{sigma}</span><span class="s2">, &#39;sin&#39;)</span>
+<span class="s2">ext = ConstantElectricField(Hartree / Bohr,</span><span class="si">{polarization}</span><span class="s2"> )</span>
+<span class="s2">td_potential = {{&#39;ext&#39;: ext, &#39;laser&#39;: pulse}}</span>
+<span class="s2">td_calc = LCAOTDDFT(filename=&#39;</span><span class="si">{gfilename}</span><span class="s2">&#39;,</span>
+<span class="s2">                    td_potential=td_potential,</span>
+<span class="s2">                    txt=&#39;</span><span class="si">{txt_out}</span><span class="s2">&#39;)</span>
+
+<span class="s2"># Propagate&quot;</span>
+<span class="s2">td_calc.propagate</span><span class="si">{propagate}</span><span class="s2"></span>
+<span class="s2"># Save the state for restarting later&quot;</span>
+<span class="s2">td_calc.write(&#39;</span><span class="si">{gpw_out}</span><span class="s2">&#39;, mode=&#39;all&#39;)</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">dm2spec</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">from gpaw.tddft.spectrum import photoabsorption_spectrum</span>
+<span class="s2">photoabsorption_spectrum(&#39;</span><span class="si">{dm_file}</span><span class="s2">&#39;, &#39;</span><span class="si">{spectrum_file}</span><span class="s2">&#39;,folding=&#39;</span><span class="si">{folding}</span><span class="s2">&#39;, width=</span><span class="si">{width}</span><span class="s2">,e_min=</span><span class="si">{e_min}</span><span class="s2">, e_max=</span><span class="si">{e_max}</span><span class="s2">, delta_e=</span><span class="si">{delta_e}</span><span class="s2">)</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">mo_population</span> <span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">from gpaw import GPAW</span>
+<span class="s2">from gpaw.lcaotddft import LCAOTDDFT</span>
+<span class="s2">from gpaw.lcaotddft.ksdecomposition import KohnShamDecomposition</span>
+<span class="s2">from gpaw.lcaotddft.densitymatrix import DensityMatrix</span>
+<span class="s2">from litesoph.post_processing.gpaw.mopopulationwriter import MoPopulationWriter</span>
+
+<span class="s2">calc = GPAW(&#39;</span><span class="si">{gfilename}</span><span class="s2">&#39;, txt=None).fixed_density(nbands=&#39;nao&#39;, txt=&#39;unocc.out&#39;)</span>
+<span class="s2">calc.write(&#39;unocc.gpw&#39;, mode=&#39;all&#39;)</span>
+
+<span class="s2">td_calc = LCAOTDDFT(&#39;unocc.gpw&#39;, txt=None)</span>
+
+<span class="s2">dmat = DensityMatrix(td_calc)</span>
+<span class="s2">ksd = KohnShamDecomposition(td_calc)</span>
+<span class="s2">ksd.initialize(td_calc)</span>
+<span class="s2">MoPopulationWriter(td_calc, dmat, ksd, filename=&#39;</span><span class="si">{mopop_file}</span><span class="s2">&#39;)</span>
+<span class="s2"># Replay the propagation</span>
+<span class="s2">td_calc.replay(name=&#39;</span><span class="si">{wfile}</span><span class="s2">&#39;, update=&#39;none&#39;)</span>
+
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">tcm_temp</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">from gpaw.lcaotddft import LCAOTDDFT</span>
+<span class="s2">from gpaw.lcaotddft.frequencydensitymatrix import FrequencyDensityMatrix</span>
+<span class="s2">from gpaw.tddft.folding import frequencies</span>
+<span class="s2">import numpy as np</span>
+<span class="s2">from matplotlib import pyplot as plt</span>
+<span class="s2">from gpaw import GPAW</span>
+<span class="s2">from gpaw.tddft.units import au_to_eV</span>
+<span class="s2">from gpaw.lcaotddft.ksdecomposition import KohnShamDecomposition</span>
+<span class="s2">from gpaw.lcaotddft.densitymatrix import DensityMatrix</span>
+<span class="s2">from gpaw.lcaotddft.frequencydensitymatrix import FrequencyDensityMatrix</span>
+<span class="s2">from gpaw.lcaotddft.tcm import TCMPlotter</span>
+
+<span class="s2"># Read the ground-state file</span>
+<span class="s2">td_calc = LCAOTDDFT(&#39;</span><span class="si">{gfilename}</span><span class="s2">&#39;, txt=None)</span>
+
+<span class="s2">frequency_list = </span><span class="si">{frequency_list}</span><span class="s2"></span>
+
+<span class="s2"># Attach analysis tools</span>
+<span class="s2">dmat = DensityMatrix(td_calc)</span>
+<span class="s2">freqs = frequencies(frequency_list, &#39;Gauss&#39;, 0.1)</span>
+<span class="s2">fdm = FrequencyDensityMatrix(td_calc, dmat, frequencies=freqs)</span>
+
+<span class="s2"># Replay the propagation</span>
+<span class="s2">td_calc.replay(name=&#39;</span><span class="si">{wfile}</span><span class="s2">&#39;, update=&#39;none&#39;)</span>
+
+<span class="s2"># Store the density matrix</span>
+<span class="s2">fdm.write(&#39;fdm.ulm&#39;)</span>
+
+
+<span class="s2"># Calculate ground state with full unoccupied space</span>
+<span class="s2">calc = GPAW(&#39;</span><span class="si">{gfilename}</span><span class="s2">&#39;, txt=None).fixed_density(nbands=&#39;nao&#39;, txt=&#39;unocc.out&#39;)</span>
+<span class="s2">calc.write(&#39;unocc.gpw&#39;, mode=&#39;all&#39;)</span>
+
+<span class="s2"># Construct KS electron-hole basis</span>
+<span class="s2">ksd = KohnShamDecomposition(calc)</span>
+<span class="s2">ksd.initialize(calc)</span>
+<span class="s2">ksd.write(&#39;ksd.ulm&#39;)</span>
+
+<span class="s2"># Load the objects</span>
+<span class="s2">calc = GPAW(&#39;unocc.gpw&#39;, txt=None)</span>
+<span class="s2">ksd = KohnShamDecomposition(calc, &#39;ksd.ulm&#39;)</span>
+<span class="s2">dmat = DensityMatrix(calc)</span>
+<span class="s2">fdm = FrequencyDensityMatrix(calc, dmat, &#39;fdm.ulm&#39;)</span>
+
+<span class="s2">plt.figure(figsize=(8, 8))</span>
+
+
+<span class="s2">def do(w):</span>
+<span class="s2">    # Select the frequency and the density matrix</span>
+<span class="s2">    rho_uMM = fdm.FReDrho_wuMM[w]</span>
+<span class="s2">    freq = fdm.freq_w[w]</span>
+<span class="s2">    frequency = freq.freq * au_to_eV</span>
+<span class="s2">    print(f&#39;Frequency: {{frequency:.2f}} eV&#39;)</span>
+<span class="s2">    print(f&#39;Folding: {{freq.folding}}&#39;)</span>
+
+<span class="s2">    # Transform the LCAO density matrix to KS basis</span>
+<span class="s2">    rho_up = ksd.transform(rho_uMM)</span>
+
+<span class="s2">    # Photoabsorption decomposition</span>
+<span class="s2">    dmrho_vp = ksd.get_dipole_moment_contributions(rho_up)</span>
+<span class="s2">    weight_p = 2 * freq.freq / np.pi * dmrho_vp[0].imag / au_to_eV * 1e5</span>
+<span class="s2">    print(f&#39;Total absorption: {{np.sum(weight_p):.2f}} eV^-1&#39;)</span>
+
+<span class="s2">    # Print contributions as a table</span>
+<span class="s2">    table = ksd.get_contributions_table(weight_p, minweight=0.1)</span>
+<span class="s2">    print(table)</span>
+<span class="s2">    with open(f&#39;table_{{frequency:.2f}}.txt&#39;, &#39;w&#39;) as f:</span>
+<span class="s2">        f.write(f&#39;Frequency: {{frequency:.2f}} eV</span><span class="se">\\</span><span class="s2">n&#39;)</span>
+<span class="s2">        f.write(f&#39;Folding: {{freq.folding}}</span><span class="se">\\</span><span class="s2">n&#39;)</span>
+<span class="s2">        f.write(f&#39;Total absorption: {{np.sum(weight_p):.2f}} eV^-1</span><span class="se">\\</span><span class="s2">n&#39;)</span>
+<span class="s2">        f.write(table)</span>
+
+<span class="s2">    # Plot the decomposition as a TCM</span>
+<span class="s2">    de = 0.01</span>
+<span class="s2">    energy_o = np.arange(-</span><span class="si">{axis_limit:.2f}</span><span class="s2">, 0.1 + 1e-6, de)</span>
+<span class="s2">    energy_u = np.arange(-0.1, </span><span class="si">{axis_limit:.2f}</span><span class="s2"> + 1e-6, de)</span>
+<span class="s2">    plt.clf()</span>
+<span class="s2">    plotter = TCMPlotter(ksd, energy_o, energy_u, sigma=0.1)</span>
+<span class="s2">    plotter.plot_TCM(weight_p)</span>
+<span class="s2">    plotter.plot_DOS(fill={{&#39;color&#39;: &#39;0.8&#39;}}, line={{&#39;color&#39;: &#39;k&#39;}})</span>
+<span class="s2">    plotter.plot_TCM_diagonal(freq.freq * au_to_eV, color=&#39;k&#39;)</span>
+<span class="s2">    plotter.set_title(f&#39;Photoabsorption TCM at {{frequency:.2f}} eV&#39;)</span>
+
+<span class="s2">    # Check that TCM integrates to correct absorption</span>
+<span class="s2">    tcm_ou = ksd.get_TCM(weight_p, ksd.get_eig_n()[0],</span>
+<span class="s2">                         energy_o, energy_u, sigma=0.1)</span>
+<span class="s2">    print(f&#39;TCM absorption: {{np.sum(tcm_ou) * de ** 2:.2f}} eV^-1&#39;)</span>
+
+<span class="s2">    # Save the plot</span>
+<span class="s2">    plt.savefig(f&#39;tcm_{{frequency:.2f}}.png&#39;)</span>
+
+<span class="s2">def run(frequency_list):</span>
+<span class="s2">    for i, item in enumerate(frequency_list):</span>
+<span class="s2">        do(i)</span>
+<span class="s2">run(frequency_list)</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">task_map</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;ground_state&#39;</span><span class="p">:</span> <span class="n">gs_template</span><span class="p">,</span>
+    <span class="s1">&#39;rt_tddft&#39;</span> <span class="p">:{</span><span class="s1">&#39;delta&#39;</span><span class="p">:</span> <span class="n">delta_kick_template</span><span class="p">,</span>
+                    <span class="s1">&#39;laser&#39;</span><span class="p">:</span> <span class="n">external_field_template</span><span class="p">},</span>
+    <span class="s1">&#39;spectrum&#39;</span> <span class="p">:</span> <span class="n">dm2spec</span><span class="p">,</span>
+    <span class="s1">&#39;tcm&#39;</span> <span class="p">:</span> <span class="n">tcm_temp</span><span class="p">,</span>
+    <span class="s1">&#39;mo_population&#39;</span><span class="p">:</span> <span class="n">mo_population</span>
+<span class="p">}</span>
+<div class="viewcode-block" id="assemable_rt"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.gpaw.html#litesoph.simulations.gpaw.gpaw_input.assemable_rt">[docs]</a><span class="k">def</span> <span class="nf">assemable_rt</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">tools</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;analysis_tools&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;laser&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">laser</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;laser&#39;</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">laser</span><span class="p">)</span>
+        <span class="n">template</span> <span class="o">=</span> <span class="n">external_field_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+       
+        <span class="n">template</span> <span class="o">=</span> <span class="n">delta_kick_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">tlines</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    
+    <span class="k">if</span> <span class="s1">&#39;dipole&#39;</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">:</span>
+        <span class="n">tlines</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;from gpaw.lcaotddft.dipolemomentwriter import DipoleMomentWriter&#39;</span><span class="p">)</span>
+        <span class="n">tlines</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;DipoleMomentWriter(td_calc, &#39;</span><span class="si">{</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dm_file&#39;</span><span class="p">,</span> <span class="s1">&#39;dipole.dat&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;, interval=</span><span class="si">{</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;output_freq&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="s2">&quot;wavefunction&quot;</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">:</span>  
+        <span class="n">tlines</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;from gpaw.lcaotddft.wfwriter import WaveFunctionWriter&quot;</span><span class="p">)</span>
+        <span class="n">tlines</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;WaveFunctionWriter(td_calc, &#39;</span><span class="si">{</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;wfile&#39;</span><span class="p">,</span> <span class="s1">&#39;wf.ulm&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;, interval=</span><span class="si">{</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;output_freq&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        
+    <span class="k">if</span> <span class="s1">&#39;mo_population&#39;</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">:</span>
+        <span class="n">tlines</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;from gpaw.lcaotddft.densitymatrix import DensityMatrix&#39;</span><span class="p">)</span>
+        <span class="n">tlines</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;from gpaw.lcaotddft.ksdecomposition import KohnShamDecomposition&#39;</span><span class="p">)</span>
+        <span class="n">tlines</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;from litesoph.simulations.gpaw.mopopulationwriter import MoPopulationWriter&#39;</span><span class="p">)</span>
+        <span class="n">tlines</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;dmat = DensityMatrix(td_calc)&quot;</span><span class="p">)</span>
+        <span class="n">tlines</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;ksd = KohnShamDecomposition(td_calc)&quot;</span><span class="p">)</span>
+        <span class="n">tlines</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;ksd.initialize(td_calc)&quot;</span><span class="p">)</span>
+        <span class="n">tlines</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span>  <span class="sa">f</span><span class="s2">&quot;MoPopulationWriter(td_calc, dmat, ksd, filename=&#39;</span><span class="si">{</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;mopop_file&#39;</span><span class="p">,</span> <span class="s1">&#39;mo_population.dat&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;, interval=</span><span class="si">{</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;output_freq&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    
+    <span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tlines</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">template</span></div>
+
+<div class="viewcode-block" id="gpaw_create_input"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.gpaw.html#litesoph.simulations.gpaw.gpaw_input.gpaw_create_input">[docs]</a><span class="k">def</span> <span class="nf">gpaw_create_input</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">task_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;task&#39;</span><span class="p">,</span> <span class="s1">&#39;ground_state&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">&#39;rt_tddft&#39;</span> <span class="ow">in</span> <span class="n">task_name</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">assemable_rt</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> 
+
+    <span class="k">if</span> <span class="s1">&#39;ground_state&#39;</span> <span class="o">==</span> <span class="n">task_name</span><span class="p">:</span>
+        <span class="n">default_param</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">default_param</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="n">task_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">task_name</span><span class="p">)</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">template</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 10:54:25.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

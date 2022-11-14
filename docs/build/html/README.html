@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LITESOPH &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Simulations of Photo-Physical Properties" href="Simulations.html" />
+    <link rel="prev" title="Welcome to LITESOPH’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">LITESOPH</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#engines-interfaced-with-litesoph">Engines Interfaced with LITESOPH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-lsconfig-file">Example lsconfig file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>LITESOPH</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/README.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="litesoph">
+<h1>LITESOPH<a class="headerlink" href="#litesoph" title="Permalink to this headline"></a></h1>
+<section id="engines-interfaced-with-litesoph">
+<span id="engines"></span><h2>Engines Interfaced with LITESOPH<a class="headerlink" href="#engines-interfaced-with-litesoph" title="Permalink to this headline"></a></h2>
+<p>There are three engines implimented in <span class="xref std std-ref">LITESOPH</span>. The details of these engines with their Installation Instruction are given below:</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://wiki.fysik.dtu.dk/gpaw/index.html">GPAW</a>    (version 20.1.0 or later)</dt><dd><p>is a density-functional theory (DFT) <a class="reference external" href="https://www.python.org/">Python</a> code based on the projector-augmented wave</p>
+</dd>
+</dl>
+<p>(<a class="reference external" href="https://wiki.fysik.dtu.dk/gpaw/documentation/introduction_to_paw.html#introduction-to-paw">PAW</a>) method
+and the atomic simulation environment (<a class="reference external" href="https://wiki.fysik.dtu.dk/ase/">ASE</a>).The wave functions can be described with:</p>
+<ul class="simple">
+<li><p>Plane-waves (<a class="reference external" href="https://wiki.fysik.dtu.dk/gpaw/documentation/basic.html#manual-mode">pw</a>)</p></li>
+<li><p>Real-space uniform grids, multigrid methods and the finite-difference approximation (<a class="reference external" href="https://wiki.fysik.dtu.dk/gpaw/documentation/basic.html#manual-stencils">fd</a>)</p></li>
+<li><p>Atom-centered basis-functions (<a class="reference external" href="https://wiki.fysik.dtu.dk/gpaw/documentation/lcao/lcao.html#lcao">lcao</a>)</p></li>
+</ul>
+<p>Before installing this engine, go to <a class="reference external" href="https://wiki.fysik.dtu.dk/gpaw/index.html">GPAW</a>  and its <a class="reference external" href="https://wiki.fysik.dtu.dk/gpaw/install.html">Installation Instruction</a>  for details.</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://octopus-code.org/wiki/Main_Page">Octopus</a>   (version 11.4)</dt><dd><p>is a scientific program aimed at the ab initio virtual experimentation on a hopefully</p>
+</dd>
+</dl>
+<p>ever-increasing range of system types. Electrons are described quantum-mechanically within density-functional theory (DFT), in its time-dependent form (TDDFT) when doing simulations in time. Nuclei are described classically as point particles. Electron-nucleus interaction is described within the pseudopotential approximation.</p>
+<p>For optimal execution performance Octopus is parallelized using MPI and OpenMP and can scale to tens of thousands of processors. It also has support for graphical processing units (GPUs) through OpenCL and CUDA.</p>
+<p>Octopus is free software, released under the GPL license, so you are free to download it, use it and modify it.</p>
+<p>Before installing this engine, go to <a class="reference external" href="https://octopus-code.org/wiki/Main_Page">Octopus</a>  and its <a class="reference external" href="https://octopus-code.org/wiki/Manual:Installation">Installation Instruction</a> for details.</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://nwchemgit.github.io/">NWChem</a> (version 7.0.0 or later)</dt><dd><p>aims to provide its users with computational chemistry tools that are scalable both in their</p>
+</dd>
+</dl>
+<p>ability to treat large scientific computational chemistry problems efficiently, and in their use of available parallel computing resources from high-performance parallel supercomputers to conventional workstation clusters.</p>
+<p>NWChem software can handle:</p>
+<p>Biomolecules, nanostructures, and solid-state
+From quantum to classical, and all combinations
+Ground and excited-states
+Gaussian basis functions or plane-waves
+Scaling from one to thousands of processors
+Properties and relativistic effects
+.. note:</p>
+<p>Before installing this engine, go to <a class="reference external" href="https://nwchemgit.github.io/">NWChem</a>  and its <a class="reference external" href="https://nwchemgit.github.io/Download.html">Installation Instruction</a> for details.</p>
+</section>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline"></a></h2>
+<p>Before installing LITESOPH, the following modules or packages are required:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://www.w3schools.com/python/">Python</a> 3.7.6 or later</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/tkinter.html">Tkinter</a></p></li>
+<li><p><a class="reference external" href="https://pypi.org/project/click/">click</a></p></li>
+<li><p><a class="reference external" href="http://docs.scipy.org/doc/numpy/reference/">NumPy</a></p></li>
+<li><p><a class="reference external" href="http://docs.scipy.org/doc/scipy/reference/">SciPy</a></p></li>
+<li><p><a class="reference external" href="https://pypi.org/project/matplotlib/">Matplotlib</a></p></li>
+<li><p><a class="reference external" href="https://pypi.org/project/paramiko/">Paramiko</a></p></li>
+<li><p><a class="reference external" href="https://www.ssh.com/academy/ssh/scp">scp</a></p></li>
+<li><p><a class="reference external" href="https://rsync.samba.org/">Rsync</a></p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h2>
+<p>After installing above Requirements and Engines, you are ready to install LITESOPH using the following commands:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone -b main https://github.com/LITESOPH/litesoph.git
+<span class="gp">$ </span>pip install &lt;path-to-litesoph&gt; <span class="c1">#Find the path to litesoph using &quot;which litesoph&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline"></a></h2>
+<dl>
+<dt>To create lsconfig file:</dt><dd><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>litesoph config -c
+</pre></div>
+</div>
+</dd>
+<dt>To edit lsconfig file:</dt><dd><div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>litesoph config -e
+</pre></div>
+</div>
+</dd>
+</dl>
+</section>
+<section id="example-lsconfig-file">
+<h2>Example lsconfig file<a class="headerlink" href="#example-lsconfig-file" title="Permalink to this headline"></a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">[path]</span>
+<span class="go">lsproject = &lt;litesoph project path&gt;</span>
+<span class="go">lsroot = &lt;installation path of litesoph&gt;</span>
+
+<span class="go">[visualization_tools]</span>
+<span class="go">vmd = &lt;path to vmd || e.g. /usr/local/bin/vmd ||can be obtained using :command:`which vmd` &gt;</span>
+<span class="go">vesta = &lt;path to vesta || e.g. /usr/local/bin/vesta||can be obtained using :command:`which vesta` &gt;</span>
+
+<span class="go">[engine]</span>
+<span class="go">gpaw = &lt;path of gpaw||can be obtained using :command:`which gpaw`&gt;</span>
+<span class="go">nwchem =&lt;binary path of nwchem||can be obtained using :command:`which nwchem`&gt;</span>
+<span class="go">octopus =&lt;binary path of octopus ||can be obtained using :command:`which octopus`&gt;</span>
+
+<span class="go">[programs]</span>
+<span class="go">python = &lt;path to python||can be obtained using :command:`which python`&gt;</span>
+
+<span class="go">[mpi]</span>
+<span class="go">mpirun = &lt;path to mpirun || e.g. /usr/local/bin/mpirun ||can be obtained using :command:`which mpirun`&gt;</span>
+<span class="go">gpaw_mpi = &lt;path to mpirun through which gpaw is compiled|| e.g. /usr/local/bin/mpirun&gt;</span>
+<span class="go">octopus_mpi =&lt;path to mpirun through which octopus is compiled|| e.g. /usr/local/bin/mpirun&gt;</span>
+<span class="go">nwchem_mpi =&lt;path to mpirun through which nwchem is compiled|| e.g. /usr/local/bin/mpirun&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="usage">
+<span id="id10"></span><h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h2>
+<p>To start gui application, run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>litesoph gui
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to LITESOPH’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Simulations.html" class="btn btn-neutral float-right" title="Simulations of Photo-Physical Properties" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 13:22:36.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

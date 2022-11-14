@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.post_processing.mo_population_correlation.moocc_correlation_plot &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      <li>litesoph.post_processing.mo_population_correlation.moocc_correlation_plot</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for litesoph.post_processing.mo_population_correlation.moocc_correlation_plot</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;  Code to create contour plot given 3D data. The data is smoothed by a Gaussian and</span>
+<span class="sd">  plotted using an inferno color-scale. </span>
+<span class="sd">  The following parameters are required as command line input</span>
+<span class="sd">  fname  -&gt; Name of data file. Data is expected as a 3-column data where the second parameter </span>
+<span class="sd">            is iterated first.</span>
+<span class="sd">  na -&gt; Number of values of first parameter</span>
+<span class="sd">  nr -&gt; Number of values of second parameter</span>
+<span class="sd">  nev -&gt; Number of divisions for the parameters in the plot</span>
+<span class="sd">  sig -&gt; The half-width of gaussian used for smoothing</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+
+<div class="viewcode-block" id="plot2D"><a class="viewcode-back" href="../../../../litesoph/litesoph.post_processing.mo_population_correlation.html#litesoph.post_processing.mo_population_correlation.moocc_correlation_plot.plot2D">[docs]</a><span class="k">def</span> <span class="nf">plot2D</span><span class="p">(</span><span class="n">eo</span><span class="p">,</span><span class="n">eu</span><span class="p">,</span><span class="n">dmatw</span><span class="p">,</span><span class="n">fnm</span><span class="p">,</span><span class="n">sig</span><span class="p">,</span><span class="n">ne</span><span class="p">,</span><span class="n">eomin</span><span class="p">,</span><span class="n">eumax</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+
+        <span class="p">(</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">)</span> <span class="o">=</span> <span class="n">dmatw</span><span class="o">.</span><span class="n">shape</span>
+
+<span class="c1">#       ne = 51</span>
+<span class="c1">#       sig = 0.1</span>
+        <span class="n">fact</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">sig</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        
+        <span class="n">ehomo</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">eo</span><span class="p">)</span>
+        <span class="n">elumo</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">eu</span><span class="p">)</span>
+        <span class="n">egap</span><span class="o">=</span> <span class="n">elumo</span><span class="o">-</span><span class="n">ehomo</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%10.6f</span><span class="s2"> </span><span class="si">%10.6f</span><span class="s2"> </span><span class="si">%10.6f</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">ehomo</span><span class="p">,</span><span class="n">elumo</span><span class="p">,</span><span class="n">egap</span><span class="p">))</span>
+
+        <span class="c1">#emini = min([min(eo), -max(eu)])</span>
+        <span class="c1">#emaxi = max(eo)+(min(eu)-max(eo))/2.0</span>
+        <span class="n">emaxi</span> <span class="o">=</span> <span class="o">-</span><span class="n">eomin</span><span class="o">/</span><span class="mf">4.0</span>  <span class="c1">#egap/2.0</span>
+        <span class="n">emini</span> <span class="o">=</span> <span class="n">eomin</span> <span class="c1">#min(eo) - epadi</span>
+        <span class="n">dei</span> <span class="o">=</span> <span class="p">(</span><span class="n">emaxi</span><span class="o">-</span><span class="n">emini</span><span class="p">)</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">ne</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1">#emina = max(eo)-(min(eu)-max(eo))/2.0</span>
+        <span class="c1">#emaxa = max([max(eu),-min(eo)])</span>
+        <span class="c1">#epada = eu[ny-1]-eu[ny-2]</span>
+        <span class="n">emaxa</span> <span class="o">=</span> <span class="n">eumax</span> <span class="c1">#max(eu) + epada</span>
+        <span class="n">emina</span> <span class="o">=</span> <span class="n">eomin</span><span class="o">/</span><span class="mf">4.0</span><span class="c1">#-egap/2.0</span>
+        <span class="n">dea</span> <span class="o">=</span> <span class="p">(</span><span class="n">emaxa</span><span class="o">-</span><span class="n">emina</span><span class="p">)</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">ne</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="c1">#nex = ne</span>
+        <span class="c1">#ney = round((emaxa-emina)*nex/(emaxi-emini))</span>
+
+
+        <span class="n">xlist</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">emini</span><span class="p">,</span><span class="n">emaxi</span><span class="p">,</span><span class="n">ne</span><span class="p">)</span>
+        <span class="n">ylist</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">emina</span><span class="p">,</span><span class="n">emaxa</span><span class="p">,</span><span class="n">ne</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">,</span><span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xlist</span><span class="p">,</span><span class="n">ylist</span><span class="p">)</span>
+
+        <span class="n">xmin</span> <span class="o">=</span> <span class="n">emini</span><span class="o">-</span><span class="n">dei</span>
+        <span class="n">xmax</span> <span class="o">=</span> <span class="n">emaxi</span><span class="o">+</span><span class="n">dei</span>
+
+        <span class="n">ymin</span> <span class="o">=</span> <span class="n">emina</span><span class="o">-</span><span class="n">dea</span>
+        <span class="n">ymax</span> <span class="o">=</span> <span class="n">emaxa</span><span class="o">+</span><span class="n">dea</span>
+
+        <span class="n">fname1</span><span class="o">=</span><span class="n">fnm</span><span class="o">+</span><span class="s2">&quot;.png&quot;</span>
+
+        <span class="n">Z</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">ne</span><span class="p">,</span><span class="n">ne</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ne</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ne</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">):</span>
+                                <span class="n">xx</span> <span class="o">=</span> <span class="p">(</span><span class="n">xlist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">ehomo</span><span class="o">-</span><span class="n">eo</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span><span class="o">/</span><span class="n">sig</span>
+                                <span class="k">for</span> <span class="n">iy</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ny</span><span class="p">):</span>
+                                        <span class="n">yy</span> <span class="o">=</span> <span class="p">(</span><span class="n">ylist</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">+</span><span class="n">elumo</span><span class="o">-</span><span class="n">eu</span><span class="p">[</span><span class="n">iy</span><span class="p">])</span><span class="o">/</span><span class="n">sig</span>
+                                        <span class="n">gx</span> <span class="o">=</span> <span class="n">fact</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">xx</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="n">yy</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span>
+                                        <span class="n">Z</span><span class="p">[</span><span class="n">j</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dmatw</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">]</span><span class="o">*</span><span class="n">gx</span>
+        <span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span><span class="c1">#/dei/dea </span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Z</span><span class="p">),</span> <span class="n">dei</span><span class="p">,</span> <span class="n">dea</span> <span class="p">)</span>                                 
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="c1">#levels = range(0,500,5)</span>
+        <span class="c1">#cp = plt.contourf(X,Y,Z,levels) #,colors=&#39;k&#39;)</span>
+        <span class="c1">#plt.clabel(cp,colors=&#39;k&#39;,fmt=&#39;%2.1f&#39;,fontsize=12)</span>
+        <span class="c1">#cp_filled = plt.contourf(X,Y,Z,levels)</span>
+        <span class="n">cp_filled</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">inferno</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cp_filled</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Occupied states&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Unoccupied states&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span><span class="n">xmax</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span><span class="n">ymax</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fname1</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="plot_mo_population_correlations"><a class="viewcode-back" href="../../../../litesoph/litesoph.post_processing.mo_population_correlation.html#litesoph.post_processing.mo_population_correlation.moocc_correlation_plot.plot_mo_population_correlations">[docs]</a><span class="k">def</span> <span class="nf">plot_mo_population_correlations</span><span class="p">(</span><span class="n">pop_correlation_file</span><span class="p">,</span> <span class="n">occ_states</span><span class="p">,</span> <span class="n">unocc_states</span><span class="p">,</span>
+                                    <span class="n">divisions</span><span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span> <span class="s1">&#39;Population Correlations&#39;</span><span class="p">):</span>
+    <span class="n">ea</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">occ_states</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">er</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">unocc_states</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">dmat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">occ_states</span><span class="p">,</span><span class="n">unocc_states</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pop_correlation_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">ia</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">ia</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">occ_states</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ir</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">unocc_states</span><span class="p">):</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">i</span><span class="o">%</span><span class="n">unocc_states</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ea</span><span class="p">[</span><span class="n">ia</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">ia</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">er</span><span class="p">[</span><span class="n">ir</span><span class="p">]</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">dmat</span><span class="p">[</span><span class="n">ia</span><span class="p">,</span><span class="n">ir</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>    
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">fplot_pref</span> <span class="o">=</span> <span class="s2">&quot;MO Population Correlations&quot;</span>            
+    <span class="n">eamin</span> <span class="o">=</span> <span class="o">-</span><span class="mf">16.0</span>
+    <span class="n">ermax</span> <span class="o">=</span> <span class="mf">24.0</span>
+    <span class="n">dmat</span><span class="o">=</span><span class="n">dmat</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dmat</span><span class="p">)</span>
+    <span class="n">plot2D</span><span class="p">(</span><span class="n">ea</span><span class="p">,</span><span class="n">er</span><span class="p">,</span><span class="n">dmat</span><span class="p">,</span><span class="n">fplot_pref</span><span class="p">,</span><span class="n">sigma</span><span class="p">,</span><span class="n">divisions</span><span class="p">,</span><span class="n">eamin</span><span class="p">,</span><span class="n">ermax</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>  </div>
+        
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">pop_cor_file</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">occ</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">unocc</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">div</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+    <span class="n">plot_mo_population_correlations</span><span class="p">(</span><span class="n">pop_cor_file</span><span class="p">,</span><span class="n">occ</span><span class="p">,</span> <span class="n">unocc</span><span class="p">,</span> <span class="n">divisions</span><span class="o">=</span><span class="n">div</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sig</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 10:54:25.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.simulations.nwchem.nwchem_input &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+          <li><a href="../../simulations.html">litesoph.simulations</a> &raquo;</li>
+          <li><a href="../nwchem.html">litesoph.simulations.nwchem</a> &raquo;</li>
+      <li>litesoph.simulations.nwchem.nwchem_input</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for litesoph.simulations.nwchem.nwchem_input</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">_special_kws</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">,</span><span class="s1">&#39;basis&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;set&#39;</span><span class="p">,</span> <span class="s1">&#39;symmetry&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">,</span> 
+                <span class="s1">&#39;basispar&#39;</span><span class="p">,</span> <span class="s1">&#39;kpts&#39;</span><span class="p">,</span> <span class="s1">&#39;restart_kw&#39;</span><span class="p">]</span>
+
+<span class="n">_theories</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dft&#39;</span><span class="p">,</span> <span class="s1">&#39;scf&#39;</span><span class="p">,</span> <span class="s1">&#39;tddft&#39;</span><span class="p">]</span>
+<span class="n">_special_keypairs</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;rt_tddft&#39;</span><span class="p">,</span> <span class="s1">&#39;field&#39;</span><span class="p">)]</span>
+
+<span class="k">def</span> <span class="nf">_format_line</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">key</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> .</span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)])</span>
+
+<span class="k">def</span> <span class="nf">_get_set</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;set &#39;</span> <span class="o">+</span> <span class="n">_format_line</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+
+<span class="k">def</span> <span class="nf">_get_field</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    
+    <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;      &#39;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;kick&#39;</span><span class="p">)</span>
+    <span class="n">_lines</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;    </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1"> &quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">]</span>
+    
+    <span class="n">geo_name</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;geo_name&#39;</span><span class="p">,</span> <span class="s1">&#39;system&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">subkey</span><span class="p">,</span> <span class="n">subval</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">_format_line</span><span class="p">(</span><span class="n">subkey</span><span class="p">,</span> <span class="n">subval</span><span class="p">))</span>
+    <span class="n">_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;  &#39;</span> <span class="o">+</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span>
+    <span class="n">_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;  &#39;</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;excite &quot;</span><span class="si">{</span><span class="n">geo_name</span><span class="si">}</span><span class="s1">&quot; with &quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_lines</span>
+
+<span class="k">def</span> <span class="nf">_format_block</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">nindent</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;  &#39;</span> <span class="o">*</span> <span class="n">nindent</span>
+    <span class="n">prefix2</span> <span class="o">=</span> <span class="s1">&#39;  &#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">nindent</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">key</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">_format_line</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)]</span>
+
+    <span class="n">_lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">prefix</span> <span class="o">+</span> <span class="n">key</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">subkey</span><span class="p">,</span> <span class="n">subval</span> <span class="ow">in</span> <span class="n">val</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">subkey</span><span class="p">)</span> <span class="ow">in</span> <span class="n">_special_keypairs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">subkey</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="s1">&#39;rt_tddft&#39;</span><span class="p">,</span> <span class="s1">&#39;field&#39;</span><span class="p">):</span>
+                <span class="n">_lines</span> <span class="o">+=</span> <span class="n">_get_field</span><span class="p">(</span><span class="n">subkey</span><span class="p">,</span> <span class="n">subval</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">_lines</span> <span class="o">+=</span> <span class="n">_format_block</span><span class="p">(</span><span class="n">subkey</span><span class="p">,</span> <span class="n">subval</span><span class="p">,</span> <span class="n">nindent</span> <span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subval</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">subval</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">_format_line</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">subval</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subval</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">subval</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">subval</span><span class="p">])</span>
+            <span class="n">_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prefix2</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">_format_line</span><span class="p">(</span><span class="n">subkey</span><span class="p">,</span> <span class="n">subval</span><span class="p">)]))</span>
+    
+    <span class="n">_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;end&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_lines</span>
+
+<span class="k">def</span> <span class="nf">_get_geom</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">):</span>
+    
+    <span class="n">geo</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;geometry&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">geo</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Geometry file not given.&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geo</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">geo</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">file</span> <span class="o">=</span> <span class="n">geo</span><span class="p">)</span>
+
+    <span class="n">geo_file</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">geo_file</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Geometry file not given.&quot;</span><span class="p">)</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;system&#39;</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;&quot;&#39;</span><span class="o">+</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;&quot;&#39;</span>
+    <span class="n">geom_header</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;geometry </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1"> units angstrom&#39;</span><span class="p">]</span>
+
+
+    <span class="k">for</span> <span class="n">geomkw</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="s1">&#39;autosym&#39;</span><span class="p">,</span> <span class="s1">&#39;autoz&#39;</span><span class="p">]:</span>
+        <span class="n">geom_header</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">geomkw</span> <span class="k">if</span> <span class="n">geo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">geomkw</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="s1">&#39;no&#39;</span> <span class="o">+</span> <span class="n">geomkw</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;geompar&#39;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+        <span class="n">geom_header</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;geompar&#39;</span><span class="p">])</span>
+    <span class="n">geom</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">geom_header</span><span class="p">)]</span>
+
+    <span class="n">geom</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;   load </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">geo_file</span><span class="p">))</span>
+    <span class="n">geom</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
+    <span class="n">geom</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">_get_set</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="n">name</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">geom</span>
+
+<span class="k">def</span> <span class="nf">_get_basis</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">):</span>
+
+    <span class="n">basis_in</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;basis&#39;</span><span class="p">,</span> <span class="s1">&#39;3-21G&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;basispar&#39;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="s1">&#39;basis </span><span class="si">{}</span><span class="s1"> noprint&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;basispar&#39;</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="s1">&#39;basis noprint&#39;</span>
+    <span class="n">basis_out</span> <span class="o">=</span> <span class="p">[</span><span class="n">header</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">basis_in</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">basis_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;   * library </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">basis_in</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">symbol</span><span class="p">,</span> <span class="n">ibasis</span> <span class="ow">in</span> <span class="n">basis_in</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">basis_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:&gt;4}</span><span class="s1"> library </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">symbol</span><span class="p">,</span> <span class="n">ibasis</span><span class="p">))</span>
+    <span class="n">basis_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">basis_out</span>
+
+<span class="k">def</span> <span class="nf">_get_task</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    
+    <span class="n">theory</span> <span class="o">=</span> <span class="s1">&#39;dft&#39;</span>
+    <span class="n">task</span> <span class="o">=</span> <span class="s1">&#39;energy&#39;</span>
+    <span class="k">if</span> <span class="s1">&#39;rt_tddft&#39;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="s1">&#39;rt_tddft&#39;</span>
+
+    <span class="k">return</span> <span class="n">theory</span><span class="p">,</span> <span class="n">task</span>
+
+<span class="k">def</span> <span class="nf">_get_other</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">):</span>
+    <span class="n">_lines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">kw</span><span class="p">,</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">kw</span> <span class="ow">in</span> <span class="n">_special_kws</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">_lines</span> <span class="o">+=</span> <span class="n">_format_block</span><span class="p">(</span><span class="n">kw</span><span class="p">,</span> <span class="n">block</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_lines</span>
+    
+<div class="viewcode-block" id="nwchem_create_input"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.nwchem.html#litesoph.simulations.nwchem.nwchem_input.nwchem_create_input">[docs]</a><span class="k">def</span> <span class="nf">nwchem_create_input</span><span class="p">(</span><span class="n">echo</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    
+    <span class="n">params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">_lines</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">geo</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;geometry&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">geo</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Geometry file not given.&quot;</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geo</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">geo</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">file</span> <span class="o">=</span> <span class="n">geo</span><span class="p">)</span>
+
+    <span class="n">geo_name</span> <span class="o">=</span> <span class="n">geo</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">geo_name</span><span class="p">:</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;geometry&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">geo_name</span> <span class="o">=</span> <span class="s1">&#39;system&#39;</span>
+
+    <span class="k">if</span> <span class="s1">&#39;rt_tddft&#39;</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;rt_tddft&#39;</span><span class="p">][</span><span class="s1">&#39;field&#39;</span><span class="p">][</span><span class="s1">&#39;geo_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">geo_name</span>
+
+    <span class="n">theory</span><span class="p">,</span> <span class="n">task</span> <span class="o">=</span> <span class="n">_get_task</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;label&#39;</span><span class="p">,</span> <span class="s1">&#39;nwchem&#39;</span><span class="p">)</span>
+    <span class="n">perm</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;perm&#39;</span><span class="p">,</span> <span class="n">label</span><span class="p">))</span>
+    <span class="n">scratch</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;scratch&#39;</span><span class="p">,</span> <span class="n">perm</span><span class="p">))</span>
+    <span class="n">restart_kw</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;restart_kw&#39;</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">restart_kw</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;restart&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unrecognised restart keyword: </span><span class="si">{}</span><span class="s2">!&quot;</span>
+                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">restart_kw</span><span class="p">))</span>
+    <span class="n">short_label</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">echo</span><span class="p">:</span>
+        <span class="n">_lines</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;echo&#39;</span><span class="p">]</span>
+    
+    <span class="n">_lines</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;title &quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">short_label</span><span class="p">),</span>
+                <span class="s1">&#39;permanent_dir </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">perm</span><span class="p">),</span>
+                <span class="s1">&#39;scratch_dir </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">scratch</span><span class="p">),</span>
+                <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">restart_kw</span><span class="p">,</span> <span class="n">short_label</span><span class="p">),</span>
+                <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_get_geom</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)),</span>
+                <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_get_basis</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)),</span>
+                <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_get_other</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)),</span>
+                <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_get_set</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;set&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">()))),</span>
+                <span class="s1">&#39;task </span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">theory</span><span class="p">,</span> <span class="n">task</span><span class="p">)])</span>
+
+    <span class="nb">input</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_lines</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="nb">input</span> </div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 10:54:25.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

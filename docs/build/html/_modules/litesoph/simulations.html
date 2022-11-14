@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.simulations &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>litesoph.simulations</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for litesoph.simulations</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">distutils.command.sdist</span> <span class="kn">import</span> <span class="n">sdist</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">from</span> <span class="nn">litesoph.simulations.gpaw.gpaw_task</span> <span class="kn">import</span> <span class="n">GpawTask</span>
+<span class="kn">from</span> <span class="nn">litesoph.simulations.nwchem.nwchem_task</span> <span class="kn">import</span> <span class="n">NwchemTask</span>
+<span class="kn">from</span> <span class="nn">litesoph.simulations.octopus.octopus_task</span> <span class="kn">import</span> <span class="n">OctopusTask</span>
+<span class="kn">from</span> <span class="nn">litesoph.simulations</span> <span class="kn">import</span> <span class="n">gpaw</span> <span class="k">as</span> <span class="n">g</span>
+<span class="kn">from</span> <span class="nn">litesoph.simulations</span> <span class="kn">import</span> <span class="n">nwchem</span> <span class="k">as</span> <span class="n">n</span>
+<span class="kn">from</span> <span class="nn">litesoph.simulations</span> <span class="kn">import</span> <span class="n">octopus</span> <span class="k">as</span> <span class="n">o</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">litesoph.config</span> <span class="kn">import</span> <span class="n">config_file</span><span class="p">,</span> <span class="n">config_to_dict</span><span class="p">,</span> <span class="n">dict_to_config</span>
+<span class="kn">from</span> <span class="nn">litesoph.simulations.project_status</span> <span class="kn">import</span> <span class="n">Status</span>
+<span class="kn">from</span> <span class="nn">litesoph.visualization.visualize_geometry</span> <span class="kn">import</span> <span class="n">VisualizeGeometry</span>
+
+<span class="n">task_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;gpaw&#39;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;ground_state&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">pre_condition_ground_state</span><span class="p">],</span>
+        <span class="s1">&#39;rt_tddft_delta&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">pre_condition_rt_tddft_delta</span><span class="p">],</span>
+        <span class="s1">&#39;rt_tddft_laser&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">pre_condition_rt_tddft_laser</span><span class="p">],</span>
+        <span class="s1">&#39;spectrum&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">pre_condition_spectrum</span><span class="p">],</span>
+        <span class="s1">&#39;tcm&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">pre_condition_tcm</span><span class="p">]</span>
+    <span class="p">},</span>
+
+    <span class="s1">&#39;nwchem&#39;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;ground_state&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">pre_condition_ground_state</span><span class="p">],</span>
+        <span class="s1">&#39;rt_tddft_delta&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">pre_condition_rt_tddft_delta</span><span class="p">],</span>
+        <span class="s1">&#39;rt_tddft_laser&#39;</span> <span class="p">:[</span><span class="n">n</span><span class="o">.</span><span class="n">pre_condition_rt_tddft_laser</span><span class="p">],</span>
+        <span class="s1">&#39;spectrum&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">pre_condition_spectrum</span><span class="p">],</span>
+        <span class="s1">&#39;tcm&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">pre_condition_tcm</span><span class="p">],</span>
+        <span class="s1">&#39;mo_population&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">pre_condition_spectrum</span><span class="p">]</span>
+    <span class="p">},</span>
+
+    <span class="s1">&#39;octopus&#39;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;ground_state&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">pre_condition_ground_state</span><span class="p">],</span>
+        <span class="s1">&#39;rt_tddft_delta&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">pre_condition_rt_tddft_delta</span><span class="p">],</span>
+        <span class="s1">&#39;rt_tddft_laser&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">pre_condition_rt_tddft_laser</span><span class="p">],</span>
+        <span class="s1">&#39;spectrum&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">pre_condition_spectrum</span><span class="p">],</span>
+        <span class="s1">&#39;tcm&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">pre_condition_tcm</span><span class="p">]</span>
+
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<div class="viewcode-block" id="ProjectSetupError"><a class="viewcode-back" href="../../litesoph/litesoph.simulations.html#litesoph.simulations.ProjectSetupError">[docs]</a><span class="k">class</span> <span class="nc">ProjectSetupError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raised when unable to create new project.&quot;&quot;&quot;</span></div>
+
+<div class="viewcode-block" id="TaskManager"><a class="viewcode-back" href="../../litesoph/litesoph.simulations.html#litesoph.simulations.TaskManager">[docs]</a><span class="k">class</span> <span class="nc">TaskManager</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">project_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_task</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_project</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_project_status</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_objects</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">read_lsconfig</span><span class="p">()</span>
+        <span class="n">vis_tools</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lsconfig</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;visualization_tools&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visualize</span> <span class="o">=</span> <span class="n">VisualizeGeometry</span><span class="p">(</span><span class="n">vis_tools</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TaskManager.read_lsconfig"><a class="viewcode-back" href="../../litesoph/litesoph.simulations.html#litesoph.simulations.TaskManager.read_lsconfig">[docs]</a>    <span class="k">def</span> <span class="nf">read_lsconfig</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lsconfig</span> <span class="o">=</span> <span class="n">config_to_dict</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TaskManager.get_task"><a class="viewcode-back" href="../../litesoph/litesoph.simulations.html#litesoph.simulations.TaskManager.get_task">[docs]</a>    <span class="k">def</span> <span class="nf">get_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">task</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span><span class="n">user_input</span><span class="p">):</span>
+        <span class="n">user_input</span><span class="p">[</span><span class="s1">&#39;task&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">task</span>
+        <span class="n">directory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project</span>
+        <span class="n">lsconfig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lsconfig</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_status</span>
+        <span class="k">if</span> <span class="n">engine</span> <span class="o">==</span> <span class="s1">&#39;nwchem&#39;</span><span class="p">:</span>
+            <span class="n">task</span> <span class="o">=</span> <span class="n">NwchemTask</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">lsconfig</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="o">**</span><span class="n">user_input</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">engine</span> <span class="o">==</span> <span class="s1">&#39;octopus&#39;</span><span class="p">:</span>
+            <span class="n">task</span> <span class="o">=</span> <span class="n">OctopusTask</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">lsconfig</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="o">**</span><span class="n">user_input</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">engine</span> <span class="o">==</span> <span class="s1">&#39;gpaw&#39;</span><span class="p">:</span>
+            <span class="n">task</span> <span class="o">=</span> <span class="n">GpawTask</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">lsconfig</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="o">**</span><span class="n">user_input</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_task_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">task</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task_objects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">task</span></div>
+
+<div class="viewcode-block" id="TaskManager.create_new_project"><a class="viewcode-back" href="../../litesoph/litesoph.simulations.html#litesoph.simulations.TaskManager.create_new_project">[docs]</a>    <span class="k">def</span> <span class="nf">create_new_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">):</span>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create_dir</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_project</span><span class="p">(</span><span class="n">project_path</span><span class="p">,</span> <span class="n">new_project</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="TaskManager.open_existing_project"><a class="viewcode-back" href="../../litesoph/litesoph.simulations.html#litesoph.simulations.TaskManager.open_existing_project">[docs]</a>    <span class="k">def</span> <span class="nf">open_existing_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_project</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="TaskManager.init_project"><a class="viewcode-back" href="../../litesoph/litesoph.simulations.html#litesoph.simulations.TaskManager.init_project">[docs]</a>    <span class="k">def</span> <span class="nf">init_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_path</span><span class="p">,</span> <span class="n">new_project</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_project_data</span> <span class="o">=</span> <span class="n">p_data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_project</span> <span class="o">=</span> <span class="n">project_path</span>
+        <span class="k">if</span> <span class="n">new_project</span><span class="p">:</span>
+            <span class="n">p_data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">project_path</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">p_data</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_project</span><span class="p">)</span>
+            <span class="n">p_data</span><span class="p">[</span><span class="s1">&#39;tasks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_project_status</span> <span class="o">=</span> <span class="n">Status</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_project</span><span class="p">,</span> <span class="n">p_data</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">p_data</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">raise</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_task_list</span> <span class="o">=</span> <span class="n">p_data</span><span class="p">[</span><span class="s1">&#39;tasks&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">project_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_project_data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_change_directory</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_project</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TaskManager.get_previous_engine"><a class="viewcode-back" href="../../litesoph/litesoph.simulations.html#litesoph.simulations.TaskManager.get_previous_engine">[docs]</a>    <span class="k">def</span> <span class="nf">get_previous_engine</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="n">non_engine_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;path&#39;</span><span class="p">,</span> <span class="s1">&#39;tasks&#39;</span><span class="p">,</span> <span class="s1">&#39;geometry&#39;</span><span class="p">]</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">non_engine_keys</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">key</span></div>
+
+<div class="viewcode-block" id="TaskManager.add_geometry"><a class="viewcode-back" href="../../litesoph/litesoph.simulations.html#litesoph.simulations.TaskManager.add_geometry">[docs]</a>    <span class="k">def</span> <span class="nf">add_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry_file</span><span class="p">):</span>
+        <span class="n">geom_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project</span> <span class="o">/</span> <span class="s2">&quot;coordinate.xyz&quot;</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">geometry_file</span><span class="p">,</span> <span class="n">geom_path</span><span class="p">)</span>
+        <span class="c1"># self.current_project_data[&#39;geometry&#39;] = str(geom_path)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_project_status</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s1">&#39;geometry&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">geom_path</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="TaskManager.check_geometry"><a class="viewcode-back" href="../../litesoph/litesoph.simulations.html#litesoph.simulations.TaskManager.check_geometry">[docs]</a>    <span class="k">def</span> <span class="nf">check_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">geom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;geometry&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">geom</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+            
+<div class="viewcode-block" id="TaskManager.visualize_geometry"><a class="viewcode-back" href="../../litesoph/litesoph.simulations.html#litesoph.simulations.TaskManager.visualize_geometry">[docs]</a>    <span class="k">def</span> <span class="nf">visualize_geometry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">default_geom_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project</span> <span class="o">/</span> <span class="s1">&#39;coordinate.xyz&#39;</span>
+        <span class="n">geom_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;geometry&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">default_geom_file</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visualize</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">geom_file</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="TaskManager.get_project_summary"><a class="viewcode-back" href="../../litesoph/litesoph.simulations.html#litesoph.simulations.TaskManager.get_project_summary">[docs]</a>    <span class="k">def</span> <span class="nf">get_project_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_project</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">summary_of_current_project</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_project_data</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TaskManager.check_status"><a class="viewcode-back" href="../../litesoph/litesoph.simulations.html#litesoph.simulations.TaskManager.check_status">[docs]</a>    <span class="k">def</span> <span class="nf">check_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
+
+        <span class="k">return</span>  <span class="n">task_dict</span><span class="p">[</span><span class="n">engine</span><span class="p">][</span><span class="n">task</span><span class="p">][</span><span class="mi">0</span><span class="p">](</span><span class="n">status</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_change_directory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="s2">&quot;changes current working directory&quot;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TaskManager.check_dir_exists"><a class="viewcode-back" href="../../litesoph/litesoph.simulations.html#litesoph.simulations.TaskManager.check_dir_exists">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">check_dir_exists</span><span class="p">(</span><span class="n">project_path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; check if directory exists. &quot;&quot;&quot;</span>
+        <span class="n">project_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
+        <span class="n">dir_exists</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">project_path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">F_OK</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dir_exists</span></div>
+            
+
+<div class="viewcode-block" id="TaskManager.create_dir"><a class="viewcode-back" href="../../litesoph/litesoph.simulations.html#litesoph.simulations.TaskManager.create_dir">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">create_dir</span><span class="p">(</span><span class="n">project_path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Creates project directory. &quot;&quot;&quot;</span>
+        <span class="n">project_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
+        <span class="n">parent_writeable</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">project_path</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">W_OK</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">parent_writeable</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Permission denied creating directory: </span><span class="si">{</span><span class="n">project_path</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="k">raise</span> <span class="ne">PermissionError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="n">project_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">project_path</span><span class="p">)</span></div></div>
+
+
+
+<div class="viewcode-block" id="summary_of_current_project"><a class="viewcode-back" href="../../litesoph/litesoph.simulations.html#litesoph.simulations.summary_of_current_project">[docs]</a><span class="k">def</span> <span class="nf">summary_of_current_project</span><span class="p">(</span><span class="n">project_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+
+    <span class="n">state</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Summary of all the tasks performed.&quot;</span><span class="p">]</span>
+
+    <span class="n">engine_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">project_data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="n">non_engine</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;path&#39;</span><span class="p">,</span> <span class="s1">&#39;tasks&#39;</span><span class="p">,</span> <span class="s1">&#39;geometry&#39;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">engine_list</span><span class="p">:</span>
+        <span class="n">state</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">engine</span> <span class="ow">in</span> <span class="n">engine_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">engine</span> <span class="ow">in</span> <span class="n">non_engine</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">state</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Engine: </span><span class="si">{</span><span class="n">engine</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">task_list</span> <span class="o">=</span> <span class="n">project_data</span><span class="p">[</span><span class="n">engine</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">task_list</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">task</span> <span class="ow">in</span>  <span class="nb">enumerate</span><span class="p">(</span><span class="n">task_list</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">project_data</span><span class="p">[</span><span class="n">engine</span><span class="p">][</span><span class="n">task</span><span class="p">][</span><span class="s1">&#39;done&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                        <span class="n">state</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;     </span><span class="si">{</span><span class="n">task</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    
+                
+                <span class="n">state</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">state</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;No tasks have been performed yet.&quot;</span><span class="p">)</span>
+
+    <span class="n">state</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">state</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 10:54:25.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>litesoph.simulations.gpaw.gpawtcm &mdash; LITESOPH 0.1 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> LITESOPH
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../README.html">LITESOPH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Simulations.html">Simulations of Photo-Physical Properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Tutorials/Tutorials.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../FAQ.html">Frequently Asked Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Issues.html">Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../Developer_Guideline.html">Developer Guideline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../all.html">ALL Notation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../all.html#references">References</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">LITESOPH</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+          <li><a href="../../simulations.html">litesoph.simulations</a> &raquo;</li>
+          <li><a href="../gpaw.html">litesoph.simulations.gpaw</a> &raquo;</li>
+      <li>litesoph.simulations.gpaw.gpawtcm</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for litesoph.simulations.gpaw.gpawtcm</h1><div class="highlight"><pre>
+<div class="viewcode-block" id="TCMGpaw"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.gpaw.html#litesoph.simulations.gpaw.gpawtcm.TCMGpaw">[docs]</a><span></span><span class="k">class</span> <span class="nc">TCMGpaw</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gfilename</span><span class="p">,</span> <span class="n">wfilename</span><span class="p">,</span> <span class="n">frequencies</span><span class="p">:</span><span class="nb">list</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gfilename</span> <span class="o">=</span> <span class="n">gfilename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wfilename</span> <span class="o">=</span> <span class="n">wfilename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">frequencies</span> <span class="o">=</span> <span class="n">frequencies</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+<div class="viewcode-block" id="TCMGpaw.create_frequency_density_matrix"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.gpaw.html#litesoph.simulations.gpaw.gpawtcm.TCMGpaw.create_frequency_density_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">create_frequency_density_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1">#fdm_filename = fdm_filename + &quot;.ulm&quot;</span>
+        <span class="kn">from</span> <span class="nn">gpaw.lcaotddft</span> <span class="kn">import</span> <span class="n">LCAOTDDFT</span>
+        <span class="kn">from</span> <span class="nn">gpaw.lcaotddft.densitymatrix</span> <span class="kn">import</span> <span class="n">DensityMatrix</span>
+        <span class="kn">from</span> <span class="nn">gpaw.lcaotddft.frequencydensitymatrix</span> <span class="kn">import</span> <span class="n">FrequencyDensityMatrix</span>
+        <span class="kn">from</span> <span class="nn">gpaw.tddft.folding</span> <span class="kn">import</span> <span class="n">frequencies</span>
+
+        <span class="n">td_calc</span> <span class="o">=</span> <span class="n">LCAOTDDFT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gfilename</span><span class="p">)</span>
+
+        <span class="n">dmat</span> <span class="o">=</span> <span class="n">DensityMatrix</span><span class="p">(</span><span class="n">td_calc</span><span class="p">)</span>
+        <span class="n">freqs</span> <span class="o">=</span> <span class="n">frequencies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frequencies</span><span class="p">,</span> <span class="s1">&#39;Gauss&#39;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+        <span class="n">fdm</span> <span class="o">=</span> <span class="n">FrequencyDensityMatrix</span><span class="p">(</span><span class="n">td_calc</span><span class="p">,</span> <span class="n">dmat</span><span class="p">,</span> <span class="n">frequencies</span><span class="o">=</span><span class="n">freqs</span><span class="p">)</span>
+
+        <span class="n">td_calc</span><span class="o">.</span><span class="n">replay</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">wfilename</span><span class="p">,</span> <span class="n">update</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+
+        <span class="n">fdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;fdm.ulm&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fdm</span></div>
+        
+<div class="viewcode-block" id="TCMGpaw.read_unocc"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.gpaw.html#litesoph.simulations.gpaw.gpawtcm.TCMGpaw.read_unocc">[docs]</a>    <span class="k">def</span> <span class="nf">read_unocc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">gpaw</span> <span class="kn">import</span> <span class="n">GPAW</span>
+        <span class="n">calc</span> <span class="o">=</span> <span class="n">GPAW</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gfilename</span><span class="p">,</span> <span class="n">txt</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">calc</span></div>
+
+<div class="viewcode-block" id="TCMGpaw.cal_unoccupied_states"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.gpaw.html#litesoph.simulations.gpaw.gpawtcm.TCMGpaw.cal_unoccupied_states">[docs]</a>    <span class="k">def</span> <span class="nf">cal_unoccupied_states</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">calc</span><span class="p">):</span>
+        <span class="n">calc</span> <span class="o">=</span> <span class="n">calc</span><span class="o">.</span><span class="n">fixed_density</span><span class="p">(</span><span class="n">nbands</span><span class="o">=</span><span class="s1">&#39;nao&#39;</span><span class="p">,</span> <span class="n">txt</span><span class="o">=</span><span class="s1">&#39;unocc.out&#39;</span><span class="p">)</span>
+        <span class="n">calc</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;unocc.gpw&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">calc</span></div>
+    
+<div class="viewcode-block" id="TCMGpaw.create_ks_basis"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.gpaw.html#litesoph.simulations.gpaw.gpawtcm.TCMGpaw.create_ks_basis">[docs]</a>    <span class="k">def</span> <span class="nf">create_ks_basis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calc</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">gpaw.lcaotddft.ksdecomposition</span> <span class="kn">import</span> <span class="n">KohnShamDecomposition</span>
+        <span class="n">ksd</span> <span class="o">=</span> <span class="n">KohnShamDecomposition</span><span class="p">(</span><span class="n">calc</span><span class="p">)</span>
+        <span class="n">ksd</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">calc</span><span class="p">)</span>
+        <span class="n">ksd</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;ksd.ulm&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ksd</span></div>
+
+<div class="viewcode-block" id="TCMGpaw.plot_tcm"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.gpaw.html#litesoph.simulations.gpaw.gpawtcm.TCMGpaw.plot_tcm">[docs]</a>    <span class="k">def</span> <span class="nf">plot_tcm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ksd</span><span class="p">,</span> <span class="n">fdm</span><span class="p">,</span><span class="n">fnum</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+        <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+        <span class="kn">from</span> <span class="nn">gpaw.tddft.units</span> <span class="kn">import</span> <span class="n">au_to_eV</span>
+        <span class="kn">from</span> <span class="nn">gpaw.lcaotddft.tcm</span> <span class="kn">import</span> <span class="n">TCMPlotter</span>
+
+        <span class="n">rho_uMM</span> <span class="o">=</span> <span class="n">fdm</span><span class="o">.</span><span class="n">FReDrho_wuMM</span><span class="p">[</span><span class="n">fnum</span><span class="p">]</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="n">fdm</span><span class="o">.</span><span class="n">freq_w</span><span class="p">[</span><span class="n">fnum</span><span class="p">]</span>
+        <span class="n">frequency</span> <span class="o">=</span> <span class="n">freq</span><span class="o">.</span><span class="n">freq</span> <span class="o">*</span> <span class="n">au_to_eV</span>
+
+        <span class="n">rho_up</span> <span class="o">=</span> <span class="n">ksd</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">rho_uMM</span><span class="p">)</span>
+
+        <span class="n">dmrho_vp</span> <span class="o">=</span> <span class="n">ksd</span><span class="o">.</span><span class="n">get_dipole_moment_contributions</span><span class="p">(</span><span class="n">rho_up</span><span class="p">)</span>
+        <span class="n">weight_p</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">freq</span><span class="o">.</span><span class="n">freq</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">dmrho_vp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span> <span class="o">/</span> <span class="n">au_to_eV</span> <span class="o">*</span> <span class="mf">1e5</span>
+
+        <span class="n">de</span> <span class="o">=</span> <span class="mf">0.01</span>
+        <span class="n">energy_o</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mf">0.1</span> <span class="o">+</span> <span class="mf">1e-6</span><span class="p">,</span> <span class="n">de</span><span class="p">)</span>
+        <span class="n">energy_u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">3</span> <span class="o">+</span> <span class="mf">1e-6</span><span class="p">,</span> <span class="n">de</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+        <span class="n">plotter</span> <span class="o">=</span> <span class="n">TCMPlotter</span><span class="p">(</span><span class="n">ksd</span><span class="p">,</span> <span class="n">energy_o</span><span class="p">,</span> <span class="n">energy_u</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="n">plotter</span><span class="o">.</span><span class="n">plot_TCM</span><span class="p">(</span><span class="n">weight_p</span><span class="p">)</span>
+        <span class="n">plotter</span><span class="o">.</span><span class="n">plot_DOS</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;0.8&#39;</span><span class="p">},</span> <span class="n">line</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;k&#39;</span><span class="p">})</span>
+        <span class="n">plotter</span><span class="o">.</span><span class="n">plot_TCM_diagonal</span><span class="p">(</span><span class="n">freq</span><span class="o">.</span><span class="n">freq</span> <span class="o">*</span> <span class="n">au_to_eV</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+        <span class="n">plotter</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Photoabsorption TCM of </span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s1"> at </span><span class="si">{</span><span class="n">frequency</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> eV&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Check that TCM integrates to correct absorption</span>
+        <span class="n">tcm_ou</span> <span class="o">=</span> <span class="n">ksd</span><span class="o">.</span><span class="n">get_TCM</span><span class="p">(</span><span class="n">weight_p</span><span class="p">,</span> <span class="n">ksd</span><span class="o">.</span><span class="n">get_eig_n</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
+                            <span class="n">energy_o</span><span class="p">,</span> <span class="n">energy_u</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;TCM absorption: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">tcm_ou</span><span class="p">)</span> <span class="o">*</span> <span class="n">de</span> <span class="o">**</span> <span class="mi">2</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> eV^-1&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;tcm_</span><span class="si">{</span><span class="n">frequency</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">.png&#39;</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="TCMGpaw.run"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.gpaw.html#litesoph.simulations.gpaw.gpawtcm.TCMGpaw.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fdm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_frequency_density_matrix</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_unocc</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cal_unoccupied_states</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ksd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_ks_basis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">calc</span><span class="p">)</span>    </div>
+
+<div class="viewcode-block" id="TCMGpaw.plot"><a class="viewcode-back" href="../../../../litesoph/litesoph.simulations.gpaw.html#litesoph.simulations.gpaw.gpawtcm.TCMGpaw.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">fnum</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frequencies</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot_tcm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ksd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fdm</span><span class="p">,</span> <span class="n">fnum</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, LITESOPH members and team.
+      <span class="lastupdated">Last updated on Fri, 11 Nov 2022 10:54:25.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
