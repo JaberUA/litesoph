@@ -1,0 +1,8 @@
+click>=8.0.3
+matplotlib
+numpy
+ase
+paramiko
+scp
+pexpect
+pygubu

@@ -1,0 +1,2 @@
+[console_scripts]
+litesoph = litesoph.cli.cli:cli

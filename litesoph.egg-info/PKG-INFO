@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: litesoph
+Version: 0.1
+Summary: Layer Integrated Toolkit and Engine for Simulations of Photo-induced Phenomena
+Maintainer: LITESOPH-group
+Requires-Python: >=3.7
+License-File: LICENSE
